@@ -17,7 +17,7 @@ const Navigation = () => {
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2">
-          <img src={logo} alt="Devansh Logo" className="h-10 w-auto" />
+          <img src={logo} alt="Devansh Logo" className="h-14 w-auto" />
         </a>
 
         {/* Desktop Nav */}
