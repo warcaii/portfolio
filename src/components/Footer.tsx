@@ -1,13 +1,19 @@
 const Footer = () => {
   return (
-    <footer className="py-8 section-padding border-t border-border">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-mono text-xs text-muted-foreground">
-          © 2024 Devansh. All rights reserved.
-        </p>
-        <p className="text-mono text-xs text-muted-foreground">
-          Designed with precision. Built with purpose.
-        </p>
+    <footer className="py-12 section-padding border-t border-border bg-secondary">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <div className="accent-dot" />
+            <span className="text-display text-lg">DEVANSH</span>
+          </div>
+          
+          {/* Credits */}
+          <p className="text-mono text-xs text-muted-foreground text-center md:text-right">
+            © 2024 Devansh. Designed with precision. Built with purpose.
+          </p>
+        </div>
       </div>
     </footer>
   );

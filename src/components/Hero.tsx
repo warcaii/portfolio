@@ -1,64 +1,77 @@
 const Hero = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center section-padding relative">
-      {/* Grid background */}
-      <div className="absolute inset-0 grid-lines opacity-30" />
+    <section className="min-h-screen flex flex-col justify-center section-padding relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 grid-lines opacity-20" />
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-accent/10 rounded-full blur-2xl animate-float" />
       
-      <div className="relative z-10 max-w-5xl">
+      <div className="relative z-10 max-w-6xl">
+        {/* Accent dot */}
+        <div 
+          className="accent-dot mb-8 opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.1s' }}
+        />
+        
         {/* Eyebrow */}
         <p 
           className="text-mono text-sm tracking-widest uppercase text-muted-foreground mb-6 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.1s' }}
+          style={{ animationDelay: '0.2s' }}
         >
-          Creative Technologist
+          AI Enthusiast & Creative Director
         </p>
         
         {/* Main Title */}
         <h1 
-          className="text-display text-7xl md:text-9xl lg:text-[12rem] leading-[0.85] tracking-tight mb-8 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.2s' }}
+          className="text-display text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.3s' }}
         >
           DEVANSH
         </h1>
         
-        {/* Subtitle */}
+        {/* Accent line with gradient */}
         <div 
-          className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 opacity-0 animate-fade-in"
+          className="w-32 h-1 bg-gradient-to-r from-accent to-accent/50 mb-8 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.4s' }}
+        />
+        
+        {/* Subtitle */}
+        <p 
+          className="text-mono text-lg md:text-xl max-w-lg text-muted-foreground leading-relaxed opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.5s' }}
         >
-          <div className="h-px w-16 bg-foreground hidden md:block" />
-          <p className="text-mono text-base md:text-lg max-w-md text-muted-foreground">
-            AI Enthusiast • Graphic Designer • Visual Storyteller
-          </p>
-        </div>
+          Building at the intersection of <span className="text-foreground">design</span>, 
+          <span className="text-foreground"> technology</span>, and 
+          <span className="text-accent"> artificial intelligence</span>.
+        </p>
         
         {/* Stats */}
         <div 
-          className="mt-16 md:mt-24 flex flex-wrap gap-12 md:gap-20 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.6s' }}
+          className="mt-20 flex flex-wrap gap-16 md:gap-24 opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.7s' }}
         >
-          <div>
-            <p className="text-display text-5xl md:text-6xl">03</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-2">Years Experience</p>
+          <div className="group">
+            <p className="text-display text-6xl md:text-7xl text-gradient">03</p>
+            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Years Experience</p>
           </div>
-          <div>
-            <p className="text-display text-5xl md:text-6xl">05</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-2">Startups Founded</p>
+          <div className="group">
+            <p className="text-display text-6xl md:text-7xl text-gradient">05</p>
+            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Ventures Founded</p>
           </div>
-          <div>
-            <p className="text-display text-5xl md:text-6xl">∞</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-2">Ideas Brewing</p>
+          <div className="group">
+            <p className="text-display text-6xl md:text-7xl text-gradient">∞</p>
+            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Ideas Brewing</p>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <div 
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-fade-in"
-        style={{ animationDelay: '1s' }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 animate-fade-in"
+        style={{ animationDelay: '1.2s' }}
       >
-        <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">Scroll</span>
-        <div className="w-px h-12 bg-foreground/30" />
+        <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">Explore</span>
+        <div className="w-px h-16 bg-gradient-to-b from-accent to-transparent" />
       </div>
     </section>
   );

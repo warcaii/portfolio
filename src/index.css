@@ -2,73 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 240 10% 4%;
+    --foreground: 60 9% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card: 240 10% 6%;
+    --card-foreground: 60 9% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 60 9% 98%;
 
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 60 9% 98%;
+    --primary-foreground: 240 10% 4%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 240 5% 12%;
+    --secondary-foreground: 60 9% 98%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 55%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 47 100% 50%;
+    --accent-foreground: 240 10% 4%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 9% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --border: 240 5% 18%;
+    --input: 240 5% 18%;
+    --ring: 47 100% 50%;
 
     --radius: 0px;
 
     /* Custom tokens */
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-mono: 'Space Mono', monospace;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
     
-    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Gradient tokens */
+    --gradient-accent: linear-gradient(135deg, hsl(47 100% 50%), hsl(35 100% 55%));
+    --gradient-glow: radial-gradient(circle at center, hsl(47 100% 50% / 0.15), transparent 70%);
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 100%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 100%;
+    --background: 240 10% 4%;
+    --foreground: 60 9% 98%;
   }
 }
 
@@ -84,17 +66,31 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  ::selection {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
 }
 
 @layer utilities {
   .text-display {
     font-family: var(--font-display);
+    font-weight: 800;
   }
   
   .text-mono {
     font-family: var(--font-mono);
+  }
+
+  .text-gradient {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .hover-lift {
@@ -102,7 +98,15 @@
   }
   
   .hover-lift:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px);
+  }
+
+  .hover-glow {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 40px hsl(var(--accent) / 0.3);
   }
 
   .border-reveal {
@@ -116,12 +120,30 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: hsl(var(--foreground));
+    background: hsl(var(--accent));
     transition: var(--transition-smooth);
   }
 
   .border-reveal:hover::after {
     width: 100%;
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 60px hsl(var(--accent) / 0.2),
+                0 0 100px hsl(var(--accent) / 0.1);
+  }
+
+  .noise-overlay {
+    position: relative;
+  }
+
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
   }
 }
 
@@ -134,6 +156,20 @@
     background-image: 
       linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
       linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 80px 80px;
+    background-size: 60px 60px;
+  }
+
+  .accent-dot {
+    @apply w-2 h-2 rounded-full bg-accent;
+    box-shadow: 0 0 12px hsl(var(--accent));
+  }
+
+  .card-hover {
+    @apply border border-border bg-card transition-all duration-500;
+  }
+
+  .card-hover:hover {
+    @apply border-accent;
+    box-shadow: 0 0 30px hsl(var(--accent) / 0.1);
   }
 }
