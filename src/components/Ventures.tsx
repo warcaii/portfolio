@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 const ventures = [
   {
     name: "WARCAI",
-    description: "AI-powered creative solutions for the modern era. Building tools that bridge artificial intelligence with creative workflows.",
+    description: "A dual-focused AI venture featuring an intelligent chat agent similar to ChatGPT for conversational AI, and an advanced image generation platform powered by Stable Diffusion technology.",
     role: "Founder",
     year: "2023",
   },
