@@ -30,9 +30,9 @@ const ventures = [
 
 const Ventures = () => {
   return (
-    <section id="ventures" className="py-32 md:py-48 section-padding bg-secondary relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 grid-lines opacity-10 animate-pulse-slow" />
+    <section id="ventures" className="py-32 md:py-48 section-padding relative overflow-hidden">
+      {/* Subtle top border */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-border" />
       
       <div className="max-w-6xl mx-auto relative">
         {/* Section Header */}
