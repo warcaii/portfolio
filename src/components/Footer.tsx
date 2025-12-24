@@ -63,8 +63,12 @@ const Footer = () => {
           <div className="md:col-span-4">
             <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-6">Connect</h4>
             <ul className="flex flex-wrap gap-3">
-              {socialLinks.map((link) => (
-                <li key={link.label}>
+              {socialLinks.map((link, index) => (
+                <li 
+                  key={link.label}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both' }}
+                >
                   <a 
                     href={link.href}
                     className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm text-foreground/80 
@@ -73,6 +77,7 @@ const Footer = () => {
                       shadow-[0_0_8px_rgba(255,255,255,0.05)]
                       hover:shadow-[0_0_16px_rgba(255,255,255,0.12)]
                       hover:border-accent/40 hover:text-accent
+                      hover:-translate-y-0.5
                       transition-all duration-300"
                   >
                     {link.label}
