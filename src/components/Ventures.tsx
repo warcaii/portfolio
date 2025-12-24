@@ -21,9 +21,9 @@ const ventures = [
   },
   {
     name: "TEAM RARE",
-    description: "Started as a designer for 4 months before transitioning to a partner role for 6 months. Contributed to the creative direction and brand development of the collective.",
+    description: "My longest venture — started as a designer for 4 months before becoming a partner for 6 months. Left in 2022 to co-found Team OG, bringing valuable experience in creative direction and brand development.",
     role: "Designer → Partner",
-    year: "2021",
+    year: "2021–2022",
   },
 ];
 
