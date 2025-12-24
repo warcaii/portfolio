@@ -13,11 +13,7 @@ const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 section-padding py-6 bg-background/80 backdrop-blur-sm border-b border-border/50">
-      <div className="flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="text-display text-2xl tracking-tight">
-          D.
-        </a>
+      <div className="flex items-center justify-end">
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
