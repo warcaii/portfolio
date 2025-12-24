@@ -42,7 +42,7 @@ const Hero = () => {
             <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-2">Years Experience</p>
           </div>
           <div>
-            <p className="text-display text-5xl md:text-6xl">03</p>
+            <p className="text-display text-5xl md:text-6xl">05</p>
             <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-2">Startups Founded</p>
           </div>
           <div>
