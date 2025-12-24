@@ -79,7 +79,7 @@ const Hero = () => {
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             
             <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ventures Founded</p>
-            <p className="text-display text-7xl md:text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">05</p>
+            <p className="text-display text-7xl md:text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">04</p>
             <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
           </div>
           
