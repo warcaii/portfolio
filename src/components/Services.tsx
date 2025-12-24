@@ -35,28 +35,44 @@ const Services = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Large stacked layout */}
+        <div className="space-y-4">
           {services.map((service, index) => (
-            <ScrollReveal key={service.number} delay={0.1 + index * 0.15} direction={index === 0 ? 'left' : index === 2 ? 'right' : 'up'}>
-              <div className="group p-8 card-hover relative overflow-hidden h-full">
-                {/* Hover gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <ScrollReveal key={service.number} delay={0.1 + index * 0.15} direction={index % 2 === 0 ? 'left' : 'right'}>
+              <div className="group relative border border-border hover:border-accent transition-all duration-500 overflow-hidden">
+                {/* Background fill on hover */}
+                <div className="absolute inset-0 bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out" />
                 
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="text-mono text-xs text-muted-foreground group-hover:text-accent transition-colors">
+                <div className="relative p-8 md:p-12 flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
+                  {/* Number - large */}
+                  <div className="flex-shrink-0">
+                    <span className="text-display text-6xl md:text-8xl font-bold text-border group-hover:text-background/20 transition-colors duration-500">
                       {service.number}
                     </span>
-                    <service.icon className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:rotate-12 transition-all duration-300" />
                   </div>
                   
-                  <h3 className="text-display text-2xl md:text-3xl mb-4 leading-tight group-hover:text-accent transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-mono text-sm text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
+                  {/* Content */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4 mb-4">
+                      <service.icon className="w-6 h-6 text-accent group-hover:text-background transition-colors duration-500" />
+                      <h3 className="text-display text-3xl md:text-4xl lg:text-5xl group-hover:text-background transition-colors duration-500">
+                        {service.title}
+                      </h3>
+                    </div>
+                    <p className="text-mono text-sm md:text-base text-muted-foreground group-hover:text-background/70 max-w-2xl leading-relaxed transition-colors duration-500">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  {/* Arrow indicator */}
+                  <div className="hidden md:flex items-center justify-center w-16 h-16 border border-border group-hover:border-background/30 transition-all duration-500">
+                    <span className="text-2xl text-muted-foreground group-hover:text-background transition-colors duration-500">→</span>
+                  </div>
                 </div>
+
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </ScrollReveal>
           ))}
