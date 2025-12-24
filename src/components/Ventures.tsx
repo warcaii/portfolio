@@ -3,9 +3,9 @@ import { ArrowUpRight } from "lucide-react";
 const ventures = [
   {
     name: "WARCAI",
-    description: "An intelligent AI platform with dual capabilities: a smart chat agent that aggregates multiple AI APIs to deliver the best response for each query, and an advanced image generation system powered by Stable Diffusion technology.",
+    description: "An intelligent AI platform with dual capabilities: a smart chat agent that aggregated multiple AI APIs to deliver the best response for each query, and an advanced image generation system. Operations closed after 1 year.",
     role: "Founder",
-    year: "2023",
+    year: "2023–2024",
   },
   {
     name: "TEAM OG",
