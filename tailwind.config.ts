@@ -66,6 +66,33 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "cinematic-reveal": {
+          "0%": { opacity: "0", transform: "translateY(100px) scale(0.9)", filter: "blur(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)", filter: "blur(0px)" },
+        },
+        "cinematic-slide-up": {
+          "0%": { opacity: "0", transform: "translateY(60px)", clipPath: "inset(100% 0 0 0)" },
+          "100%": { opacity: "1", transform: "translateY(0)", clipPath: "inset(0% 0 0 0)" },
+        },
+        "cinematic-letter": {
+          "0%": { opacity: "0", transform: "translateY(120%) rotateX(90deg)" },
+          "60%": { transform: "translateY(-10%) rotateX(-10deg)" },
+          "100%": { opacity: "1", transform: "translateY(0) rotateX(0deg)" },
+        },
+        "cinematic-line": {
+          "0%": { transform: "scaleX(0)", opacity: "0" },
+          "50%": { opacity: "1" },
+          "100%": { transform: "scaleX(1)", opacity: "1" },
+        },
+        "cinematic-fade": {
+          "0%": { opacity: "0", transform: "translateY(40px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "cinematic-scale": {
+          "0%": { opacity: "0", transform: "scale(0.8)" },
+          "50%": { transform: "scale(1.02)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
         "fade-in": {
           from: { opacity: "0", transform: "translateY(30px)" },
           to: { opacity: "1", transform: "translateY(0)" },
@@ -98,6 +125,12 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "cinematic-reveal": "cinematic-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "cinematic-slide-up": "cinematic-slide-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "cinematic-letter": "cinematic-letter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "cinematic-line": "cinematic-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "cinematic-fade": "cinematic-fade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "cinematic-scale": "cinematic-scale 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in": "fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in-left": "fade-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "slide-in-left": "slide-in-left 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
