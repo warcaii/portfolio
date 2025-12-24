@@ -13,11 +13,11 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 section-padding py-4 bg-background/90 backdrop-blur-md border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 section-padding py-3 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2">
-          <img src={logo} alt="Devansh Logo" className="h-16 w-auto" />
+          <img src={logo} alt="Devansh Logo" className="h-10 sm:h-12 md:h-14 w-auto" />
         </a>
 
         {/* Desktop Nav */}
