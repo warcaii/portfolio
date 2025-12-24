@@ -32,15 +32,15 @@ const Ventures = () => {
   return (
     <section id="ventures" className="py-32 md:py-48 section-padding bg-secondary relative overflow-hidden">
       {/* Background pattern */}
-      <div className="absolute inset-0 grid-lines opacity-10" />
+      <div className="absolute inset-0 grid-lines opacity-10 animate-pulse-slow" />
       
       <div className="max-w-6xl mx-auto relative">
         {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-center gap-6 mb-20">
-            <div className="accent-dot" />
+            <div className="accent-dot animate-pulse" />
             <span className="text-mono text-xs tracking-widest uppercase text-accent">02 — Ventures</span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-border animate-line-pulse" />
           </div>
         </ScrollReveal>
 

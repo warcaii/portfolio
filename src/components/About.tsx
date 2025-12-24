@@ -4,15 +4,15 @@ const About = () => {
   return (
     <section id="about" className="py-32 md:py-48 section-padding relative">
       {/* Background accent */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent" />
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent animate-pulse-slow" />
       
       <div className="max-w-6xl mx-auto relative">
         {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-center gap-6 mb-20">
-            <div className="accent-dot" />
+            <div className="accent-dot animate-pulse" />
             <span className="text-mono text-xs tracking-widest uppercase text-accent">01 — About</span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-border animate-line-pulse" />
           </div>
         </ScrollReveal>
 
@@ -50,10 +50,11 @@ const About = () => {
               <div className="pt-8 border-t border-border">
                 <p className="text-mono text-xs tracking-widest uppercase text-accent mb-6">Core Skills</p>
                 <div className="flex flex-wrap gap-3">
-                  {['Graphic Design', 'Video Editing', 'AI Tools', 'Brand Identity', 'Motion Graphics', 'Visual Storytelling'].map((skill) => (
+                  {['Graphic Design', 'Video Editing', 'AI Tools', 'Brand Identity', 'Motion Graphics', 'Visual Storytelling'].map((skill, i) => (
                     <span 
                       key={skill}
-                      className="px-4 py-2 border border-border text-mono text-xs tracking-wider hover:border-accent hover:text-accent transition-all duration-300 cursor-default"
+                      className="px-4 py-2 border border-border text-mono text-xs tracking-wider hover:border-accent hover:text-accent transition-all duration-300 cursor-default hover:scale-105"
+                      style={{ animationDelay: `${i * 0.1}s` }}
                     >
                       {skill}
                     </span>

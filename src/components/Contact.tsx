@@ -5,15 +5,15 @@ const Contact = () => {
   return (
     <section id="contact" className="py-32 md:py-48 section-padding relative overflow-hidden">
       {/* Background accent */}
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-accent/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-accent/10 to-transparent animate-pulse-slow" />
       
       <div className="max-w-6xl mx-auto relative">
         {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-center gap-6 mb-20">
-            <div className="accent-dot" />
+            <div className="accent-dot animate-pulse" />
             <span className="text-mono text-xs tracking-widest uppercase text-accent">04 — Contact</span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-border animate-line-pulse" />
           </div>
         </ScrollReveal>
 
