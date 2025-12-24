@@ -1,4 +1,4 @@
-import { ArrowUpRight, Mail, Linkedin, Twitter } from "lucide-react";
+import { ArrowUpRight, Mail, Instagram, Twitter } from "lucide-react";
 import { ScrollReveal } from '@/hooks/useScrollReveal';
 
 const Contact = () => {
@@ -53,8 +53,8 @@ const Contact = () => {
                   className="group flex items-center justify-between py-5 border-b border-border hover:border-accent transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <Linkedin className="w-4 h-4 text-accent" />
-                    <span className="text-mono text-sm group-hover:text-accent transition-colors">LinkedIn</span>
+                    <Instagram className="w-4 h-4 text-accent" />
+                    <span className="text-mono text-sm group-hover:text-accent transition-colors">Instagram</span>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                 </a>
