@@ -18,7 +18,7 @@ const Contact = () => {
         </ScrollReveal>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24">
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal delay={0.1} direction="left">
             <h2 className="text-display text-5xl md:text-7xl lg:text-8xl leading-[0.95]">
               LET'S
               <br />
@@ -29,14 +29,14 @@ const Contact = () => {
           </ScrollReveal>
 
           <div className="flex flex-col justify-end">
-            <ScrollReveal delay={0.2}>
+            <ScrollReveal delay={0.2} direction="right">
               <p className="text-mono text-base text-muted-foreground leading-relaxed mb-12">
                 Got a project in mind? Looking to collaborate on something innovative? 
                 I'm always open to discussing new ideas and creative opportunities.
               </p>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.3}>
+            <ScrollReveal delay={0.3} direction="right">
               <div className="space-y-4">
                 <a
                   href="mailto:hello@devansh.com"

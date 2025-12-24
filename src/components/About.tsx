@@ -18,7 +18,7 @@ const About = () => {
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24">
           {/* Left column */}
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal delay={0.1} direction="left">
             <h2 className="text-display text-5xl md:text-7xl leading-[0.95] mb-8">
               DESIGNING
               <br />
@@ -30,14 +30,14 @@ const About = () => {
 
           {/* Right column */}
           <div className="space-y-8">
-            <ScrollReveal delay={0.2}>
+            <ScrollReveal delay={0.2} direction="right">
               <p className="text-mono text-base leading-relaxed text-muted-foreground">
                 I'm Devansh—a creative at the intersection of artificial intelligence and visual design. 
                 With three years of experience in graphic design and video editing, I've developed a keen 
                 eye for aesthetics that translate across digital mediums.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={0.3}>
+            <ScrollReveal delay={0.3} direction="right">
               <p className="text-mono text-base leading-relaxed text-muted-foreground">
                 My passion lies in exploring how AI can enhance creative workflows, pushing boundaries 
                 between human creativity and machine intelligence. I believe the best designs emerge 
@@ -46,7 +46,7 @@ const About = () => {
             </ScrollReveal>
 
             {/* Skills */}
-            <ScrollReveal delay={0.4}>
+            <ScrollReveal delay={0.4} direction="right">
               <div className="pt-8 border-t border-border">
                 <p className="text-mono text-xs tracking-widest uppercase text-accent mb-6">Core Skills</p>
                 <div className="flex flex-wrap gap-3">

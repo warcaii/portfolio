@@ -44,7 +44,7 @@ const Ventures = () => {
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
+        <ScrollReveal delay={0.1} direction="left">
           <h2 className="text-display text-5xl md:text-7xl leading-[0.95] mb-20">
             STARTUPS &<br /><span className="text-gradient">VENTURES</span>
           </h2>
@@ -53,7 +53,7 @@ const Ventures = () => {
         {/* Ventures List */}
         <div className="space-y-0">
           {ventures.map((venture, index) => (
-            <ScrollReveal key={venture.name} delay={0.1 + index * 0.1}>
+            <ScrollReveal key={venture.name} delay={0.1 + index * 0.1} direction={index % 2 === 0 ? 'left' : 'right'}>
               <div
                 className={`group py-10 border-t border-border last:border-b transition-all duration-300 ${
                   venture.highlight ? 'hover:bg-accent/5' : ''
