@@ -37,7 +37,7 @@ const Services = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ScrollReveal key={service.number} delay={0.1 + index * 0.15}>
+            <ScrollReveal key={service.number} delay={0.1 + index * 0.15} direction={index === 0 ? 'left' : index === 2 ? 'right' : 'up'}>
               <div className="group p-8 card-hover relative overflow-hidden h-full">
                 {/* Hover gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
