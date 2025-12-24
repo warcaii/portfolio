@@ -59,14 +59,14 @@ function NeuralNetwork({ count = 80 }) {
             itemSize={3}
           />
         </bufferGeometry>
-        <lineBasicMaterial color="#7c3aed" transparent opacity={0.15} />
+        <lineBasicMaterial color="#3b82f6" transparent opacity={0.15} />
       </lineSegments>
       
       {/* Nodes */}
       {nodes.map((pos, i) => (
         <mesh key={i} position={[pos.x, pos.y, pos.z]}>
           <sphereGeometry args={[0.04, 16, 16]} />
-          <meshBasicMaterial color="#7c3aed" transparent opacity={0.8} />
+          <meshBasicMaterial color="#3b82f6" transparent opacity={0.8} />
         </mesh>
       ))}
     </group>
@@ -106,7 +106,7 @@ function FloatingGeometry() {
       {/* Wireframe torus */}
       <mesh ref={torusRef} position={[3, 0, -2]}>
         <torusGeometry args={[0.8, 0.2, 16, 32]} />
-        <meshBasicMaterial color="#7c3aed" wireframe transparent opacity={0.3} />
+        <meshBasicMaterial color="#3b82f6" wireframe transparent opacity={0.3} />
       </mesh>
       
       {/* Wireframe octahedron */}
@@ -118,7 +118,7 @@ function FloatingGeometry() {
       {/* Large ring */}
       <mesh ref={ringRef} position={[0, 0, -3]}>
         <torusGeometry args={[2.5, 0.02, 8, 64]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.2} />
+        <meshBasicMaterial color="#3b82f6" transparent opacity={0.2} />
       </mesh>
     </>
   );
@@ -178,7 +178,7 @@ function FlowingParticles({ count = 500 }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.02}
-        color="#6d28d9"
+        color="#2563eb"
         transparent
         opacity={0.6}
         sizeAttenuation
