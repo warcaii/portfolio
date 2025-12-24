@@ -94,15 +94,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div 
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 animate-fade-in"
-        style={{ animationDelay: '1.2s' }}
-      >
-        <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">Explore</span>
-        <div className="w-px h-16 bg-gradient-to-b from-accent to-transparent animate-line-flow" />
-      </div>
     </section>
   );
 };
