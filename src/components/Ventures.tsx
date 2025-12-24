@@ -15,9 +15,9 @@ const ventures = [
   },
   {
     name: "REITZ",
-    description: "Design studio specializing in brand identity and visual communication. Crafting memorable experiences through thoughtful design.",
+    description: "A small design venture specializing in brand identity and visual communication. Operated for 5 months crafting memorable experiences through thoughtful design.",
     role: "Founder",
-    year: "2021",
+    year: "2022–2023",
   },
   {
     name: "TEAM RARE",
