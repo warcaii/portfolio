@@ -1,5 +1,6 @@
 import logo from "@/assets/logo.png";
 import { ArrowUpRight } from "lucide-react";
+import { ScrollReveal } from "@/hooks/useScrollReveal";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -27,77 +28,89 @@ const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-6">
-            <a href="#" className="inline-block">
-              <img src={logo} alt="Devansh Logo" className="h-12 w-auto" />
-            </a>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-              Building at the intersection of design, technology, and artificial intelligence. 
-              Let's create something extraordinary together.
-            </p>
+            <ScrollReveal direction="up">
+              <a href="#" className="inline-block">
+                <img src={logo} alt="Devansh Logo" className="h-12 w-auto" />
+              </a>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1} direction="up">
+              <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
+                Building at the intersection of design, technology, and artificial intelligence. 
+                Let's create something extraordinary together.
+              </p>
+            </ScrollReveal>
             {/* Availability Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-border/50 rounded-full">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-mono text-xs tracking-wide text-muted-foreground">Available for projects</span>
-            </div>
+            <ScrollReveal delay={0.2} direction="up">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-border/50 rounded-full">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-mono text-xs tracking-wide text-muted-foreground">Available for projects</span>
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* Navigation */}
           <div className="md:col-span-3">
-            <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-6">Navigate</h4>
+            <ScrollReveal delay={0.1} direction="up">
+              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-6">Navigate</h4>
+            </ScrollReveal>
             <ul className="space-y-3">
-              {navLinks.map((link) => (
-                <li key={link.label}>
-                  <a 
-                    href={link.href}
-                    className="group inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
-                  >
-                    {link.label}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
-                  </a>
-                </li>
+              {navLinks.map((link, index) => (
+                <ScrollReveal key={link.label} delay={0.15 + index * 0.05} direction="left">
+                  <li>
+                    <a 
+                      href={link.href}
+                      className="group inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
+                    >
+                      {link.label}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
+                    </a>
+                  </li>
+                </ScrollReveal>
               ))}
             </ul>
           </div>
 
           {/* Social */}
           <div className="md:col-span-4">
-            <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-6">Connect</h4>
+            <ScrollReveal delay={0.1} direction="up">
+              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-6">Connect</h4>
+            </ScrollReveal>
             <ul className="flex flex-wrap gap-3">
               {socialLinks.map((link, index) => (
-                <li 
-                  key={link.label}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both' }}
-                >
-                  <a 
-                    href={link.href}
-                    className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm text-foreground/80 
-                      border border-border/40 rounded-full
-                      bg-background/50 backdrop-blur-sm
-                      shadow-[0_0_8px_rgba(255,255,255,0.05)]
-                      hover:shadow-[0_0_16px_rgba(255,255,255,0.12)]
-                      hover:border-accent/40 hover:text-accent
-                      hover:-translate-y-0.5
-                      transition-all duration-300"
-                  >
-                    {link.label}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
-                  </a>
-                </li>
+                <ScrollReveal key={link.label} delay={0.15 + index * 0.1} direction="right">
+                  <li>
+                    <a 
+                      href={link.href}
+                      className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm text-foreground/80 
+                        border border-border/40 rounded-full
+                        bg-background/50 backdrop-blur-sm
+                        shadow-[0_0_8px_rgba(255,255,255,0.05)]
+                        hover:shadow-[0_0_16px_rgba(255,255,255,0.12)]
+                        hover:border-accent/40 hover:text-accent
+                        hover:-translate-y-0.5
+                        transition-all duration-300"
+                    >
+                      {link.label}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
+                    </a>
+                  </li>
+                </ScrollReveal>
               ))}
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-mono text-xs text-muted-foreground">
-            © {currentYear} Devansh. All rights reserved.
-          </p>
-          <p className="text-mono text-xs text-muted-foreground/60">
-            Designed with precision · Built with purpose
-          </p>
-        </div>
+        <ScrollReveal delay={0.3} direction="up">
+          <div className="py-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-mono text-xs text-muted-foreground">
+              © {currentYear} Devansh. All rights reserved.
+            </p>
+            <p className="text-mono text-xs text-muted-foreground/60">
+              Designed with precision · Built with purpose
+            </p>
+          </div>
+        </ScrollReveal>
       </div>
     </footer>
   );
