@@ -57,40 +57,36 @@ const Hero = () => {
           <span className="text-foreground"> technology</span>, and 
           <span className="text-accent"> artificial intelligence</span>.
         </p>
-        
-        {/* Stats */}
-        <div 
-          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0 animate-fade-in max-w-4xl"
-          style={{ animationDelay: '0.7s' }}
-        >
-          <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-            {/* Corner accents */}
+      </div>
+
+      {/* Stats - positioned at bottom */}
+      <div 
+        className="absolute bottom-12 left-0 right-0 section-padding z-10 opacity-0 animate-fade-in"
+        style={{ animationDelay: '0.7s' }}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
+          <div className="group relative border border-border/30 p-6 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             
-            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Years Experience</p>
-            <p className="text-display text-7xl md:text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">03</p>
-            <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-2">Years Experience</p>
+            <p className="text-display text-5xl md:text-6xl font-bold text-foreground">03</p>
           </div>
           
-          <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-            {/* Corner accents */}
+          <div className="group relative border border-border/30 p-6 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             
-            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ventures Founded</p>
-            <p className="text-display text-7xl md:text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">04</p>
-            <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-2">Ventures Founded</p>
+            <p className="text-display text-5xl md:text-6xl font-bold text-foreground">04</p>
           </div>
           
-          <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-            {/* Corner accents */}
+          <div className="group relative border border-border/30 p-6 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             
-            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ideas Brewing</p>
-            <p className="text-display text-7xl md:text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">∞</p>
-            <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-2">Ideas Brewing</p>
+            <p className="text-display text-5xl md:text-6xl font-bold text-foreground">∞</p>
           </div>
         </div>
       </div>
