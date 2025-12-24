@@ -39,17 +39,19 @@ const Contact = () => {
             <ScrollReveal delay={0.3} direction="right">
               <div className="space-y-4">
                 <a
-                  href="mailto:hello@devansh.com"
+                  href="mailto:warcai@duck.com"
                   className="group flex items-center justify-between py-5 border-b border-border hover:border-accent transition-colors"
                 >
                   <div className="flex items-center gap-4">
                     <Mail className="w-4 h-4 text-accent" />
-                    <span className="text-mono text-sm group-hover:text-accent transition-colors">hello@devansh.com</span>
+                    <span className="text-mono text-sm group-hover:text-accent transition-colors">warcai@duck.com</span>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/devansh.px?igsh=bTZ3YnljZTFqMWx0"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center justify-between py-5 border-b border-border hover:border-accent transition-colors"
                 >
                   <div className="flex items-center gap-4">
@@ -59,7 +61,9 @@ const Contact = () => {
                   <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                 </a>
                 <a
-                  href="#"
+                  href="https://x.com/GodWarcloud"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center justify-between py-5 border-b border-border hover:border-accent transition-colors"
                 >
                   <div className="flex items-center gap-4">
