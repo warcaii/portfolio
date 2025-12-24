@@ -27,7 +27,7 @@ function Particles({ count = 2000 }) {
     <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#00d4ff"
+        color="#a855f7"
         size={0.03}
         sizeAttenuation={true}
         depthWrite={false}
@@ -68,11 +68,11 @@ function FloatingOrbs() {
     <>
       <mesh ref={orb1}>
         <sphereGeometry args={[0.15, 32, 32]} />
-        <meshBasicMaterial color="#00d4ff" transparent opacity={0.6} />
+        <meshBasicMaterial color="#a855f7" transparent opacity={0.6} />
       </mesh>
       <mesh ref={orb2}>
         <sphereGeometry args={[0.1, 32, 32]} />
-        <meshBasicMaterial color="#a855f7" transparent opacity={0.5} />
+        <meshBasicMaterial color="#c084fc" transparent opacity={0.5} />
       </mesh>
       <mesh ref={orb3}>
         <sphereGeometry args={[0.08, 32, 32]} />

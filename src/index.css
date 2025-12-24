@@ -6,38 +6,34 @@
 
 @layer base {
   :root {
-    /* Deep black background with subtle warmth */
-    --background: 220 15% 4%;
+    --background: 0 0% 3%;
     --foreground: 0 0% 98%;
 
-    --card: 220 15% 7%;
+    --card: 0 0% 6%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 220 15% 7%;
+    --popover: 0 0% 6%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
-    --primary-foreground: 220 15% 4%;
+    --primary-foreground: 0 0% 3%;
 
-    --secondary: 220 10% 12%;
+    --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 10% 18%;
-    --muted-foreground: 220 5% 55%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
 
-    /* Electric Cyan - represents AI, technology, digital innovation */
-    --accent: 185 100% 50%;
-    --accent-foreground: 220 15% 4%;
-    
-    /* Secondary accent - Violet for creativity */
-    --accent-secondary: 270 80% 60%;
+    /* Vibrant Purple accent */
+    --accent: 270 90% 60%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 10% 16%;
-    --input: 220 10% 16%;
-    --ring: 185 100% 50%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 270 90% 60%;
 
     --radius: 0px;
 
@@ -48,14 +44,13 @@
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* Gradient tokens - Cyan to Violet for AI x Design fusion */
-    --gradient-accent: linear-gradient(135deg, hsl(185 100% 50%), hsl(270 80% 60%));
-    --gradient-glow: radial-gradient(circle at center, hsl(185 100% 50% / 0.2), transparent 70%);
-    --gradient-creative: linear-gradient(135deg, hsl(270 80% 60%), hsl(185 100% 50%));
+    /* Gradient tokens */
+    --gradient-accent: linear-gradient(135deg, hsl(270 90% 60%), hsl(290 80% 50%));
+    --gradient-glow: radial-gradient(circle at center, hsl(270 90% 60% / 0.2), transparent 70%);
   }
 
   .dark {
-    --background: 220 15% 4%;
+    --background: 0 0% 3%;
     --foreground: 0 0% 98%;
   }
 }
