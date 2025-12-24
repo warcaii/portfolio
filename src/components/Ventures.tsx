@@ -19,6 +19,12 @@ const ventures = [
     role: "Founder",
     year: "2021",
   },
+  {
+    name: "TEAM RARE",
+    description: "Started as a designer for 4 months before transitioning to a partner role for 6 months. Contributed to the creative direction and brand development of the collective.",
+    role: "Designer → Partner",
+    year: "2021",
+  },
 ];
 
 const Ventures = () => {
