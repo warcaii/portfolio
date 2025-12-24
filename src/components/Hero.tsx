@@ -28,7 +28,7 @@ const Hero = () => {
         
         {/* Main Title */}
         <h1 
-          className="text-display text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
+          className="text-display text-[3.5rem] sm:text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.3s' }}
         >
           {'DEVANSH'.split('').map((letter, i) => (
