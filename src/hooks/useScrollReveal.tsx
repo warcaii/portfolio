@@ -54,11 +54,11 @@ export const ScrollReveal = ({
 
   const getTransform = () => {
     switch (direction) {
-      case 'up': return 'translateY(40px)';
-      case 'down': return 'translateY(-40px)';
-      case 'left': return 'translateX(40px)';
-      case 'right': return 'translateX(-40px)';
-      default: return 'translateY(40px)';
+      case 'up': return 'translateY(60px)';
+      case 'down': return 'translateY(-60px)';
+      case 'left': return 'translateX(60px)';
+      case 'right': return 'translateX(-60px)';
+      default: return 'translateY(60px)';
     }
   };
 
@@ -68,8 +68,8 @@ export const ScrollReveal = ({
       className={className}
       style={{
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translate(0)' : getTransform(),
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+        transform: isVisible ? 'translate(0) scale(1)' : `${getTransform()} scale(0.98)`,
+        transition: `opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`,
       }}
     >
       {children}
