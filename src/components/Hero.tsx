@@ -6,85 +6,95 @@ const Hero = () => {
       {/* 3D Particle Background */}
       <ParticleField />
       
-      {/* Background effects */}
-      <div className="absolute inset-0 grid-lines opacity-10" />
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-accent/15 rounded-full blur-2xl animate-float" />
+      {/* Stark geometric accents */}
+      <div className="absolute top-0 left-0 w-px h-1/3 bg-gradient-to-b from-accent to-transparent" />
+      <div className="absolute top-0 left-0 h-px w-1/4 bg-gradient-to-r from-accent to-transparent" />
+      <div className="absolute bottom-0 right-0 w-px h-1/3 bg-gradient-to-t from-accent to-transparent" />
+      <div className="absolute bottom-0 right-0 h-px w-1/4 bg-gradient-to-l from-accent to-transparent" />
       
-      <div className="relative z-10 max-w-6xl">
-        {/* Accent dot */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full">
+        {/* Eyebrow with line */}
         <div 
-          className="accent-dot mb-8 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.1s' }}
-        />
-        
-        {/* Eyebrow */}
-        <p 
-          className="text-mono text-sm tracking-widest uppercase text-muted-foreground mb-6 opacity-0 animate-fade-in"
+          className="flex items-center gap-6 mb-12 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.2s' }}
         >
-          AI Enthusiast & Creative Director
-        </p>
+          <div className="w-16 h-px bg-accent" />
+          <p className="text-mono text-xs tracking-[0.3em] uppercase text-accent">
+            Creative Director & AI Enthusiast
+          </p>
+        </div>
         
-        {/* Main Title */}
-        <h1 
-          className="text-display text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.3s' }}
-        >
-          {'DEVANSH'.split('').map((letter, i) => (
-            <span 
-              key={i} 
-              className="inline-block animate-letter-float"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              {letter}
-            </span>
-          ))}
-        </h1>
-        
-        {/* Accent line with gradient */}
+        {/* Main Title - Massive */}
+        <div className="overflow-hidden mb-8">
+          <h1 
+            className="text-display text-[15vw] md:text-[12vw] lg:text-[10vw] leading-[0.85] tracking-tighter opacity-0 animate-fade-in"
+            style={{ animationDelay: '0.3s' }}
+          >
+            <span className="block">DEVANSH</span>
+          </h1>
+        </div>
+
+        {/* Tagline with hover effect */}
         <div 
-          className="w-32 h-0.5 bg-gradient-to-r from-accent to-transparent mb-8 opacity-0 animate-fade-in animate-line-pulse"
-          style={{ animationDelay: '0.4s' }}
-        />
-        
-        {/* Subtitle */}
-        <p 
-          className="text-mono text-lg md:text-xl max-w-lg text-muted-foreground leading-relaxed opacity-0 animate-fade-in"
+          className="flex flex-col md:flex-row md:items-end gap-8 md:gap-16 mb-16 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.5s' }}
         >
-          Building at the intersection of <span className="text-foreground">design</span>, 
-          <span className="text-foreground"> technology</span>, and 
-          <span className="text-accent"> artificial intelligence</span>.
-        </p>
+          <div className="max-w-md">
+            <p className="text-mono text-base md:text-lg text-muted-foreground leading-relaxed">
+              Building at the intersection of{' '}
+              <span className="text-foreground border-b border-accent/50 hover:border-accent transition-colors">design</span>,{' '}
+              <span className="text-foreground border-b border-accent/50 hover:border-accent transition-colors">technology</span>, and{' '}
+              <span className="text-accent">artificial intelligence</span>.
+            </p>
+          </div>
+          
+          {/* CTA Button */}
+          <a 
+            href="#contact"
+            className="group inline-flex items-center gap-4 px-8 py-4 border border-accent bg-transparent hover:bg-accent text-accent hover:text-background transition-all duration-500"
+          >
+            <span className="text-mono text-sm tracking-widest uppercase">Get in Touch</span>
+            <span className="text-xl group-hover:translate-x-2 transition-transform duration-300">→</span>
+          </a>
+        </div>
         
-        {/* Stats */}
+        {/* Stats - Horizontal layout */}
         <div 
-          className="mt-20 flex flex-wrap gap-16 md:gap-24 opacity-0 animate-fade-in"
+          className="flex flex-wrap gap-8 md:gap-0 md:divide-x divide-border opacity-0 animate-fade-in"
           style={{ animationDelay: '0.7s' }}
         >
-          <div className="group">
-            <p className="text-display text-6xl md:text-7xl text-gradient">03</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Years Experience</p>
-          </div>
-          <div className="group">
-            <p className="text-display text-6xl md:text-7xl text-gradient">05</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Ventures Founded</p>
-          </div>
-          <div className="group">
-            <p className="text-display text-6xl md:text-7xl text-gradient">∞</p>
-            <p className="text-mono text-xs tracking-wider uppercase text-muted-foreground mt-3 group-hover:text-accent transition-colors">Ideas Brewing</p>
-          </div>
+          {[
+            { number: '03', label: 'Years Experience' },
+            { number: '05', label: 'Ventures Founded' },
+            { number: '∞', label: 'Ideas Brewing' },
+          ].map((stat, index) => (
+            <div 
+              key={stat.label}
+              className="group md:px-12 first:md:pl-0 last:md:pr-0"
+            >
+              <p className="text-display text-5xl md:text-6xl lg:text-7xl text-foreground group-hover:text-accent transition-colors duration-300">
+                {stat.number}
+              </p>
+              <p className="text-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-accent transition-colors duration-300">
+                {stat.label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - Right aligned */}
       <div 
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 animate-fade-in"
-        style={{ animationDelay: '1.2s' }}
+        className="absolute bottom-12 right-8 md:right-12 flex items-center gap-4 opacity-0 animate-fade-in"
+        style={{ animationDelay: '1s' }}
       >
-        <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">Explore</span>
-        <div className="w-px h-16 bg-gradient-to-b from-accent to-transparent animate-line-flow" />
+        <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Scroll</span>
+        <div className="w-px h-20 bg-gradient-to-b from-accent to-transparent animate-line-flow" />
+      </div>
+
+      {/* Large background text */}
+      <div className="absolute bottom-0 right-0 pointer-events-none select-none overflow-hidden opacity-[0.03]">
+        <span className="text-display text-[40vw] leading-none tracking-tighter">D</span>
       </div>
     </section>
   );
