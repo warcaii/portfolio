@@ -51,36 +51,53 @@ const Ventures = () => {
         </ScrollReveal>
 
         {/* Ventures List */}
-        <div className="space-y-0">
+        <div className="space-y-6">
           {ventures.map((venture, index) => (
             <ScrollReveal key={venture.name} delay={0.1 + index * 0.1} direction={index % 2 === 0 ? 'left' : 'right'}>
               <div
-                className={`group py-10 border-t border-border last:border-b transition-all duration-300 ${
-                  venture.highlight ? 'hover:bg-accent/5' : ''
+                className={`group relative p-8 md:p-10 border transition-all duration-500 ${
+                  venture.highlight 
+                    ? 'border-accent bg-accent/5 hover:bg-accent/10' 
+                    : 'border-border hover:border-accent/50 hover:bg-card'
                 }`}
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-accent/5" />
+                </div>
+
+                <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-6">
                   <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-4">
-                      <span className="text-mono text-xs text-muted-foreground">0{index + 1}</span>
-                      <h3 className={`text-display text-4xl md:text-5xl ${venture.highlight ? 'text-accent' : ''}`}>
+                    <div className="flex flex-wrap items-center gap-4 mb-5">
+                      <span className="text-mono text-xs text-accent font-medium">0{index + 1}</span>
+                      <h3 className={`text-display text-4xl md:text-5xl lg:text-6xl group-hover:text-accent transition-colors duration-300 ${venture.highlight ? 'text-accent' : ''}`}>
                         {venture.name}
                       </h3>
                       {venture.highlight && (
-                        <span className="px-2 py-1 text-mono text-[10px] tracking-wider uppercase bg-accent/20 text-accent border border-accent/30">
+                        <span className="px-3 py-1.5 text-mono text-[10px] tracking-widest uppercase bg-accent text-background font-medium">
                           Featured
                         </span>
                       )}
                     </div>
-                    <p className="text-mono text-sm text-muted-foreground max-w-xl leading-relaxed">
+                    <p className="text-mono text-sm text-muted-foreground max-w-2xl leading-relaxed group-hover:text-foreground/70 transition-colors duration-300">
                       {venture.description}
                     </p>
                   </div>
                   
-                  <div className="text-right md:min-w-[140px]">
-                    <p className="text-mono text-xs text-muted-foreground uppercase tracking-wider">{venture.role}</p>
-                    <p className="text-mono text-sm text-foreground mt-1">{venture.year}</p>
+                  <div className="text-left md:text-right md:min-w-[160px] pt-2 md:pt-0">
+                    <p className="text-mono text-xs text-accent uppercase tracking-widest mb-1">{venture.role}</p>
+                    <p className="text-mono text-lg text-foreground font-medium">{venture.year}</p>
                   </div>
+                </div>
+
+                {/* Corner accent */}
+                <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute top-0 right-0 w-px h-8 bg-accent" />
+                  <div className="absolute top-0 right-0 h-px w-8 bg-accent" />
+                </div>
+                <div className="absolute bottom-0 left-0 w-12 h-12 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-0 left-0 w-px h-8 bg-accent" />
+                  <div className="absolute bottom-0 left-0 h-px w-8 bg-accent" />
                 </div>
               </div>
             </ScrollReveal>
