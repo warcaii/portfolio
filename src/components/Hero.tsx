@@ -63,8 +63,8 @@ const Hero = () => {
           className="mt-12 md:mt-20 opacity-0 animate-fade-in max-w-4xl"
           style={{ animationDelay: '0.7s' }}
         >
-          {/* Mobile: Horizontal scrollable compact cards */}
-          <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+          {/* Mobile & Tablet: Responsive grid */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:hidden">
             {[
               { label: 'Years', value: '03' },
               { label: 'Ventures', value: '04' },
@@ -72,16 +72,16 @@ const Hero = () => {
             ].map((stat, index) => (
               <div 
                 key={index}
-                className="flex-shrink-0 snap-center w-28 bg-foreground/5 border border-border/30 rounded-lg p-4 text-center"
+                className="bg-foreground/5 border border-border/30 rounded-lg p-3 sm:p-5 text-center"
               >
-                <p className="text-display text-4xl font-bold text-foreground mb-1">{stat.value}</p>
-                <p className="text-mono text-[10px] tracking-widest uppercase text-muted-foreground">{stat.label}</p>
+                <p className="text-display text-3xl sm:text-5xl font-bold text-foreground mb-1">{stat.value}</p>
+                <p className="text-mono text-[8px] sm:text-[10px] tracking-widest uppercase text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
 
           {/* Desktop: Original grid layout */}
-          <div className="hidden md:grid md:grid-cols-3 gap-6">
+          <div className="hidden lg:grid lg:grid-cols-3 gap-6">
             <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
               <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
