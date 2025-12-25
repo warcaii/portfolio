@@ -47,6 +47,9 @@
     /* Gradient tokens - black and white */
     --gradient-accent: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 70%));
     --gradient-glow: radial-gradient(circle at center, hsl(0 0% 100% / 0.15), transparent 70%);
+    
+    /* RGB version for glow effects */
+    --accent-rgb: 255, 255, 255;
   }
 
   .dark {
@@ -235,5 +238,28 @@
 
   .animate-pulse-slow {
     animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  /* Slide animations for About section */
+  @keyframes slideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
