@@ -64,18 +64,18 @@ const Hero = () => {
           style={{ animationDelay: '0.7s' }}
         >
           {/* Mobile & Tablet: Responsive grid */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:hidden">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:hidden">
             {[
-              { label: 'Years', value: '03' },
-              { label: 'Ventures', value: '04' },
-              { label: 'Ideas', value: '∞' }
+              { label: 'Years Experience', value: '03' },
+              { label: 'Ventures Founded', value: '04' },
+              { label: 'Ideas Brewing', value: '∞' }
             ].map((stat, index) => (
               <div 
                 key={index}
-                className="bg-foreground/5 border border-border/30 rounded-lg p-3 sm:p-5 text-center"
+                className="bg-foreground/5 border border-border/30 rounded-xl p-4 sm:p-8 text-center"
               >
-                <p className="text-display text-3xl sm:text-5xl font-bold text-foreground mb-1">{stat.value}</p>
-                <p className="text-mono text-[8px] sm:text-[10px] tracking-widest uppercase text-muted-foreground">{stat.label}</p>
+                <p className="text-display text-5xl sm:text-7xl font-bold text-foreground mb-2">{stat.value}</p>
+                <p className="text-mono text-[9px] sm:text-xs tracking-widest uppercase text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
