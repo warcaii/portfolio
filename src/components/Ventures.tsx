@@ -25,7 +25,7 @@ const ventures = [
     role: "Founder",
     year: "2022–2023",
     icon: Palette,
-    stats: { label: "Brands", value: "25+" },
+    stats: { label: "Brands", value: "10+" },
   },
   {
     name: "TEAM RARE",
