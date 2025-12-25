@@ -29,13 +29,19 @@ const About = () => {
         <ScrollReveal delay={0.1}>
           <div className="text-center mb-16 md:mb-24">
             <h2 className="text-display text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-[0.85] tracking-tight flex flex-col items-center gap-2 md:gap-4">
-              <span className="text-foreground animate-[slideDown_0.8s_ease-out_forwards] opacity-0" style={{ animationDelay: '0.2s' }}>
+              <span 
+                className="text-foreground animate-[slideDown_0.8s_ease-out_forwards,textGlow_3s_ease-in-out_infinite] opacity-0" 
+                style={{ animationDelay: '0.2s' }}
+              >
                 DESIGN
               </span>
               <span className="text-accent text-4xl sm:text-5xl md:text-6xl animate-[spin_8s_linear_infinite,pulse_2s_ease-in-out_infinite]">
                 ×
               </span>
-              <span className="text-gradient animate-[slideUp_0.8s_ease-out_forwards] opacity-0" style={{ animationDelay: '0.4s' }}>
+              <span 
+                className="text-gradient animate-[slideUp_0.8s_ease-out_forwards,textShimmer_4s_ease-in-out_infinite] opacity-0" 
+                style={{ animationDelay: '0.4s' }}
+              >
                 AI
               </span>
             </h2>
