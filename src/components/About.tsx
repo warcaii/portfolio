@@ -6,8 +6,6 @@ const About = () => {
     { name: 'Video Editing', level: 90 },
     { name: 'AI Tools', level: 85 },
     { name: 'Brand Identity', level: 88 },
-    { name: 'Motion Graphics', level: 82 },
-    { name: 'Visual Storytelling', level: 92 },
   ];
 
   return (
