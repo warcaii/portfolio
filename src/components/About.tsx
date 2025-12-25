@@ -25,12 +25,12 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Centered Hero Title */}
+        {/* Centered Hero Title - Stacked */}
         <ScrollReveal delay={0.1}>
           <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-display text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] leading-[0.85] tracking-tight">
+            <h2 className="text-display text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-[0.85] tracking-tight flex flex-col items-center gap-2 md:gap-4">
               <span className="text-foreground">DESIGN</span>
-              <span className="text-accent mx-2 sm:mx-4">×</span>
+              <span className="text-accent text-4xl sm:text-5xl md:text-6xl">×</span>
               <span className="text-gradient">AI</span>
             </h2>
           </div>
