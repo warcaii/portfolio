@@ -75,7 +75,7 @@ const About = () => {
             <ScrollReveal delay={0.25} direction="left">
               <div className="space-y-6">
                 <p className="text-xl md:text-2xl leading-relaxed text-foreground font-light">
-                  I'm <span className="text-shimmer font-medium">Devansh</span>—a creative at the intersection of artificial intelligence and visual design.
+                  I'm <span className="text-accent font-medium">Devansh</span>—a creative at the intersection of artificial intelligence and visual design.
                 </p>
                 <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
                   With three years of experience in graphic design and video editing, I've developed a keen 
