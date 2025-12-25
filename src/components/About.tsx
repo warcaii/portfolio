@@ -30,7 +30,7 @@ const About = () => {
           <div className="text-center mb-16 md:mb-24">
             <h2 className="text-display text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-[0.85] tracking-tight flex flex-col items-center gap-2 md:gap-4">
               <span 
-                className="text-foreground animate-[slideDown_0.8s_ease-out_forwards] opacity-0" 
+                className="text-foreground animate-[slideDown_0.8s_ease-out_forwards,float_4s_ease-in-out_infinite] opacity-0" 
                 style={{ animationDelay: '0.2s' }}
               >
                 DESIGN
@@ -39,7 +39,7 @@ const About = () => {
                 ×
               </span>
               <span 
-                className="text-gradient animate-[slideUp_0.8s_ease-out_forwards] opacity-0" 
+                className="text-gradient animate-[slideUp_0.8s_ease-out_forwards,float_4s_ease-in-out_infinite_0.5s] opacity-0" 
                 style={{ animationDelay: '0.4s' }}
               >
                 AI
@@ -75,7 +75,7 @@ const About = () => {
             <ScrollReveal delay={0.25} direction="left">
               <div className="space-y-6">
                 <p className="text-xl md:text-2xl leading-relaxed text-foreground font-light">
-                  I'm <span className="text-shimmer font-medium">Devansh</span>—a creative at the intersection of artificial intelligence and visual design.
+                  I'm <span className="text-accent font-medium">Devansh</span>—a creative at the intersection of artificial intelligence and visual design.
                 </p>
                 <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
                   With three years of experience in graphic design and video editing, I've developed a keen 
