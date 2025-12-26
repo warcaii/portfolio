@@ -28,24 +28,16 @@ const Hero = () => {
         
         {/* Main Title */}
         <h1 
-          className="text-display text-[3.5rem] sm:text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in relative"
+          className="text-display text-[3.5rem] sm:text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.3s' }}
         >
           {'DEVANSH'.split('').map((letter, i) => (
             <span 
               key={i} 
-              className="inline-block animate-letter-float relative group cursor-default"
+              className="inline-block animate-letter-float"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
-              <span className="relative z-10 hover:text-accent transition-colors duration-300 hover:animate-glitch">
-                {letter}
-              </span>
-              <span 
-                className="absolute inset-0 text-accent/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                aria-hidden="true"
-              >
-                {letter}
-              </span>
+              {letter}
             </span>
           ))}
         </h1>
