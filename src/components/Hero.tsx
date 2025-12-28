@@ -1,110 +1,127 @@
 import { ParticleField } from './ParticleField';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <section className="min-h-screen flex flex-col justify-center section-padding relative overflow-hidden">
+    <section className="min-h-screen flex items-center relative overflow-hidden bg-background">
       {/* 3D Particle Background */}
       <ParticleField />
       
-      {/* Background effects */}
-      <div className="absolute inset-0 grid-lines opacity-10" />
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-accent/15 rounded-full blur-2xl animate-float" />
+      {/* Dramatic gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-accent/5" />
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background to-transparent" />
       
-      <div className="relative z-10 max-w-6xl">
-        {/* Accent dot */}
-        <div 
-          className="accent-dot mb-8 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.1s' }}
-        />
-        
-        {/* Eyebrow */}
-        <p 
-          className="text-mono text-sm tracking-widest uppercase text-muted-foreground mb-6 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.2s' }}
-        >
-          AI Enthusiast & Creative Director
-        </p>
-        
-        {/* Main Title */}
-        <h1 
-          className="text-display text-[3.5rem] sm:text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.3s' }}
-        >
-          {'DEVANSH'.split('').map((letter, i) => (
-            <span 
-              key={i} 
-              className="inline-block animate-letter-float"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              {letter}
-            </span>
-          ))}
-        </h1>
-        
-        {/* Accent line with gradient */}
-        <div 
-          className="w-32 h-0.5 bg-gradient-to-r from-accent to-transparent mb-8 opacity-0 animate-fade-in animate-line-pulse"
-          style={{ animationDelay: '0.4s' }}
-        />
-        
-        {/* Subtitle */}
-        <p 
-          className="text-mono text-lg md:text-xl max-w-lg text-muted-foreground leading-relaxed opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.5s' }}
-        >
-          Building at the intersection of <span className="text-foreground">design</span>, 
-          <span className="text-foreground"> technology</span>, and 
-          <span className="text-accent"> artificial intelligence</span>.
-        </p>
-        
-        {/* Stats */}
-        <div 
-          className="mt-12 md:mt-20 opacity-0 animate-fade-in max-w-4xl"
-          style={{ animationDelay: '0.7s' }}
-        >
-          {/* Mobile & Tablet: Responsive grid */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:hidden">
-            {[
-              { label: 'Years Experience', value: '03' },
-              { label: 'Ventures Founded', value: '04' },
-              { label: 'Ideas Brewing', value: '∞' }
-            ].map((stat, index) => (
-              <div 
-                key={index}
-                className="bg-foreground/5 border border-border/30 rounded-xl p-4 sm:p-8 text-center"
-              >
-                <p className="text-display text-5xl sm:text-7xl font-bold text-foreground mb-2">{stat.value}</p>
-                <p className="text-mono text-[9px] sm:text-xs tracking-widest uppercase text-muted-foreground">{stat.label}</p>
-              </div>
-            ))}
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-20 w-px h-40 bg-gradient-to-b from-transparent via-accent/50 to-transparent" />
+      <div className="absolute bottom-40 right-1/4 w-32 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+      
+      {/* Main content */}
+      <div className="relative z-10 w-full section-padding">
+        <div className="max-w-7xl mx-auto">
+          {/* Top row - eyebrow and status */}
+          <div className={`flex items-center gap-6 mb-12 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+                Available for projects
+              </span>
+            </div>
+            <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent max-w-32" />
           </div>
 
-          {/* Desktop: Original grid layout */}
-          <div className="hidden lg:grid lg:grid-cols-3 gap-6">
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Years Experience</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">03</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+          {/* Name - massive typography */}
+          <div className="relative mb-8">
+            <h1 
+              className={`text-display text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[12rem] xl:text-[14rem] leading-[0.85] tracking-[-0.04em] font-bold transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            >
+              <span className="block text-foreground">DEVANSH</span>
+            </h1>
+            
+            {/* Accent underline */}
+            <div 
+              className={`absolute -bottom-2 left-0 h-1 bg-accent transition-all duration-1000 delay-500 ${mounted ? 'w-24' : 'w-0'}`}
+            />
+          </div>
+
+          {/* Role and description */}
+          <div className={`flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16 mb-16 transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="max-w-xl">
+              <p className="text-xl sm:text-2xl md:text-3xl font-light text-foreground/90 leading-relaxed">
+                Building the future through
+                <span className="text-accent font-medium"> AI</span>,
+                <span className="text-foreground font-medium"> design</span> &
+                <span className="text-foreground font-medium"> technology</span>
+              </p>
             </div>
             
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ventures Founded</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">04</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            <div className="flex flex-col items-start lg:items-end gap-2">
+              <p className="text-mono text-xs tracking-[0.2em] uppercase text-muted-foreground">
+                Creative Director
+              </p>
+              <p className="text-mono text-xs tracking-[0.2em] uppercase text-muted-foreground">
+                AI Enthusiast
+              </p>
+              <p className="text-mono text-xs tracking-[0.2em] uppercase text-accent">
+                Entrepreneur
+              </p>
             </div>
-            
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ideas Brewing</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">∞</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+          </div>
+
+          {/* Stats section - minimal cards */}
+          <div 
+            className={`transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-3xl">
+              {[
+                { value: '03', label: 'Years', sublabel: 'Experience' },
+                { value: '04', label: 'Ventures', sublabel: 'Founded' },
+                { value: '∞', label: 'Ideas', sublabel: 'Brewing' }
+              ].map((stat, index) => (
+                <div 
+                  key={index}
+                  className="group relative"
+                >
+                  {/* Card */}
+                  <div className="relative bg-foreground/[0.02] backdrop-blur-sm border border-border/40 p-4 sm:p-6 md:p-8 transition-all duration-500 hover:bg-foreground/[0.05] hover:border-accent/30">
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/0 group-hover:border-accent/60 transition-colors duration-500" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/0 group-hover:border-accent/60 transition-colors duration-500" />
+                    
+                    {/* Number */}
+                    <p className="text-display text-4xl sm:text-5xl md:text-7xl font-bold text-foreground mb-2 md:mb-4 group-hover:text-accent transition-colors duration-500">
+                      {stat.value}
+                    </p>
+                    
+                    {/* Labels */}
+                    <div className="space-y-0.5">
+                      <p className="text-mono text-[10px] sm:text-xs tracking-[0.15em] uppercase text-foreground/80">
+                        {stat.label}
+                      </p>
+                      <p className="text-mono text-[9px] sm:text-[10px] tracking-[0.1em] uppercase text-muted-foreground">
+                        {stat.sublabel}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
+
+          {/* Scroll indicator */}
+          <div 
+            className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-1000 delay-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
+              Scroll
+            </span>
+            <div className="w-px h-8 bg-gradient-to-b from-muted-foreground to-transparent animate-pulse" />
           </div>
         </div>
       </div>
