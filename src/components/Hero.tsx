@@ -6,106 +6,102 @@ const Hero = () => {
       {/* 3D Particle Background */}
       <ParticleField />
       
-      {/* Background effects */}
-      <div className="absolute inset-0 grid-lines opacity-10" />
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-accent/15 rounded-full blur-2xl animate-float" />
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 grid-lines opacity-5" />
       
-      <div className="relative z-10 max-w-6xl">
-        {/* Accent dot */}
+      {/* Floating accent orbs */}
+      <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] animate-pulse-glow" />
+      <div className="absolute bottom-40 left-10 w-72 h-72 bg-accent/8 rounded-full blur-[80px] animate-float" />
+      
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
+        {/* Top section with role badge */}
         <div 
-          className="accent-dot mb-8 opacity-0 animate-fade-in"
+          className="flex items-center gap-4 mb-12 opacity-0 animate-fade-in"
           style={{ animationDelay: '0.1s' }}
-        />
-        
-        {/* Eyebrow */}
-        <p 
-          className="text-mono text-sm tracking-widest uppercase text-muted-foreground mb-6 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.2s' }}
         >
-          AI Enthusiast & Creative Director
-        </p>
-        
-        {/* Main Title */}
-        <h1 
-          className="text-display text-[3.5rem] sm:text-7xl md:text-9xl lg:text-[11rem] leading-[0.9] tracking-tight mb-4 opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.3s' }}
-        >
-          {'DEVANSH'.split('').map((letter, i) => (
-            <span 
-              key={i} 
-              className="inline-block animate-letter-float"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              {letter}
+          <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+          <span className="text-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+            Creative Director & AI Enthusiast
+          </span>
+          <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
+        </div>
+
+        {/* Main name - massive editorial typography */}
+        <div className="relative mb-8">
+          <h1 
+            className="text-display text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] xl:text-[16rem] leading-[0.85] tracking-[-0.04em] font-bold opacity-0 animate-fade-in"
+            style={{ animationDelay: '0.2s' }}
+          >
+            <span className="block overflow-hidden">
+              {'DEVANSH'.split('').map((letter, i) => (
+                <span 
+                  key={i} 
+                  className="inline-block hover:text-accent transition-colors duration-300 cursor-default"
+                  style={{ 
+                    animationDelay: `${0.3 + i * 0.05}s`,
+                  }}
+                >
+                  {letter}
+                </span>
+              ))}
             </span>
-          ))}
-        </h1>
-        
-        {/* Accent line with gradient */}
+          </h1>
+          
+          {/* Decorative line under name */}
+          <div 
+            className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-accent via-accent/50 to-transparent opacity-0 animate-fade-in"
+            style={{ 
+              animationDelay: '0.5s',
+              width: '40%'
+            }}
+          />
+        </div>
+
+        {/* Tagline with refined typography */}
         <div 
-          className="w-32 h-0.5 bg-gradient-to-r from-accent to-transparent mb-8 opacity-0 animate-fade-in animate-line-pulse"
-          style={{ animationDelay: '0.4s' }}
-        />
-        
-        {/* Subtitle */}
-        <p 
-          className="text-mono text-lg md:text-xl max-w-lg text-muted-foreground leading-relaxed opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.5s' }}
+          className="max-w-2xl mb-16 opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.6s' }}
         >
-          Building at the intersection of <span className="text-foreground">design</span>, 
-          <span className="text-foreground"> technology</span>, and 
-          <span className="text-accent"> artificial intelligence</span>.
-        </p>
-        
-        {/* Stats */}
+          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground leading-relaxed font-light">
+            Building at the intersection of{' '}
+            <span className="text-foreground font-normal">design</span>,{' '}
+            <span className="text-foreground font-normal">technology</span>, and{' '}
+            <span className="text-accent font-normal">artificial intelligence</span>.
+          </p>
+        </div>
+
+        {/* Stats row - horizontal layout */}
         <div 
-          className="mt-12 md:mt-20 opacity-0 animate-fade-in max-w-4xl"
-          style={{ animationDelay: '0.7s' }}
+          className="opacity-0 animate-fade-in"
+          style={{ animationDelay: '0.8s' }}
         >
-          {/* Mobile & Tablet: Responsive grid */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:hidden">
+          <div className="flex flex-wrap gap-4 md:gap-6 lg:gap-8">
             {[
-              { label: 'Years Experience', value: '03' },
-              { label: 'Ventures Founded', value: '04' },
-              { label: 'Ideas Brewing', value: '∞' }
+              { value: '03', label: 'Years Experience' },
+              { value: '04', label: 'Ventures Founded' },
+              { value: '∞', label: 'Ideas Brewing' }
             ].map((stat, index) => (
               <div 
                 key={index}
-                className="bg-foreground/5 border border-border/30 rounded-xl p-4 sm:p-8 text-center"
+                className="group relative flex items-center gap-4 md:gap-6 bg-foreground/[0.02] backdrop-blur-sm border border-border/40 rounded-full px-6 py-4 md:px-8 md:py-5 hover:border-accent/50 hover:bg-accent/5 transition-all duration-500"
               >
-                <p className="text-display text-5xl sm:text-7xl font-bold text-foreground mb-2">{stat.value}</p>
-                <p className="text-mono text-[9px] sm:text-xs tracking-widest uppercase text-muted-foreground">{stat.label}</p>
+                <span className="text-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
+                  {stat.value}
+                </span>
+                <span className="text-mono text-[10px] md:text-xs tracking-widest uppercase text-muted-foreground">
+                  {stat.label}
+                </span>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Desktop: Original grid layout */}
-          <div className="hidden lg:grid lg:grid-cols-3 gap-6">
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Years Experience</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">03</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-            </div>
-            
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ventures Founded</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">04</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-            </div>
-            
-            <div className="group relative border border-border/30 p-8 hover:border-foreground/50 transition-all duration-500 hover:bg-foreground/5">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <p className="text-mono text-xs tracking-widest uppercase text-muted-foreground mb-4">Ideas Brewing</p>
-              <p className="text-display text-8xl font-bold text-foreground group-hover:text-foreground transition-colors">∞</p>
-              <div className="w-full h-px bg-gradient-to-r from-foreground/50 to-transparent mt-6 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-            </div>
-          </div>
+        {/* Bottom accent */}
+        <div 
+          className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-2 opacity-0 animate-fade-in"
+          style={{ animationDelay: '1s' }}
+        >
+          <div className="w-px h-12 bg-gradient-to-b from-transparent via-border to-transparent" />
         </div>
       </div>
     </section>
