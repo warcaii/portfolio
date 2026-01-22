@@ -70,9 +70,9 @@ const Hero = () => {
         </div>
 
         {/* Main name */}
-        <div className="relative mb-8">
+        <div className="relative mb-6 sm:mb-8">
           <h1 
-            className={`text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] transition-all duration-1000 ${
+            className={`text-display text-[2.5rem] xs:text-[3.5rem] sm:text-[5rem] md:text-[8rem] lg:text-[12rem] font-bold leading-[0.85] tracking-[-0.02em] sm:tracking-[-0.04em] transition-all duration-1000 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '0.2s' }}
@@ -92,9 +92,9 @@ const Hero = () => {
           </h1>
           
           {/* Underline accent */}
-          <div 
-            className={`absolute -bottom-2 left-1/2 h-1 bg-foreground transition-all duration-1000 ease-out ${
-              mounted ? 'w-24 -translate-x-1/2' : 'w-0 -translate-x-1/2'
+          <div
+            className={`absolute -bottom-1 sm:-bottom-2 left-1/2 h-0.5 sm:h-1 bg-foreground transition-all duration-1000 ease-out ${
+              mounted ? 'w-16 sm:w-24 -translate-x-1/2' : 'w-0 -translate-x-1/2'
             }`}
             style={{ transitionDelay: '0.8s' }}
           />
@@ -102,7 +102,7 @@ const Hero = () => {
 
         {/* Subtitle */}
         <p 
-          className={`text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed transition-all duration-1000 ${
+          className={`text-mono text-sm sm:text-base md:text-lg text-muted-foreground max-w-xs sm:max-w-md mx-auto leading-relaxed transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ transitionDelay: '0.6s' }}
@@ -115,7 +115,7 @@ const Hero = () => {
 
         {/* Stats row */}
         <div 
-          className={`mt-20 flex items-center justify-center gap-8 md:gap-16 transition-all duration-1000 ${
+          className={`mt-12 sm:mt-20 flex items-center justify-center gap-6 sm:gap-8 md:gap-16 transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ transitionDelay: '0.8s' }}
@@ -126,7 +126,7 @@ const Hero = () => {
             { value: '∞', label: 'Ideas' },
           ].map((stat, index) => (
             <div key={index} className="group text-center">
-              <p className="text-display text-4xl md:text-6xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
+              <p className="text-display text-3xl sm:text-4xl md:text-6xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
                 {stat.value}
               </p>
               <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2">
@@ -136,9 +136,9 @@ const Hero = () => {
           ))}
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - hidden on mobile */}
         <div 
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 ${
+          className={`hidden sm:block absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 ${
             mounted ? 'opacity-100' : 'opacity-0'
           }`}
           style={{ transitionDelay: '1.2s' }}
@@ -147,9 +147,9 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Corner accents */}
+      {/* Corner accents - hidden on mobile */}
       <div 
-        className={`absolute top-8 left-8 transition-all duration-1000 ${
+        className={`hidden sm:block absolute top-8 left-8 transition-all duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transitionDelay: '1s' }}
@@ -158,7 +158,7 @@ const Hero = () => {
         <div className="w-px h-8 bg-foreground/40" />
       </div>
       <div 
-        className={`absolute top-8 right-8 transition-all duration-1000 ${
+        className={`hidden sm:block absolute top-8 right-8 transition-all duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transitionDelay: '1s' }}
@@ -167,7 +167,7 @@ const Hero = () => {
         <div className="w-px h-8 bg-foreground/40 ml-auto" />
       </div>
       <div 
-        className={`absolute bottom-8 left-8 transition-all duration-1000 ${
+        className={`hidden sm:block absolute bottom-8 left-8 transition-all duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transitionDelay: '1s' }}
@@ -176,7 +176,7 @@ const Hero = () => {
         <div className="w-8 h-px bg-foreground/40" />
       </div>
       <div 
-        className={`absolute bottom-8 right-8 transition-all duration-1000 ${
+        className={`hidden sm:block absolute bottom-8 right-8 transition-all duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transitionDelay: '1s' }}
