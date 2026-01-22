@@ -136,15 +136,6 @@ const Hero = () => {
           ))}
         </div>
 
-        {/* Scroll indicator */}
-        <div 
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 ${
-            mounted ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{ transitionDelay: '1.2s' }}
-        >
-          <div className="w-px h-16 bg-gradient-to-b from-foreground/50 to-transparent animate-pulse" />
-        </div>
       </div>
 
       {/* Corner accents */}
