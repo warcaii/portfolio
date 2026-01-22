@@ -88,13 +88,15 @@ const Hero = () => {
             {'DEVANSH'.split('').map((letter, i) => (
               <span 
                 key={i} 
-                className="inline-block hover:text-muted-foreground transition-colors duration-300 cursor-default"
+                className="letter-effect inline-block cursor-default relative"
                 style={{
-                  animation: mounted ? `letterReveal 0.8s ease-out ${i * 0.05}s forwards` : 'none',
+                  animation: mounted ? `letterReveal 0.8s ease-out ${i * 0.05}s forwards, letterFloat 3s ease-in-out ${i * 0.15}s infinite` : 'none',
                   opacity: 0,
                 }}
               >
                 {letter}
+                <span className="letter-glitch" data-letter={letter}>{letter}</span>
+                <span className="letter-glitch-2" data-letter={letter}>{letter}</span>
               </span>
             ))}
           </h1>
@@ -195,6 +197,75 @@ const Hero = () => {
             opacity: 1;
             transform: translateY(0) rotateX(0);
           }
+        }
+        
+        @keyframes letterFloat {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+        
+        @keyframes glitchShift {
+          0%, 100% {
+            clip-path: inset(0 0 100% 0);
+            transform: translate(0);
+          }
+          20% {
+            clip-path: inset(20% 0 60% 0);
+            transform: translate(-2px, 2px);
+          }
+          40% {
+            clip-path: inset(40% 0 40% 0);
+            transform: translate(2px, -2px);
+          }
+          60% {
+            clip-path: inset(60% 0 20% 0);
+            transform: translate(-1px, 1px);
+          }
+          80% {
+            clip-path: inset(80% 0 0% 0);
+            transform: translate(1px, -1px);
+          }
+        }
+        
+        .letter-effect {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .letter-effect:hover {
+          transform: scale(1.1) translateY(-5px);
+          text-shadow: 
+            0 0 20px hsl(var(--foreground) / 0.3),
+            0 0 40px hsl(var(--foreground) / 0.2),
+            0 0 60px hsl(var(--foreground) / 0.1);
+        }
+        
+        .letter-glitch,
+        .letter-glitch-2 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          pointer-events: none;
+        }
+        
+        .letter-effect:hover .letter-glitch {
+          opacity: 0.8;
+          color: hsl(var(--foreground));
+          animation: glitchShift 0.3s ease-in-out;
+          text-shadow: -2px 0 hsl(var(--foreground) / 0.5);
+        }
+        
+        .letter-effect:hover .letter-glitch-2 {
+          opacity: 0.8;
+          color: hsl(var(--foreground));
+          animation: glitchShift 0.3s ease-in-out 0.05s reverse;
+          text-shadow: 2px 0 hsl(var(--foreground) / 0.5);
         }
       `}</style>
     </section>
