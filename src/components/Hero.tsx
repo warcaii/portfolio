@@ -57,7 +57,7 @@ const Hero = () => {
       <div className="relative z-10 text-center px-6 max-w-5xl">
         {/* Top line */}
         <div 
-          className={`flex items-center justify-center gap-4 mb-12 transition-all duration-1000 ${
+          className={`flex items-center justify-center gap-4 mb-12 mt-16 md:mt-0 transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ transitionDelay: '0.1s' }}
