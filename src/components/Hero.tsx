@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
+
+const HeroScene = lazy(() => import('./HeroScene'));
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -20,6 +22,11 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
+      {/* 3D Scene */}
+      <Suspense fallback={null}>
+        <HeroScene />
+      </Suspense>
+
       {/* Animated grid background */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{
@@ -33,7 +40,7 @@ const Hero = () => {
 
       {/* Floating orbs */}
       <div 
-        className="absolute w-[600px] h-[600px] rounded-full opacity-[0.02] blur-3xl"
+        className="absolute w-[600px] h-[600px] rounded-full opacity-[0.02] blur-3xl pointer-events-none"
         style={{
           background: 'radial-gradient(circle, hsl(var(--foreground)) 0%, transparent 70%)',
           transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
@@ -133,13 +140,15 @@ const Hero = () => {
             { value: '04', label: 'Ventures' },
             { value: '∞', label: 'Ideas' },
           ].map((stat, index) => (
-            <div key={index} className="group text-center">
-              <p className="text-display text-4xl md:text-6xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
+            <div key={index} className="group text-center cursor-default relative">
+              <div className="absolute inset-0 -m-4 rounded-lg bg-foreground/0 group-hover:bg-foreground/[0.03] transition-all duration-500 scale-90 group-hover:scale-100" />
+              <p className="relative text-display text-4xl md:text-6xl font-bold text-foreground group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
                 {stat.value}
               </p>
-              <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2">
+              <p className="relative text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/70 transition-colors duration-300">
                 {stat.label}
               </p>
+              <div className="w-0 group-hover:w-full h-px bg-foreground/20 mx-auto mt-3 transition-all duration-500" />
             </div>
           ))}
         </div>
