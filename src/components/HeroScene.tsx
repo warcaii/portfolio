@@ -3,6 +3,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Shared scroll progress value (set from outside via prop)
+let scrollProgress = 0;
+export const setScrollProgress = (v: number) => { scrollProgress = v; };
+
 const MouseLight = () => {
   const light = useRef<THREE.PointLight>(null);
   const { viewport } = useThree();
@@ -22,8 +26,13 @@ const WireframeTorus = () => {
 
   useFrame(({ clock, pointer }) => {
     if (ref.current) {
-      ref.current.rotation.x = clock.getElapsedTime() * 0.15 + pointer.y * 0.3;
+      const s = scrollProgress;
+      ref.current.rotation.x = clock.getElapsedTime() * 0.15 + pointer.y * 0.3 + s * 2;
       ref.current.rotation.y = clock.getElapsedTime() * 0.1 + pointer.x * 0.3;
+      ref.current.position.x = 3 + s * 4;
+      ref.current.position.y = 0.5 - s * 2;
+      ref.current.scale.setScalar(1 + s * 0.5);
+      (ref.current.material as THREE.MeshStandardMaterial).opacity = 0.12 * (1 - s * 0.8);
     }
   });
 
@@ -45,8 +54,13 @@ const WireframeIcosahedron = () => {
 
   useFrame(({ clock, pointer }) => {
     if (ref.current) {
-      ref.current.rotation.x = clock.getElapsedTime() * -0.2 + pointer.y * 0.2;
+      const s = scrollProgress;
+      ref.current.rotation.x = clock.getElapsedTime() * -0.2 + pointer.y * 0.2 + s * 1.5;
       ref.current.rotation.z = clock.getElapsedTime() * 0.12 + pointer.x * 0.2;
+      ref.current.position.x = -3.5 - s * 3;
+      ref.current.position.y = -1 + s * 2;
+      ref.current.scale.setScalar(1 + s * 0.8);
+      (ref.current.material as THREE.MeshStandardMaterial).opacity = 0.08 * (1 - s * 0.7);
     }
   });
 
@@ -101,8 +115,10 @@ const FloatingParticles = () => {
 
   useFrame(({ clock, pointer }) => {
     if (ref.current) {
-      ref.current.rotation.y = clock.getElapsedTime() * 0.02 + pointer.x * 0.1;
-      ref.current.rotation.x = pointer.y * 0.05;
+      const s = scrollProgress;
+      ref.current.rotation.y = clock.getElapsedTime() * 0.02 + pointer.x * 0.1 + s * 0.5;
+      ref.current.rotation.x = pointer.y * 0.05 + s * 0.3;
+      (ref.current.material as THREE.PointsMaterial).opacity = 0.4 * (1 - s * 0.6);
     }
   });
 
