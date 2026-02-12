@@ -1,4 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
+import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
@@ -16,8 +17,17 @@ const Hero = () => {
       });
     };
 
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / window.innerHeight, 1);
+      setScrollProgress(progress);
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
