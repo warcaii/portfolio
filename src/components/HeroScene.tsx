@@ -49,20 +49,20 @@ const GlowingIcosahedron = () => {
     const objNdcY = posY / (viewport.height / 2);
     const dist = Math.sqrt((pointer.x - objNdcX) ** 2 + (pointer.y - objNdcY) ** 2);
 
-    // Proximity glow: stronger when closer (range ~0 to 1.2)
-    const targetIntensity = Math.max(0, 1 - dist / 1.2);
-    intensity.current += (targetIntensity - intensity.current) * 0.06;
+    // Proximity glow: subtle, only when very close
+    const targetIntensity = Math.max(0, 1 - dist / 0.8);
+    intensity.current += (targetIntensity - intensity.current) * 0.05;
     const g = intensity.current;
 
     if (edgesRef.current) {
       const mat = edgesRef.current.material as THREE.LineBasicMaterial;
-      mat.opacity = (0.08 + g * 0.7) * (1 - s * 0.8);
-      mat.color.setHSL(0, 0, 0.5 + g * 0.5);
+      mat.opacity = (0.06 + g * 0.2) * (1 - s * 0.8);
+      mat.color.setHSL(0, 0, 0.4 + g * 0.3);
     }
 
     if (glowRef.current) {
-      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = g * 0.08 * (1 - s * 0.8);
-      glowRef.current.scale.setScalar(1 + g * 0.15);
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = g * 0.03 * (1 - s * 0.8);
+      glowRef.current.scale.setScalar(1 + g * 0.08);
     }
   });
 
