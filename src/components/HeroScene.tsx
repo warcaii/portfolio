@@ -1,46 +1,91 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 let scrollProgress = 0;
 export const setScrollProgress = (v: number) => { scrollProgress = v; };
 
-const WireframeSphere = () => {
-  const ref = useRef<THREE.Mesh>(null);
+const GlowingIcosahedron = () => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const edgesRef = useRef<THREE.LineSegments>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
   const { viewport } = useThree();
-  const target = useRef({ x: 0, y: 0 });
+  const intensity = useRef(0);
+
+  const edgesGeo = useMemo(() => {
+    const ico = new THREE.IcosahedronGeometry(2.2, 1);
+    return new THREE.EdgesGeometry(ico);
+  }, []);
 
   useFrame(({ clock, pointer }) => {
-    if (!ref.current) return;
     const t = clock.getElapsedTime();
     const s = scrollProgress;
 
-    // Smooth lerp toward pointer
-    target.current.x += (pointer.x * viewport.width * 0.3 - target.current.x) * 0.04;
-    target.current.y += (pointer.y * viewport.height * 0.3 - target.current.y) * 0.04;
+    // Fixed position — gentle idle rotation only
+    const posX = viewport.width * 0.22;
+    const posY = 0;
 
-    ref.current.position.x = viewport.width * 0.22 + target.current.x;
-    ref.current.position.y = target.current.y + s * -1.5;
+    if (meshRef.current) {
+      meshRef.current.rotation.x = t * 0.05;
+      meshRef.current.rotation.y = t * 0.08;
+      meshRef.current.position.set(posX, posY + s * -1.5, -1);
+      (meshRef.current.material as THREE.MeshBasicMaterial).opacity = 0.04 * (1 - s * 0.8);
+    }
 
-    ref.current.rotation.x = t * 0.05 + pointer.y * 0.4;
-    ref.current.rotation.y = t * 0.08 + pointer.x * 0.4;
+    if (edgesRef.current) {
+      edgesRef.current.rotation.x = t * 0.05;
+      edgesRef.current.rotation.y = t * 0.08;
+      edgesRef.current.position.set(posX, posY + s * -1.5, -1);
+    }
 
-    const dist = Math.sqrt(pointer.x ** 2 + pointer.y ** 2);
-    ref.current.scale.setScalar(1 + dist * 0.15 + s * 0.3);
+    if (glowRef.current) {
+      glowRef.current.rotation.x = t * 0.05;
+      glowRef.current.rotation.y = t * 0.08;
+      glowRef.current.position.set(posX, posY + s * -1.5, -1);
+    }
 
-    (ref.current.material as THREE.MeshBasicMaterial).opacity = (0.07 + dist * 0.06) * (1 - s * 0.8);
+    // Calculate distance from pointer to object center (in NDC)
+    const objNdcX = posX / (viewport.width / 2);
+    const objNdcY = posY / (viewport.height / 2);
+    const dist = Math.sqrt((pointer.x - objNdcX) ** 2 + (pointer.y - objNdcY) ** 2);
+
+    // Proximity glow: stronger when closer (range ~0 to 1.2)
+    const targetIntensity = Math.max(0, 1 - dist / 1.2);
+    intensity.current += (targetIntensity - intensity.current) * 0.06;
+    const g = intensity.current;
+
+    if (edgesRef.current) {
+      const mat = edgesRef.current.material as THREE.LineBasicMaterial;
+      mat.opacity = (0.08 + g * 0.7) * (1 - s * 0.8);
+      mat.color.setHSL(0, 0, 0.5 + g * 0.5);
+    }
+
+    if (glowRef.current) {
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = g * 0.08 * (1 - s * 0.8);
+      glowRef.current.scale.setScalar(1 + g * 0.15);
+    }
   });
 
   return (
-    <mesh ref={ref} position={[viewport.width * 0.22, 0, -1]}>
-      <icosahedronGeometry args={[2.2, 1]} />
-      <meshBasicMaterial
-        color="#ffffff"
-        wireframe
-        transparent
-        opacity={0.07}
-      />
-    </mesh>
+    <group>
+      {/* Solid face — very subtle */}
+      <mesh ref={meshRef} position={[viewport.width * 0.22, 0, -1]}>
+        <icosahedronGeometry args={[2.2, 1]} />
+        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.04} />
+      </mesh>
+
+      {/* Edge lines — these glow */}
+      <lineSegments ref={edgesRef} position={[viewport.width * 0.22, 0, -1]}>
+        <primitive object={edgesGeo} attach="geometry" />
+        <lineBasicMaterial color="#ffffff" transparent opacity={0.08} />
+      </lineSegments>
+
+      {/* Outer glow shell */}
+      <mesh ref={glowRef} position={[viewport.width * 0.22, 0, -1]}>
+        <icosahedronGeometry args={[2.4, 1]} />
+        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0} />
+      </mesh>
+    </group>
   );
 };
 
@@ -52,7 +97,7 @@ const HeroScene = () => (
       style={{ pointerEvents: 'auto' }}
       gl={{ antialias: true, alpha: true }}
     >
-      <WireframeSphere />
+      <GlowingIcosahedron />
     </Canvas>
   </div>
 );
