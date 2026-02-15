@@ -57,7 +57,7 @@ const GlowingIcosahedron = () => {
     if (edgesRef.current) {
       const mat = edgesRef.current.material as THREE.LineBasicMaterial;
       mat.opacity = (0.06 + g * 0.2) * (1 - s * 0.8);
-      mat.color.setHSL(0, 0, 0.4 + g * 0.3);
+      mat.color.setHSL(0.58, 0.6, 0.5 + g * 0.3);
     }
 
     if (glowRef.current) {
@@ -71,19 +71,19 @@ const GlowingIcosahedron = () => {
       {/* Solid face — very subtle */}
       <mesh ref={meshRef} position={[viewport.width * 0.22, 0, -1]}>
         <icosahedronGeometry args={[2.2, 1]} />
-        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.04} />
+        <meshBasicMaterial color="#4d8bff" wireframe transparent opacity={0.04} />
       </mesh>
 
       {/* Edge lines — these glow */}
       <lineSegments ref={edgesRef} position={[viewport.width * 0.22, 0, -1]}>
         <primitive object={edgesGeo} attach="geometry" />
-        <lineBasicMaterial color="#ffffff" transparent opacity={0.08} />
+        <lineBasicMaterial color="#4d8bff" transparent opacity={0.08} />
       </lineSegments>
 
       {/* Outer glow shell */}
       <mesh ref={glowRef} position={[viewport.width * 0.22, 0, -1]}>
         <icosahedronGeometry args={[2.4, 1]} />
-        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0} />
+        <meshBasicMaterial color="#66bfff" wireframe transparent opacity={0} />
       </mesh>
     </group>
   );
