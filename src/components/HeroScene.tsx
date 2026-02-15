@@ -1,6 +1,12 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect, Component, ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+
+class WebGLErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() { return this.state.hasError ? null : this.props.children; }
+}
 
 let scrollProgress = 0;
 export const setScrollProgress = (v: number) => { scrollProgress = v; };
@@ -89,17 +95,33 @@ const GlowingIcosahedron = () => {
   );
 };
 
-const HeroScene = () => (
-  <div className="absolute inset-0 z-[1]">
-    <Canvas
-      camera={{ position: [0, 0, 6], fov: 50 }}
-      dpr={[1, 1.5]}
-      style={{ pointerEvents: 'auto' }}
-      gl={{ antialias: true, alpha: true }}
-    >
-      <GlowingIcosahedron />
-    </Canvas>
-  </div>
-);
+const HeroScene = () => {
+  const [supported, setSupported] = useState(true);
+
+  useEffect(() => {
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (!gl) setSupported(false);
+    } catch { setSupported(false); }
+  }, []);
+
+  if (!supported) return null;
+
+  return (
+    <WebGLErrorBoundary>
+      <div className="absolute inset-0 z-[1]">
+        <Canvas
+          camera={{ position: [0, 0, 6], fov: 50 }}
+          dpr={[1, 1.5]}
+          style={{ pointerEvents: 'auto' }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <GlowingIcosahedron />
+        </Canvas>
+      </div>
+    </WebGLErrorBoundary>
+  );
+};
 
 export default HeroScene;
