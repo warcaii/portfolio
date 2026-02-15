@@ -39,9 +39,10 @@ export const ParticleField = () => {
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, orb.radius);
         
         // Electric blue with very low opacity
-        const alpha = 0.08 + Math.sin(time * 0.001 + i) * 0.02;
-        gradient.addColorStop(0, `hsla(220, 90%, 55%, ${alpha})`);
-        gradient.addColorStop(0.5, `hsla(220, 90%, 55%, ${alpha * 0.4})`);
+        const alpha = 0.06 + Math.sin(time * 0.001 + i) * 0.02;
+        const hue = [210, 260, 195][i]; // blue, purple, cyan
+        gradient.addColorStop(0, `hsla(${hue}, 80%, 50%, ${alpha})`);
+        gradient.addColorStop(0.5, `hsla(${hue}, 80%, 50%, ${alpha * 0.4})`);
         gradient.addColorStop(1, 'transparent');
 
         ctx.fillStyle = gradient;
@@ -49,7 +50,7 @@ export const ParticleField = () => {
       });
 
       // Add subtle grid dots
-      ctx.fillStyle = 'hsla(220, 90%, 55%, 0.15)';
+      ctx.fillStyle = 'hsla(210, 80%, 60%, 0.12)';
       const dotSpacing = 80;
       const dotSize = 1;
       
