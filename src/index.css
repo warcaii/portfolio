@@ -6,34 +6,34 @@
 
 @layer base {
   :root {
-    --background: 230 20% 3%;
-    --foreground: 220 20% 95%;
+    --background: 230 15% 3%;
+    --foreground: 0 0% 96%;
 
-    --card: 230 15% 6%;
-    --card-foreground: 220 20% 95%;
+    --card: 230 12% 5%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 230 15% 6%;
-    --popover-foreground: 220 20% 95%;
+    --popover: 230 12% 5%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 210 100% 70%;
-    --primary-foreground: 230 20% 3%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 230 15% 10%;
-    --secondary-foreground: 220 20% 90%;
+    --secondary: 230 12% 9%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 230 10% 14%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 230 8% 14%;
+    --muted-foreground: 220 5% 50%;
 
-    /* Soft cyan accent */
+    /* Space cyan accent — used for glows, links, highlights */
     --accent: 195 80% 65%;
-    --accent-foreground: 230 20% 3%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 15% 16%;
-    --input: 230 12% 14%;
-    --ring: 210 100% 70%;
+    --border: 230 10% 16%;
+    --input: 230 10% 12%;
+    --ring: 195 80% 65%;
 
     --radius: 0px;
 
@@ -44,17 +44,17 @@
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* Gradient tokens - space palette */
-    --gradient-accent: linear-gradient(135deg, hsl(210 100% 70%), hsl(260 60% 65%));
-    --gradient-glow: radial-gradient(circle at center, hsl(210 100% 70% / 0.12), transparent 70%);
+    /* Gradient tokens — space accents only */
+    --gradient-accent: linear-gradient(135deg, hsl(210 80% 65%), hsl(260 50% 60%));
+    --gradient-glow: radial-gradient(circle at center, hsl(210 80% 65% / 0.10), transparent 70%);
     
     /* RGB version for glow effects */
-    --accent-rgb: 102, 191, 255;
+    --accent-rgb: 102, 200, 255;
   }
 
   .dark {
-    --background: 230 20% 3%;
-    --foreground: 220 20% 95%;
+    --background: 230 15% 3%;
+    --foreground: 0 0% 96%;
   }
 }
 
