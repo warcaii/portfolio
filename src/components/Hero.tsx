@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense, useMemo } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
@@ -6,16 +6,6 @@ const HeroScene = lazy(() => import('./HeroScene'));
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const dustParticles = useMemo(() => 
-    Array.from({ length: 16 }, () => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 1 + Math.random() * 1.5,
-      delay: Math.random() * 3,
-      duration: 3 + Math.random() * 4,
-    })), []
-  );
 
   useEffect(() => {
     setMounted(true);
@@ -148,34 +138,6 @@ const Hero = () => {
           <span className="text-foreground font-medium">AI</span>.
         </p>
 
-        {/* Space dust tagline */}
-        <div 
-          className={`relative mt-10 transition-all duration-1000 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ transitionDelay: '0.9s' }}
-        >
-          <div className="relative inline-block py-4 px-8">
-            {/* Floating dust particles */}
-            {dustParticles.map((p, i) => (
-              <span
-                key={i}
-                className="absolute rounded-full bg-foreground/30"
-                style={{
-                  width: `${p.size}px`,
-                  height: `${p.size}px`,
-                  left: `${p.x}%`,
-                  top: `${p.y}%`,
-                  animation: `dust-drift-${i % 4} ${p.duration}s ease-in-out ${p.delay}s infinite alternate`,
-                }}
-              />
-            ))}
-            <p className="text-mono text-[10px] md:text-xs tracking-[0.35em] uppercase text-muted-foreground/60 italic">
-              just a particle of space dust
-            </p>
-          </div>
-        </div>
-
         {/* Stats row */}
         <div 
           className={`mt-20 flex items-center justify-center gap-8 md:gap-16 transition-all duration-1000 ${
@@ -268,27 +230,6 @@ const Hero = () => {
         
         .letter-stroke:hover .letter-outline {
           opacity: 0.3;
-        }
-
-        @keyframes dust-drift-0 {
-          0% { transform: translate(0, 0); opacity: 0; }
-          50% { opacity: 0.6; }
-          100% { transform: translate(8px, -12px); opacity: 0; }
-        }
-        @keyframes dust-drift-1 {
-          0% { transform: translate(0, 0); opacity: 0; }
-          50% { opacity: 0.5; }
-          100% { transform: translate(-10px, -6px); opacity: 0; }
-        }
-        @keyframes dust-drift-2 {
-          0% { transform: translate(0, 0); opacity: 0; }
-          50% { opacity: 0.4; }
-          100% { transform: translate(5px, 10px); opacity: 0; }
-        }
-        @keyframes dust-drift-3 {
-          0% { transform: translate(0, 0); opacity: 0; }
-          50% { opacity: 0.5; }
-          100% { transform: translate(-7px, -9px); opacity: 0; }
         }
       `}</style>
     </section>
