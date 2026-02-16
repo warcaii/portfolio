@@ -56,27 +56,42 @@ const Hero = () => {
         }} />
       </div>
 
-      {/* Floating orbs */}
+      {/* Moon silhouette */}
       <div 
-        className="absolute w-[600px] h-[600px] rounded-full opacity-[0.02] blur-3xl pointer-events-none"
+        className="absolute pointer-events-none hidden md:block"
         style={{
-          background: 'radial-gradient(circle, hsl(var(--foreground)) 0%, transparent 70%)',
-          transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-          transition: 'transform 0.3s ease-out',
-          top: '10%',
-          right: '-10%',
-        }}
-      />
-      <div 
-        className="absolute w-[400px] h-[400px] rounded-full opacity-[0.015] blur-2xl"
-        style={{
-          background: 'radial-gradient(circle, hsl(var(--foreground)) 0%, transparent 70%)',
-          transform: `translate(${-mousePosition.x * 0.5}px, ${-mousePosition.y * 0.5}px)`,
+          top: '8%',
+          right: '5%',
+          transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`,
           transition: 'transform 0.5s ease-out',
-          bottom: '20%',
-          left: '-5%',
         }}
-      />
+      >
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.06] relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/70" />
+        </div>
+        <div className="absolute -inset-4 rounded-full bg-foreground/[0.02] blur-xl" />
+      </div>
+
+      {/* Floating orbital ring */}
+      <div 
+        className="absolute pointer-events-none hidden lg:block"
+        style={{
+          bottom: '15%',
+          left: '8%',
+          transform: `translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
+          transition: 'transform 0.6s ease-out',
+        }}
+      >
+        <div className="w-28 h-28 rounded-full border border-foreground/[0.06] animate-[spin_30s_linear_infinite]">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-foreground/30" />
+        </div>
+      </div>
+
+      {/* Small scattered dots - star clusters */}
+      <div className="absolute top-[20%] left-[15%] w-1 h-1 rounded-full bg-foreground/20 pointer-events-none" />
+      <div className="absolute top-[35%] right-[20%] w-0.5 h-0.5 rounded-full bg-foreground/15 pointer-events-none" />
+      <div className="absolute bottom-[30%] left-[25%] w-1 h-1 rounded-full bg-foreground/10 pointer-events-none" />
+      <div className="absolute top-[60%] right-[12%] w-0.5 h-0.5 rounded-full bg-foreground/20 pointer-events-none" />
 
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
