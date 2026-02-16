@@ -37,12 +37,11 @@ const Hero = () => {
         <HeroScene />
       </Suspense>
 
-      {/* Nebula gradient overlay */}
+      {/* Subtle monochrome fog overlay */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: `
-          radial-gradient(ellipse 80% 50% at 20% 40%, hsla(210, 80%, 25%, 0.08) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 40% at 75% 60%, hsla(260, 60%, 30%, 0.06) 0%, transparent 60%),
-          radial-gradient(ellipse 90% 60% at 50% 80%, hsla(195, 70%, 20%, 0.05) 0%, transparent 50%)
+          radial-gradient(ellipse 80% 50% at 20% 40%, hsla(0, 0%, 100%, 0.02) 0%, transparent 70%),
+          radial-gradient(ellipse 60% 40% at 75% 60%, hsla(0, 0%, 100%, 0.015) 0%, transparent 60%)
         `,
       }} />
 
