@@ -66,10 +66,11 @@ const Hero = () => {
           transition: 'transform 0.5s ease-out',
         }}
       >
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.06] relative overflow-hidden">
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.06] relative overflow-hidden animate-[pulse_4s_ease-in-out_infinite]">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/70" />
         </div>
-        <div className="absolute -inset-4 rounded-full bg-foreground/[0.02] blur-xl" />
+        <div className="absolute -inset-4 rounded-full bg-foreground/[0.04] blur-xl animate-[pulse_3s_ease-in-out_infinite]" />
+        <div className="absolute -inset-8 rounded-full bg-foreground/[0.02] blur-2xl animate-[pulse_5s_ease-in-out_infinite_0.5s]" />
       </div>
 
       {/* Floating orbital ring */}
@@ -82,16 +83,20 @@ const Hero = () => {
           transition: 'transform 0.6s ease-out',
         }}
       >
-        <div className="w-28 h-28 rounded-full border border-foreground/[0.06] animate-[spin_30s_linear_infinite]">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-foreground/30" />
+        <div className="w-28 h-28 rounded-full border border-foreground/[0.08] animate-[spin_20s_linear_infinite]">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-foreground/40 shadow-[0_0_8px_rgba(255,255,255,0.3)] animate-[pulse_2s_ease-in-out_infinite]" />
         </div>
+        <div className="absolute inset-0 w-28 h-28 rounded-full border border-dashed border-foreground/[0.04] animate-[spin_35s_linear_infinite_reverse]" />
+        <div className="absolute -inset-4 rounded-full bg-foreground/[0.02] blur-xl animate-[pulse_4s_ease-in-out_infinite]" />
       </div>
 
       {/* Small scattered dots - star clusters */}
-      <div className="absolute top-[20%] left-[15%] w-1 h-1 rounded-full bg-foreground/20 pointer-events-none" />
-      <div className="absolute top-[35%] right-[20%] w-0.5 h-0.5 rounded-full bg-foreground/15 pointer-events-none" />
-      <div className="absolute bottom-[30%] left-[25%] w-1 h-1 rounded-full bg-foreground/10 pointer-events-none" />
-      <div className="absolute top-[60%] right-[12%] w-0.5 h-0.5 rounded-full bg-foreground/20 pointer-events-none" />
+      <div className="absolute top-[20%] left-[15%] w-1.5 h-1.5 rounded-full bg-foreground/25 pointer-events-none animate-[pulse_3s_ease-in-out_infinite] shadow-[0_0_6px_rgba(255,255,255,0.2)]" />
+      <div className="absolute top-[35%] right-[20%] w-1 h-1 rounded-full bg-foreground/20 pointer-events-none animate-[pulse_4s_ease-in-out_infinite_0.5s] shadow-[0_0_4px_rgba(255,255,255,0.15)]" />
+      <div className="absolute bottom-[30%] left-[25%] w-1.5 h-1.5 rounded-full bg-foreground/15 pointer-events-none animate-[pulse_5s_ease-in-out_infinite_1s] shadow-[0_0_6px_rgba(255,255,255,0.1)]" />
+      <div className="absolute top-[60%] right-[12%] w-1 h-1 rounded-full bg-foreground/25 pointer-events-none animate-[pulse_3.5s_ease-in-out_infinite_0.3s] shadow-[0_0_4px_rgba(255,255,255,0.2)]" />
+      <div className="absolute top-[45%] left-[8%] w-0.5 h-0.5 rounded-full bg-foreground/20 pointer-events-none animate-[pulse_2.5s_ease-in-out_infinite_0.7s] shadow-[0_0_3px_rgba(255,255,255,0.15)]" />
+      <div className="absolute bottom-[20%] right-[30%] w-1 h-1 rounded-full bg-foreground/15 pointer-events-none animate-[pulse_4.5s_ease-in-out_infinite_1.2s] shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
 
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
