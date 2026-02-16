@@ -6,34 +6,33 @@
 
 @layer base {
   :root {
-    --background: 230 20% 3%;
-    --foreground: 220 20% 95%;
+    --background: 0 0% 2%;
+    --foreground: 0 0% 95%;
 
-    --card: 230 15% 6%;
-    --card-foreground: 220 20% 95%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 230 15% 6%;
-    --popover-foreground: 220 20% 95%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 210 100% 70%;
-    --primary-foreground: 230 20% 3%;
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 2%;
 
-    --secondary: 230 15% 10%;
-    --secondary-foreground: 220 20% 90%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 230 10% 14%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 50%;
 
-    /* Soft cyan accent */
-    --accent: 195 80% 65%;
-    --accent-foreground: 230 20% 3%;
+    --accent: 0 0% 80%;
+    --accent-foreground: 0 0% 2%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 15% 16%;
-    --input: 230 12% 14%;
-    --ring: 210 100% 70%;
+    --border: 0 0% 16%;
+    --input: 0 0% 14%;
+    --ring: 0 0% 95%;
 
     --radius: 0px;
 
@@ -44,17 +43,17 @@
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* Gradient tokens - space palette */
-    --gradient-accent: linear-gradient(135deg, hsl(210 100% 70%), hsl(260 60% 65%));
-    --gradient-glow: radial-gradient(circle at center, hsl(210 100% 70% / 0.12), transparent 70%);
+    /* Gradient tokens */
+    --gradient-accent: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 70%));
+    --gradient-glow: radial-gradient(circle at center, hsl(0 0% 95% / 0.12), transparent 70%);
     
     /* RGB version for glow effects */
-    --accent-rgb: 102, 191, 255;
+    --accent-rgb: 204, 204, 204;
   }
 
   .dark {
-    --background: 230 20% 3%;
-    --foreground: 220 20% 95%;
+    --background: 0 0% 2%;
+    --foreground: 0 0% 95%;
   }
 }
 
