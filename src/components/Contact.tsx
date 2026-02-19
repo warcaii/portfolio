@@ -28,35 +28,34 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-32 md:py-48 section-padding relative overflow-hidden">
-      {/* Ambient orbs */}
+      {/* Dramatic ambient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] animate-breathe" />
-        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-foreground/[0.015] rounded-full blur-[100px] animate-breathe" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-foreground/[0.03] rounded-full blur-[150px] animate-breathe" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-foreground/[0.02] rounded-full blur-[120px] animate-breathe" style={{ animationDelay: '2s' }} />
       </div>
       
       <div className="max-w-6xl mx-auto relative">
-        {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-center gap-4 mb-16">
             <div className="accent-dot animate-pulse" />
             <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">04 — Contact</span>
-            <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-foreground/30 to-transparent" />
           </div>
         </ScrollReveal>
 
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-20">
-          {/* Left - CTA */}
+          {/* Left */}
           <div className="lg:col-span-3">
             <ScrollReveal delay={0.1} direction="left">
               <div className="relative">
                 <h2 className="text-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] mb-8">
-                  LET'S BUILD
+                  <span className="drop-shadow-[0_0_40px_rgba(255,255,255,0.1)]">LET'S BUILD</span>
                   <br />
                   <span className="text-gradient">SOMETHING</span>
                   <br />
-                  <span className="relative inline-block">
+                  <span className="relative inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
                     AMAZING
-                    <Sparkles className="absolute -top-2 -right-8 w-6 h-6 text-muted-foreground animate-pulse" />
+                    <Sparkles className="absolute -top-2 -right-8 w-6 h-6 text-foreground/40 animate-pulse" />
                   </span>
                 </h2>
                 
@@ -65,10 +64,10 @@ const Contact = () => {
                   I'm always open to discussing new ideas and creative opportunities.
                 </p>
 
-                {/* CTA Button */}
+                {/* CTA Button with glow */}
                 <a
                   href="mailto:warcai@duck.com"
-                  className="group inline-flex items-center gap-4 px-8 py-4 glass rounded-full hover:bg-foreground/[0.1] hover:shadow-[0_0_40px_hsl(0_0%_100%/0.08)] transition-all duration-500"
+                  className="group inline-flex items-center gap-4 px-8 py-4 glass glass-border-glow rounded-full hover:shadow-[0_0_50px_hsl(0_0%_100%/0.12)] transition-all duration-500"
                 >
                   <span className="text-mono font-medium text-foreground">Start a conversation</span>
                   <ArrowUpRight className="w-5 h-5 text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
@@ -77,7 +76,7 @@ const Contact = () => {
             </ScrollReveal>
           </div>
 
-          {/* Right - Social Cards */}
+          {/* Right */}
           <div className="lg:col-span-2">
             <ScrollReveal delay={0.2} direction="right">
               <div className="space-y-3">
@@ -87,15 +86,15 @@ const Contact = () => {
                     href={social.href}
                     target={social.external ? "_blank" : undefined}
                     rel={social.external ? "noopener noreferrer" : undefined}
-                    className="group relative block p-5 glass rounded-2xl hover:shadow-[0_0_30px_hsl(0_0%_100%/0.05)] transition-all duration-300"
+                    className="group relative block p-5 glass glass-border-glow rounded-2xl transition-all duration-300"
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between relative">
                       <div className="flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-foreground/[0.04] border border-foreground/[0.06] flex items-center justify-center group-hover:bg-foreground/[0.08] transition-colors duration-300">
-                          <social.icon className="w-4.5 h-4.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        <div className="w-11 h-11 rounded-xl bg-foreground/[0.06] border border-foreground/[0.08] flex items-center justify-center group-hover:bg-foreground/[0.12] group-hover:shadow-[0_0_15px_hsl(0_0%_100%/0.1)] transition-all duration-300">
+                          <social.icon className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                         </div>
                         <div>
-                          <p className="text-mono text-[10px] text-muted-foreground/60 uppercase tracking-wider mb-0.5">
+                          <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider mb-0.5">
                             {social.label}
                           </p>
                           <p className="text-foreground/80 font-medium group-hover:text-foreground transition-colors text-sm">
@@ -103,20 +102,19 @@ const Contact = () => {
                           </p>
                         </div>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                     </div>
                   </a>
                 ))}
               </div>
             </ScrollReveal>
 
-            {/* Availability */}
             <ScrollReveal delay={0.3} direction="right">
-              <div className="mt-6 p-4 glass rounded-xl border-dashed">
+              <div className="mt-6 p-4 glass rounded-xl" style={{ borderStyle: 'dashed' }}>
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/60" />
-                    <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-foreground/40 animate-ping" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/60 shadow-[0_0_8px_hsl(0_0%_100%/0.4)]" />
+                    <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-foreground/30 animate-ping" />
                   </div>
                   <span className="text-mono text-sm text-muted-foreground">
                     Currently available for new projects

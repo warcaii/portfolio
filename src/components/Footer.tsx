@@ -19,17 +19,16 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative border-t border-foreground/[0.06] bg-background overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] bg-foreground/[0.015] rounded-full blur-[120px] pointer-events-none" />
+    <footer className="relative border-t border-foreground/[0.08] bg-background overflow-hidden">
+      {/* Ambient */}
+      <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] bg-foreground/[0.02] rounded-full blur-[120px] pointer-events-none" />
       
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
-          {/* Brand */}
           <div className="md:col-span-5 space-y-6">
             <ScrollReveal direction="up">
               <a href="#" className="inline-block">
-                <img src={logo} alt="Logo" className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+                <img src={logo} alt="Logo" className="h-10 w-auto opacity-80 hover:opacity-100 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300" />
               </a>
             </ScrollReveal>
             <ScrollReveal delay={0.1} direction="up">
@@ -39,17 +38,16 @@ const Footer = () => {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={0.2} direction="up">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 glass rounded-full">
-                <span className="w-2 h-2 bg-foreground/50 rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full">
+                <span className="w-2 h-2 bg-foreground/50 rounded-full animate-pulse shadow-[0_0_6px_hsl(0_0%_100%/0.3)]" />
                 <span className="text-mono text-xs tracking-wide text-muted-foreground">Available for projects</span>
               </div>
             </ScrollReveal>
           </div>
 
-          {/* Navigation */}
           <div className="md:col-span-3">
             <ScrollReveal delay={0.1} direction="up">
-              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground/60 mb-6">Navigate</h4>
+              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground/50 mb-6">Navigate</h4>
             </ScrollReveal>
             <ul className="space-y-3">
               {navLinks.map((link, index) => (
@@ -57,7 +55,7 @@ const Footer = () => {
                   <li>
                     <a 
                       href={link.href}
-                      className="group inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
+                      className="group inline-flex items-center gap-1 text-sm text-foreground/50 hover:text-foreground transition-colors duration-300"
                     >
                       {link.label}
                       <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-300" />
@@ -68,10 +66,9 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social */}
           <div className="md:col-span-4">
             <ScrollReveal delay={0.1} direction="up">
-              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground/60 mb-6">Connect</h4>
+              <h4 className="text-mono text-xs tracking-widest uppercase text-muted-foreground/50 mb-6">Connect</h4>
             </ScrollReveal>
             <ScrollReveal delay={0.2} direction="up">
               <div className="flex flex-wrap gap-2">
@@ -79,7 +76,7 @@ const Footer = () => {
                   <a 
                     key={link.label}
                     href={link.href}
-                    className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm text-foreground/60 glass rounded-full hover:text-foreground hover:shadow-[0_0_20px_hsl(0_0%_100%/0.06)] transition-all duration-300"
+                    className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm text-foreground/50 glass rounded-full hover:text-foreground hover:shadow-[0_0_25px_hsl(0_0%_100%/0.08)] transition-all duration-300"
                   >
                     {link.label}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-300" />
@@ -90,13 +87,12 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom */}
         <ScrollReveal delay={0.3} direction="up">
           <div className="py-6 border-t border-foreground/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-mono text-xs text-muted-foreground/60">
+            <p className="text-mono text-xs text-muted-foreground/50">
               © {currentYear} Devansh. All rights reserved.
             </p>
-            <p className="text-mono text-xs text-muted-foreground/40">
+            <p className="text-mono text-xs text-muted-foreground/30">
               Designed with precision · Built with purpose
             </p>
           </div>
