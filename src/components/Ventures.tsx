@@ -1,5 +1,5 @@
 import { ScrollReveal } from '@/hooks/useScrollReveal';
-import { Rocket, Users, Palette, Award } from 'lucide-react';
+import { Rocket, Users, Palette, Award, ArrowUpRight } from 'lucide-react';
 
 const ventures = [
   {
@@ -38,12 +38,18 @@ const ventures = [
 ];
 
 const Ventures = () => {
+  const featured = ventures[0];
+  const others = ventures.slice(1);
+  const FeaturedIcon = featured.icon;
+
   return (
     <section id="ventures" className="py-32 md:py-48 section-padding relative overflow-hidden">
-      {/* Ambient glow */}
+      {/* Ambient glows */}
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-foreground/[0.015] rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
+        {/* Section header */}
         <ScrollReveal>
           <div className="flex items-center gap-4 mb-12">
             <div className="accent-dot animate-pulse" />
@@ -64,57 +70,96 @@ const Ventures = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
-          {ventures.map((venture, index) => {
-            const Icon = venture.icon;
-            return (
-              <ScrollReveal key={venture.name} delay={0.1 + index * 0.1}>
-                <div
-                  className={`group relative h-full overflow-hidden rounded-2xl glass glass-border-glow ${
-                    venture.highlight ? 'lg:col-span-2' : ''
-                  }`}
-                >
-                  {/* Hover spotlight */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-foreground/[0.04] rounded-full blur-[80px]" />
+        {/* Featured venture — full width */}
+        <ScrollReveal delay={0.15}>
+          <div className="group relative overflow-hidden rounded-2xl glass glass-border-glow mb-5">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-foreground/[0.05] rounded-full blur-[100px]" />
+            </div>
+
+            <div className="relative p-8 md:p-12 lg:p-14">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
+                {/* Left content */}
+                <div className="flex-1 max-w-2xl">
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="p-3 rounded-xl glass group-hover:shadow-[0_0_20px_hsl(0_0%_100%/0.1)] transition-all duration-500">
+                      <FeaturedIcon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
+                    </div>
+                    <span className="px-3 py-1.5 text-mono text-[10px] tracking-widest uppercase bg-foreground/[0.12] text-foreground rounded-full border border-foreground/[0.15] shadow-[0_0_15px_hsl(0_0%_100%/0.08)]">
+                      Featured
+                    </span>
+                    <span className="text-mono text-xs text-muted-foreground ml-auto">{featured.year}</span>
                   </div>
 
-                  <div className="relative p-8 md:p-10 h-full flex flex-col">
-                    <div className="flex items-start justify-between mb-8">
-                      <div className="p-3 rounded-xl glass group-hover:shadow-[0_0_20px_hsl(0_0%_100%/0.1)] transition-all duration-500">
-                        <Icon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
+                  <span className="text-mono text-xs text-muted-foreground/40 mb-2 block">01</span>
+                  <h3 className="text-display text-5xl md:text-7xl lg:text-8xl mb-6 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300">
+                    {featured.name}
+                  </h3>
+                  <p className="text-mono text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/60 transition-colors duration-300">
+                    {featured.description}
+                  </p>
+                </div>
+
+                {/* Right stats */}
+                <div className="flex lg:flex-col items-end justify-between lg:justify-start gap-6 lg:gap-10 lg:pt-16">
+                  <div>
+                    <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">Role</p>
+                    <p className="text-mono text-sm text-foreground/80 font-medium">{featured.role}</p>
+                  </div>
+                  <div className="text-right lg:text-left">
+                    <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">{featured.stats.label}</p>
+                    <p className="text-display text-4xl md:text-5xl text-foreground group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 origin-left">
+                      {featured.stats.value}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* Other ventures — 3-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+          {others.map((venture, index) => {
+            const Icon = venture.icon;
+            return (
+              <ScrollReveal key={venture.name} delay={0.2 + index * 0.1}>
+                <div className="group relative h-full overflow-hidden rounded-2xl glass glass-border-glow">
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                    <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-foreground/[0.04] rounded-full blur-[60px]" />
+                  </div>
+
+                  <div className="relative p-7 md:p-8 h-full flex flex-col">
+                    {/* Top row */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="p-2.5 rounded-lg glass group-hover:shadow-[0_0_15px_hsl(0_0%_100%/0.08)] transition-all duration-500">
+                        <Icon className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
                       </div>
-                      
-                      <div className="flex items-center gap-3">
-                        {venture.highlight && (
-                          <span className="px-3 py-1.5 text-mono text-[10px] tracking-widest uppercase bg-foreground/[0.12] text-foreground rounded-full border border-foreground/[0.15] shadow-[0_0_15px_hsl(0_0%_100%/0.08)]">
-                            Featured
-                          </span>
-                        )}
-                        <span className="text-mono text-xs text-muted-foreground">{venture.year}</span>
-                      </div>
+                      <span className="text-mono text-[11px] text-muted-foreground">{venture.year}</span>
                     </div>
 
-                    <div className="mb-6">
-                      <span className="text-mono text-xs text-muted-foreground/40 mb-2 block">0{index + 1}</span>
-                      <h3 className={`text-display text-4xl md:text-5xl ${venture.highlight ? 'lg:text-7xl' : ''} group-hover:text-foreground group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300`}>
-                        {venture.name}
-                      </h3>
-                    </div>
+                    {/* Name */}
+                    <span className="text-mono text-[10px] text-muted-foreground/40 mb-1 block">0{index + 2}</span>
+                    <h3 className="text-display text-3xl md:text-4xl mb-4 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300">
+                      {venture.name}
+                    </h3>
 
-                    <p className="text-mono text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/60 transition-colors duration-300 flex-1 mb-8">
+                    {/* Description */}
+                    <p className="text-mono text-xs text-muted-foreground leading-relaxed group-hover:text-foreground/60 transition-colors duration-300 flex-1 mb-6">
                       {venture.description}
                     </p>
 
-                    <div className="flex items-end justify-between pt-6 border-t border-foreground/[0.08]">
+                    {/* Footer */}
+                    <div className="flex items-end justify-between pt-5 border-t border-foreground/[0.08]">
                       <div>
-                        <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">Role</p>
-                        <p className="text-mono text-sm text-foreground/80 font-medium">{venture.role}</p>
+                        <p className="text-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest mb-1">Role</p>
+                        <p className="text-mono text-xs text-foreground/80">{venture.role}</p>
                       </div>
-                      
                       <div className="text-right">
-                        <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">{venture.stats.label}</p>
-                        <p className="text-display text-2xl md:text-3xl text-foreground group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 origin-right">{venture.stats.value}</p>
+                        <p className="text-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest mb-1">{venture.stats.label}</p>
+                        <p className="text-display text-2xl text-foreground group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 origin-right">
+                          {venture.stats.value}
+                        </p>
                       </div>
                     </div>
                   </div>
