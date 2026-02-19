@@ -11,7 +11,6 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
     const animate = (now: number) => {
       const elapsed = now - start;
       const p = Math.min(elapsed / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - p, 3);
       setProgress(eased * 100);
 
@@ -30,12 +29,17 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center transition-opacity duration-500 ${
-        fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      className={`fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center transition-all duration-700 ${
+        fadeOut ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
+      {/* Ambient glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[300px] h-[300px] rounded-full bg-foreground/[0.02] blur-[100px] animate-breathe" />
+      </div>
+
       {/* Logo / Name */}
-      <div className="mb-12 overflow-hidden">
+      <div className="mb-12 overflow-hidden relative">
         <h1
           className="text-display text-4xl md:text-6xl font-bold tracking-[-0.04em] text-foreground"
           style={{
@@ -46,16 +50,16 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
         </h1>
       </div>
 
-      {/* Progress bar */}
-      <div className="w-48 h-px bg-foreground/10 relative overflow-hidden">
+      {/* Progress bar - glass style */}
+      <div className="w-48 h-px bg-foreground/[0.06] relative overflow-hidden rounded-full">
         <div
-          className="absolute inset-y-0 left-0 bg-foreground/60 transition-none"
-          style={{ width: `${progress}%` }}
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-foreground/40 to-foreground/60 rounded-full"
+          style={{ width: `${progress}%`, transition: 'width 0.05s linear' }}
         />
       </div>
 
       {/* Percentage */}
-      <p className="text-mono text-xs tracking-[0.2em] text-muted-foreground mt-4 tabular-nums">
+      <p className="text-mono text-xs tracking-[0.2em] text-muted-foreground/60 mt-4 tabular-nums">
         {Math.round(progress)}%
       </p>
 

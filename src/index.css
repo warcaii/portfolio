@@ -9,10 +9,10 @@
     --background: 0 0% 2%;
     --foreground: 0 0% 95%;
 
-    --card: 0 0% 5%;
+    --card: 0 0% 6%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 5%;
+    --popover: 0 0% 6%;
     --popover-foreground: 0 0% 95%;
 
     --primary: 0 0% 95%;
@@ -34,20 +34,34 @@
     --input: 0 0% 14%;
     --ring: 0 0% 95%;
 
-    --radius: 0px;
+    --radius: 12px;
 
     /* Custom tokens */
     --font-display: 'Syne', sans-serif;
     --font-mono: 'Space Grotesk', sans-serif;
     
-    --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* Gradient tokens */
-    --gradient-accent: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 70%));
-    --gradient-glow: radial-gradient(circle at center, hsl(0 0% 95% / 0.12), transparent 70%);
+    /* Glassmorphism tokens */
+    --glass-bg: hsl(0 0% 100% / 0.04);
+    --glass-bg-hover: hsl(0 0% 100% / 0.08);
+    --glass-border: hsl(0 0% 100% / 0.08);
+    --glass-border-hover: hsl(0 0% 100% / 0.15);
+    --glass-blur: 20px;
+    --glass-blur-heavy: 40px;
     
-    /* RGB version for glow effects */
+    /* Glow tokens */
+    --glow-soft: 0 0 40px hsl(0 0% 100% / 0.06);
+    --glow-medium: 0 0 60px hsl(0 0% 100% / 0.1), 0 0 120px hsl(0 0% 100% / 0.04);
+    --glow-strong: 0 0 80px hsl(0 0% 100% / 0.15), 0 0 160px hsl(0 0% 100% / 0.06);
+    
+    /* Gradient tokens */
+    --gradient-accent: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 60%));
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.08), hsl(0 0% 100% / 0.02));
+    --gradient-glow: radial-gradient(circle at center, hsl(0 0% 95% / 0.08), transparent 70%);
+    
+    /* RGB version for effects */
     --accent-rgb: 204, 204, 204;
   }
 
@@ -69,13 +83,13 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     font-weight: 700;
   }
 
   ::selection {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
+    background: hsl(var(--foreground) / 0.2);
+    color: hsl(var(--foreground));
   }
 }
 
@@ -95,47 +109,85 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+}
 
-  .hover-lift {
+@layer components {
+  .section-padding {
+    @apply px-6 md:px-12 lg:px-24;
+  }
+
+  /* Glass card system */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
     transition: var(--transition-smooth);
   }
-  
-  .hover-lift:hover {
-    transform: translateY(-8px);
+
+  .glass:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    box-shadow: var(--glow-soft);
   }
 
-  .hover-glow {
-    transition: var(--transition-smooth);
+  .glass-heavy {
+    background: hsl(0 0% 100% / 0.06);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+    border: 1px solid hsl(0 0% 100% / 0.1);
   }
 
-  .hover-glow:hover {
-    box-shadow: 0 0 40px hsl(var(--accent) / 0.3);
+  .glass-nav {
+    background: hsl(0 0% 4% / 0.7);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+    border: 1px solid hsl(0 0% 100% / 0.06);
   }
 
-  .border-reveal {
+  /* Animated border gradient */
+  .glass-glow {
     position: relative;
+    overflow: hidden;
   }
 
-  .border-reveal::after {
+  .glass-glow::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: hsl(var(--accent));
-    transition: var(--transition-smooth);
+    inset: -1px;
+    background: conic-gradient(from var(--border-angle, 0deg), transparent 60%, hsl(0 0% 100% / 0.15) 80%, transparent 100%);
+    animation: border-rotate 4s linear infinite;
+    border-radius: inherit;
+    z-index: -1;
   }
 
-  .border-reveal:hover::after {
-    width: 100%;
+  .glass-glow::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: hsl(var(--background));
+    border-radius: inherit;
+    z-index: -1;
   }
 
-  .glow-accent {
-    box-shadow: 0 0 60px hsl(var(--accent) / 0.2),
-                0 0 100px hsl(var(--accent) / 0.1);
+  @keyframes border-rotate {
+    to { --border-angle: 360deg; }
   }
 
+  @property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* Accent dot */
+  .accent-dot {
+    @apply w-2 h-2 rounded-full;
+    background: hsl(var(--foreground));
+    box-shadow: 0 0 12px hsl(0 0% 100% / 0.4), 0 0 24px hsl(0 0% 100% / 0.15);
+  }
+
+  /* Noise overlay */
   .noise-overlay {
     position: relative;
   }
@@ -147,127 +199,34 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.03;
     pointer-events: none;
-  }
-}
-
-@layer components {
-  .section-padding {
-    @apply px-6 md:px-12 lg:px-24;
+    z-index: 0;
   }
 
-  .grid-lines {
-    background-image: 
-      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 60px 60px;
+  /* Letter stroke styles for hero */
+  .letter-stroke {
+    position: relative;
   }
-
-  .accent-dot {
-    @apply w-2 h-2 rounded-full bg-accent;
-    box-shadow: 0 0 12px hsl(var(--accent));
+  
+  .letter-outline {
+    -webkit-text-stroke: 1.5px hsl(var(--foreground));
+    color: transparent;
+    transition: opacity 0.5s ease;
   }
-
-  .card-hover {
-    @apply border border-border bg-card transition-all duration-500;
+  
+  .letter-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: hsl(var(--foreground));
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
   }
-
-  .card-hover:hover {
-    @apply border-accent;
-    box-shadow: 0 0 30px hsl(var(--accent) / 0.1);
+  
+  .letter-stroke:hover .letter-fill {
+    clip-path: inset(0 0 0 0);
   }
-
-  /* Animated lines */
-  @keyframes line-pulse {
-    0%, 100% {
-      opacity: 0.6;
-      transform: scaleX(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scaleX(1.05);
-    }
-  }
-
-  @keyframes line-flow {
-    0% {
-      opacity: 0.4;
-      transform: scaleY(0.9);
-    }
-    50% {
-      opacity: 1;
-      transform: scaleY(1);
-    }
-    100% {
-      opacity: 0.4;
-      transform: scaleY(0.9);
-    }
-  }
-
-  .animate-line-pulse {
-    animation: line-pulse 3s ease-in-out infinite;
-    transform-origin: left;
-  }
-
-  .animate-line-flow {
-    animation: line-flow 2s ease-in-out infinite;
-    transform-origin: top;
-  }
-
-  @keyframes letter-float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-4px);
-    }
-  }
-
-  .animate-letter-float {
-    animation: letter-float 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse-slow {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-
-  .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
-  }
-
-  /* Slide animations for About section */
-  @keyframes slideDown {
-    0% {
-      opacity: 0;
-      transform: translateY(-40px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideUp {
-    0% {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-12px);
-    }
+  
+  .letter-stroke:hover .letter-outline {
+    opacity: 0.3;
   }
 }

@@ -28,25 +28,24 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-32 md:py-48 section-padding relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-2xl" />
+      {/* Ambient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] animate-breathe" />
+        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-foreground/[0.015] rounded-full blur-[100px] animate-breathe" style={{ animationDelay: '2s' }} />
       </div>
       
       <div className="max-w-6xl mx-auto relative">
         {/* Section Header */}
         <ScrollReveal>
-          <div className="flex items-center gap-6 mb-16">
+          <div className="flex items-center gap-4 mb-16">
             <div className="accent-dot animate-pulse" />
-            <span className="text-mono text-xs tracking-widest uppercase text-accent">04 — Contact</span>
-            <div className="h-px flex-1 bg-border animate-line-pulse" />
+            <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">04 — Contact</span>
+            <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 to-transparent" />
           </div>
         </ScrollReveal>
 
-        {/* Main Content */}
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-20">
-          {/* Left - Big CTA */}
+          {/* Left - CTA */}
           <div className="lg:col-span-3">
             <ScrollReveal delay={0.1} direction="left">
               <div className="relative">
@@ -57,7 +56,7 @@ const Contact = () => {
                   <br />
                   <span className="relative inline-block">
                     AMAZING
-                    <Sparkles className="absolute -top-2 -right-8 w-6 h-6 text-accent animate-pulse" />
+                    <Sparkles className="absolute -top-2 -right-8 w-6 h-6 text-muted-foreground animate-pulse" />
                   </span>
                 </h2>
                 
@@ -66,13 +65,13 @@ const Contact = () => {
                   I'm always open to discussing new ideas and creative opportunities.
                 </p>
 
-                {/* Primary CTA */}
+                {/* CTA Button */}
                 <a
                   href="mailto:warcai@duck.com"
-                  className="group inline-flex items-center gap-4 px-8 py-4 bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition-all hover:scale-105"
+                  className="group inline-flex items-center gap-4 px-8 py-4 glass rounded-full hover:bg-foreground/[0.1] hover:shadow-[0_0_40px_hsl(0_0%_100%/0.08)] transition-all duration-500"
                 >
-                  <span className="text-mono font-medium">Start a conversation</span>
-                  <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  <span className="text-mono font-medium text-foreground">Start a conversation</span>
+                  <ArrowUpRight className="w-5 h-5 text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                 </a>
               </div>
             </ScrollReveal>
@@ -81,50 +80,43 @@ const Contact = () => {
           {/* Right - Social Cards */}
           <div className="lg:col-span-2">
             <ScrollReveal delay={0.2} direction="right">
-              <div className="space-y-4">
-                {socials.map((social, index) => (
+              <div className="space-y-3">
+                {socials.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target={social.external ? "_blank" : undefined}
                     rel={social.external ? "noopener noreferrer" : undefined}
-                    className="group relative block p-6 border border-border rounded-2xl bg-card/50 backdrop-blur-sm hover:border-accent/50 hover:bg-accent/5 transition-all duration-300"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="group relative block p-5 glass rounded-2xl hover:shadow-[0_0_30px_hsl(0_0%_100%/0.05)] transition-all duration-300"
                   >
-                    {/* Corner accent */}
-                    <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden rounded-tr-2xl">
-                      <div className="absolute top-0 right-0 w-px h-8 bg-gradient-to-b from-accent/50 to-transparent group-hover:h-12 transition-all" />
-                      <div className="absolute top-0 right-0 h-px w-8 bg-gradient-to-l from-accent/50 to-transparent group-hover:w-12 transition-all" />
-                    </div>
-
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                          <social.icon className="w-5 h-5 text-accent" />
+                        <div className="w-11 h-11 rounded-xl bg-foreground/[0.04] border border-foreground/[0.06] flex items-center justify-center group-hover:bg-foreground/[0.08] transition-colors duration-300">
+                          <social.icon className="w-4.5 h-4.5 text-muted-foreground group-hover:text-foreground transition-colors" />
                         </div>
                         <div>
-                          <p className="text-mono text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                          <p className="text-mono text-[10px] text-muted-foreground/60 uppercase tracking-wider mb-0.5">
                             {social.label}
                           </p>
-                          <p className="text-foreground font-medium group-hover:text-accent transition-colors">
+                          <p className="text-foreground/80 font-medium group-hover:text-foreground transition-colors text-sm">
                             {social.value}
                           </p>
                         </div>
                       </div>
-                      <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                     </div>
                   </a>
                 ))}
               </div>
             </ScrollReveal>
 
-            {/* Availability indicator */}
+            {/* Availability */}
             <ScrollReveal delay={0.3} direction="right">
-              <div className="mt-8 p-4 border border-dashed border-accent/30 rounded-xl">
+              <div className="mt-6 p-4 glass rounded-xl border-dashed">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-3 h-3 rounded-full bg-accent" />
-                    <div className="absolute inset-0 w-3 h-3 rounded-full bg-accent animate-ping" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/60" />
+                    <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-foreground/40 animate-ping" />
                   </div>
                   <span className="text-mono text-sm text-muted-foreground">
                     Currently available for new projects
