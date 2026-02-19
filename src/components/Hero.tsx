@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, useCallback, lazy, Suspense } from 'react';
 import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
@@ -26,6 +26,12 @@ const FloatingParticles = () => (
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [waveOrigin, setWaveOrigin] = useState<number | null>(null);
+
+  const triggerWave = useCallback((index: number) => {
+    setWaveOrigin(index);
+    setTimeout(() => setWaveOrigin(null), 800);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -207,15 +213,37 @@ const Hero = () => {
             }`}
             style={{ transitionDelay: '0.2s' }}
           >
-            {'DEVANSH'.split('').map((letter, i) => (
-              <span 
-                key={i} 
-                className="letter-stroke inline-block cursor-default relative"
-              >
-                <span className="letter-outline">{letter}</span>
-                <span className="letter-fill">{letter}</span>
-              </span>
-            ))}
+            {'DEVANSH'.split('').map((letter, i) => {
+              const distance = waveOrigin !== null ? Math.abs(i - waveOrigin) : -1;
+              const isWaving = distance >= 0;
+              const delay = distance * 0.06;
+              return (
+                <span 
+                  key={i} 
+                  className="inline-block cursor-default relative transition-all"
+                  onMouseEnter={() => triggerWave(i)}
+                  style={{
+                    transform: isWaving 
+                      ? undefined 
+                      : 'translateY(0)',
+                    animation: isWaving 
+                      ? `letterWave 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s both`
+                      : 'none',
+                    color: 'hsl(var(--foreground))',
+                    textShadow: isWaving && distance <= 1
+                      ? '0 0 30px hsl(0 0% 100% / 0.5), 0 0 60px hsl(0 0% 100% / 0.2)'
+                      : '0 0 20px hsl(0 0% 100% / 0.1)',
+                    filter: isWaving && distance <= 1
+                      ? 'brightness(1.3)'
+                      : 'brightness(1)',
+                    transition: 'text-shadow 0.3s ease, filter 0.3s ease',
+                    WebkitTextStroke: '2px hsl(var(--foreground))',
+                  }}
+                >
+                  {letter}
+                </span>
+              );
+            })}
           </h1>
           
           {/* Animated underline */}
