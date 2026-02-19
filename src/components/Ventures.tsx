@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/hooks/useScrollReveal';
 import { Rocket, Users, Palette, Award } from 'lucide-react';
+import { useState } from 'react';
 
 const ventures = [
   {
@@ -38,12 +39,16 @@ const ventures = [
 ];
 
 const Ventures = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   return (
     <section id="ventures" className="py-32 md:py-48 section-padding relative overflow-hidden">
-      {/* Ambient glow */}
+      {/* Ambient glows */}
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-foreground/[0.015] rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
+        {/* Section header */}
         <ScrollReveal>
           <div className="flex items-center gap-4 mb-12">
             <div className="accent-dot animate-pulse" />
@@ -64,58 +69,95 @@ const Ventures = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
+        {/* Venture list — stacked rows */}
+        <div className="space-y-0">
           {ventures.map((venture, index) => {
             const Icon = venture.icon;
+            const isActive = activeIndex === index;
+
             return (
-              <ScrollReveal key={venture.name} delay={0.1 + index * 0.1}>
+              <ScrollReveal key={venture.name} delay={0.1 + index * 0.08}>
                 <div
-                  className={`group relative h-full overflow-hidden rounded-2xl glass glass-border-glow ${
-                    venture.highlight ? 'lg:col-span-2' : ''
-                  }`}
+                  className="group relative cursor-default"
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
                 >
-                  {/* Hover spotlight */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-foreground/[0.04] rounded-full blur-[80px]" />
+                  {/* Expanded content panel */}
+                  <div
+                    className="overflow-hidden transition-all duration-500 ease-out"
+                    style={{
+                      maxHeight: isActive ? '280px' : '0px',
+                      opacity: isActive ? 1 : 0,
+                    }}
+                  >
+                    <div className="pt-6 pb-2 px-1">
+                      <div className="glass rounded-2xl p-6 md:p-8">
+                        <div className="flex flex-col md:flex-row md:items-start gap-6">
+                          <p className="text-mono text-sm text-muted-foreground leading-relaxed flex-1 max-w-xl">
+                            {venture.description}
+                          </p>
+                          <div className="flex gap-8 md:gap-12 shrink-0">
+                            <div>
+                              <p className="text-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest mb-1">Role</p>
+                              <p className="text-mono text-sm text-foreground/80 font-medium">{venture.role}</p>
+                            </div>
+                            <div>
+                              <p className="text-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest mb-1">{venture.stats.label}</p>
+                              <p className="text-display text-3xl text-foreground">{venture.stats.value}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="relative p-8 md:p-10 h-full flex flex-col">
-                    <div className="flex items-start justify-between mb-8">
-                      <div className="p-3 rounded-xl glass group-hover:shadow-[0_0_20px_hsl(0_0%_100%/0.1)] transition-all duration-500">
-                        <Icon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
-                      </div>
-                      
-                      <div className="flex items-center gap-3">
-                        {venture.highlight && (
-                          <span className="px-3 py-1.5 text-mono text-[10px] tracking-widest uppercase bg-foreground/[0.12] text-foreground rounded-full border border-foreground/[0.15] shadow-[0_0_15px_hsl(0_0%_100%/0.08)]">
-                            Featured
-                          </span>
-                        )}
-                        <span className="text-mono text-xs text-muted-foreground">{venture.year}</span>
-                      </div>
+                  {/* Main row */}
+                  <div className="relative py-6 md:py-8 border-b border-foreground/[0.08] flex items-center gap-4 md:gap-8 transition-all duration-300">
+                    {/* Hover glow behind row */}
+                    <div
+                      className="absolute inset-0 -mx-4 rounded-xl transition-opacity duration-500 pointer-events-none"
+                      style={{
+                        opacity: isActive ? 1 : 0,
+                        background: 'linear-gradient(90deg, hsl(0 0% 100% / 0.03), transparent 60%)',
+                      }}
+                    />
+
+                    {/* Number */}
+                    <span className="text-mono text-xs text-muted-foreground/30 w-8 shrink-0 relative">
+                      0{index + 1}
+                    </span>
+
+                    {/* Icon */}
+                    <div className="relative p-2.5 rounded-lg glass shrink-0 group-hover:shadow-[0_0_15px_hsl(0_0%_100%/0.08)] transition-all duration-500">
+                      <Icon className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
                     </div>
 
-                    <div className="mb-6">
-                      <span className="text-mono text-xs text-muted-foreground/40 mb-2 block">0{index + 1}</span>
-                      <h3 className={`text-display text-4xl md:text-5xl ${venture.highlight ? 'lg:text-7xl' : ''} group-hover:text-foreground group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300`}>
-                        {venture.name}
-                      </h3>
+                    {/* Name */}
+                    <h3 className="relative text-display text-3xl md:text-5xl lg:text-6xl flex-1 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-300">
+                      {venture.name}
+                    </h3>
+
+                    {/* Tags */}
+                    <div className="relative hidden md:flex items-center gap-3">
+                      {venture.highlight && (
+                        <span className="px-3 py-1.5 text-mono text-[10px] tracking-widest uppercase bg-foreground/[0.12] text-foreground rounded-full border border-foreground/[0.15] shadow-[0_0_15px_hsl(0_0%_100%/0.08)]">
+                          Featured
+                        </span>
+                      )}
+                      <span className="text-mono text-xs text-muted-foreground">{venture.year}</span>
                     </div>
 
-                    <p className="text-mono text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/60 transition-colors duration-300 flex-1 mb-8">
-                      {venture.description}
-                    </p>
-
-                    <div className="flex items-end justify-between pt-6 border-t border-foreground/[0.08]">
-                      <div>
-                        <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">Role</p>
-                        <p className="text-mono text-sm text-foreground/80 font-medium">{venture.role}</p>
-                      </div>
-                      
-                      <div className="text-right">
-                        <p className="text-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest mb-1">{venture.stats.label}</p>
-                        <p className="text-display text-2xl md:text-3xl text-foreground group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 origin-right">{venture.stats.value}</p>
-                      </div>
+                    {/* Arrow indicator */}
+                    <div
+                      className="relative w-8 h-8 rounded-full border border-foreground/[0.1] flex items-center justify-center shrink-0 transition-all duration-300"
+                      style={{
+                        transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)',
+                        borderColor: isActive ? 'hsl(0 0% 100% / 0.25)' : undefined,
+                      }}
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                        <path d="M5 2L5 8M5 8L2 5M5 8L8 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -123,6 +165,19 @@ const Ventures = () => {
             );
           })}
         </div>
+
+        {/* Bottom summary */}
+        <ScrollReveal delay={0.5}>
+          <div className="mt-16 flex items-center justify-between">
+            <p className="text-mono text-xs text-muted-foreground/40 tracking-wider uppercase">
+              4 ventures · 2021–2024
+            </p>
+            <div className="h-px flex-1 mx-8 bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
+            <p className="text-mono text-xs text-muted-foreground/40 tracking-wider uppercase">
+              Hover to explore
+            </p>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
