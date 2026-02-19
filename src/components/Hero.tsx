@@ -203,7 +203,7 @@ const Hero = () => {
             }}
           />
           <h1 
-            className={`relative text-display text-[4rem] sm:text-[7rem] md:text-[9rem] lg:text-[12rem] font-bold leading-[0.85] tracking-[-0.04em] transition-all duration-1000 ${
+            className={`relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] transition-all duration-1000 whitespace-nowrap ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '0.2s' }}
