@@ -37,90 +37,96 @@ const Hero = () => {
         <HeroScene />
       </Suspense>
 
-      {/* Subtle monochrome fog overlay */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: `
-          radial-gradient(ellipse 80% 50% at 20% 40%, hsla(0, 0%, 100%, 0.02) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 40% at 75% 60%, hsla(0, 0%, 100%, 0.015) 0%, transparent 60%)
-        `,
-      }} />
+      {/* Ambient glow orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div 
+          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[120px]"
+          style={{
+            background: 'radial-gradient(circle, hsl(0 0% 100%), transparent)',
+            top: '10%',
+            right: '-10%',
+            transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
+            transition: 'transform 0.8s ease-out',
+          }}
+        />
+        <div 
+          className="absolute w-[400px] h-[400px] rounded-full opacity-[0.03] blur-[100px]"
+          style={{
+            background: 'radial-gradient(circle, hsl(0 0% 100%), transparent)',
+            bottom: '10%',
+            left: '-5%',
+            transform: `translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)`,
+            transition: 'transform 1s ease-out',
+          }}
+        />
+      </div>
 
-      {/* Animated grid background */}
-      <div className="absolute inset-0 opacity-[0.03]">
+      {/* Floating glass orb - top right */}
+      <div 
+        className="absolute pointer-events-none hidden md:block"
+        style={{
+          top: '12%',
+          right: '8%',
+          transform: `translate(${mousePosition.x * 0.4}px, ${mousePosition.y * 0.4}px)`,
+          transition: 'transform 0.6s ease-out',
+        }}
+      >
+        <div className="w-24 h-24 rounded-full glass animate-float" style={{ animationDuration: '8s' }}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/[0.06] to-transparent" />
+          <div className="absolute inset-0 rounded-full border border-foreground/[0.08]" />
+        </div>
+        <div className="absolute -inset-4 rounded-full bg-foreground/[0.02] blur-2xl animate-breathe" />
+      </div>
+
+      {/* Floating glass ring - bottom left */}
+      <div 
+        className="absolute pointer-events-none hidden lg:block"
+        style={{
+          bottom: '18%',
+          left: '6%',
+          transform: `translate(${-mousePosition.x * 0.25}px, ${-mousePosition.y * 0.25}px)`,
+          transition: 'transform 0.7s ease-out',
+        }}
+      >
+        <div className="w-32 h-32 rounded-full border border-foreground/[0.06] animate-[spin_30s_linear_infinite]">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full glass shadow-[0_0_12px_hsl(0_0%_100%/0.3)]" />
+        </div>
+        <div className="absolute inset-4 rounded-full border border-dashed border-foreground/[0.03] animate-[spin_25s_linear_infinite_reverse]" />
+      </div>
+
+      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-[0.02]">
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
             linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: '80px 80px',
         }} />
       </div>
 
-      {/* Moon silhouette */}
-      <div 
-        className="absolute pointer-events-none hidden md:block"
-        style={{
-          top: '8%',
-          right: '5%',
-          transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`,
-          transition: 'transform 0.5s ease-out',
-        }}
-      >
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.06] relative overflow-hidden animate-[pulse_4s_ease-in-out_infinite]">
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/70" />
-        </div>
-        <div className="absolute -inset-4 rounded-full bg-foreground/[0.04] blur-xl animate-[pulse_3s_ease-in-out_infinite]" />
-        <div className="absolute -inset-8 rounded-full bg-foreground/[0.02] blur-2xl animate-[pulse_5s_ease-in-out_infinite_0.5s]" />
-      </div>
-
-      {/* Floating orbital ring */}
-      <div 
-        className="absolute pointer-events-none hidden lg:block"
-        style={{
-          bottom: '15%',
-          left: '8%',
-          transform: `translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
-          transition: 'transform 0.6s ease-out',
-        }}
-      >
-        <div className="w-28 h-28 rounded-full border border-foreground/[0.08] animate-[spin_20s_linear_infinite]">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-foreground/40 shadow-[0_0_8px_rgba(255,255,255,0.3)] animate-[pulse_2s_ease-in-out_infinite]" />
-        </div>
-        <div className="absolute inset-0 w-28 h-28 rounded-full border border-dashed border-foreground/[0.04] animate-[spin_35s_linear_infinite_reverse]" />
-        <div className="absolute -inset-4 rounded-full bg-foreground/[0.02] blur-xl animate-[pulse_4s_ease-in-out_infinite]" />
-      </div>
-
-      {/* Small scattered dots - star clusters */}
-      <div className="absolute top-[20%] left-[15%] w-1.5 h-1.5 rounded-full bg-foreground/25 pointer-events-none animate-[pulse_3s_ease-in-out_infinite] shadow-[0_0_6px_rgba(255,255,255,0.2)]" />
-      <div className="absolute top-[35%] right-[20%] w-1 h-1 rounded-full bg-foreground/20 pointer-events-none animate-[pulse_4s_ease-in-out_infinite_0.5s] shadow-[0_0_4px_rgba(255,255,255,0.15)]" />
-      <div className="absolute bottom-[30%] left-[25%] w-1.5 h-1.5 rounded-full bg-foreground/15 pointer-events-none animate-[pulse_5s_ease-in-out_infinite_1s] shadow-[0_0_6px_rgba(255,255,255,0.1)]" />
-      <div className="absolute top-[60%] right-[12%] w-1 h-1 rounded-full bg-foreground/25 pointer-events-none animate-[pulse_3.5s_ease-in-out_infinite_0.3s] shadow-[0_0_4px_rgba(255,255,255,0.2)]" />
-      <div className="absolute top-[45%] left-[8%] w-0.5 h-0.5 rounded-full bg-foreground/20 pointer-events-none animate-[pulse_2.5s_ease-in-out_infinite_0.7s] shadow-[0_0_3px_rgba(255,255,255,0.15)]" />
-      <div className="absolute bottom-[20%] right-[30%] w-1 h-1 rounded-full bg-foreground/15 pointer-events-none animate-[pulse_4.5s_ease-in-out_infinite_1.2s] shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
-
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
-        {/* Top line */}
+        {/* Top label */}
         <div 
-          className={`flex items-center justify-center gap-4 mb-12 mt-16 md:mt-0 transition-all duration-1000 ${
+          className={`flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0 transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ transitionDelay: '0.1s' }}
         >
-          <div className="w-12 h-px bg-foreground/30" />
-          <span className="text-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <div className="w-8 h-px bg-gradient-to-r from-transparent to-foreground/40" />
+          <span className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
             Creative Director
           </span>
-          <div className="w-12 h-px bg-foreground/30" />
+          <div className="w-8 h-px bg-gradient-to-l from-transparent to-foreground/40" />
         </div>
 
         {/* Main name */}
-        <div className="relative mb-8">
-          {/* Mouse-following glow */}
+        <div className="relative mb-10">
           <div 
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(600px circle at ${50 + mousePosition.x * 2}% ${50 + mousePosition.y * 2}%, hsl(var(--foreground) / 0.06), transparent 40%)`,
+              background: `radial-gradient(600px circle at ${50 + mousePosition.x * 2}% ${50 + mousePosition.y * 2}%, hsl(var(--foreground) / 0.04), transparent 40%)`,
               transition: 'background 0.15s ease-out',
             }}
           />
@@ -134,9 +140,6 @@ const Hero = () => {
               <span 
                 key={i} 
                 className="letter-stroke inline-block cursor-default relative"
-                style={{
-                  animationDelay: `${i * 0.08}s`,
-                }}
               >
                 <span className="letter-outline">{letter}</span>
                 <span className="letter-fill">{letter}</span>
@@ -146,8 +149,8 @@ const Hero = () => {
           
           {/* Underline accent */}
           <div 
-            className={`absolute -bottom-2 left-1/2 h-1 bg-foreground transition-all duration-1000 ease-out ${
-              mounted ? 'w-24 -translate-x-1/2' : 'w-0 -translate-x-1/2'
+            className={`absolute -bottom-2 left-1/2 h-[2px] bg-gradient-to-r from-transparent via-foreground to-transparent transition-all duration-1000 ease-out ${
+              mounted ? 'w-32 -translate-x-1/2' : 'w-0 -translate-x-1/2'
             }`}
             style={{ transitionDelay: '0.8s' }}
           />
@@ -166,9 +169,9 @@ const Hero = () => {
           <span className="text-foreground font-medium">AI</span>.
         </p>
 
-        {/* Stats row */}
+        {/* Stats row - glass cards */}
         <div 
-          className={`mt-20 flex items-center justify-center gap-8 md:gap-16 transition-all duration-1000 ${
+          className={`mt-20 flex items-center justify-center gap-4 md:gap-6 transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ transitionDelay: '0.8s' }}
@@ -178,88 +181,28 @@ const Hero = () => {
             { value: '04', label: 'Ventures' },
             { value: '∞', label: 'Ideas' },
           ].map((stat, index) => (
-            <div key={index} className="group text-center cursor-default relative">
-              <div className="absolute inset-0 -m-4 rounded-lg bg-foreground/0 group-hover:bg-foreground/[0.03] transition-all duration-500 scale-90 group-hover:scale-100" />
-              <p className="relative text-display text-4xl md:text-6xl font-bold text-foreground group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+            <div key={index} className="group glass rounded-xl px-6 py-5 md:px-8 md:py-6 cursor-default text-center min-w-[100px] md:min-w-[120px]">
+              <p className="text-display text-3xl md:text-5xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
                 {stat.value}
               </p>
-              <p className="relative text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/70 transition-colors duration-300">
+              <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/70 transition-colors duration-300">
                 {stat.label}
               </p>
-              <div className="w-0 group-hover:w-full h-px bg-foreground/20 mx-auto mt-3 transition-all duration-500" />
             </div>
           ))}
         </div>
-
       </div>
 
-      {/* Corner accents */}
+      {/* Scroll indicator */}
       <div 
-        className={`absolute top-8 left-8 transition-all duration-1000 ${
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 transition-all duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
-        style={{ transitionDelay: '1s' }}
+        style={{ transitionDelay: '1.2s' }}
       >
-        <div className="w-8 h-px bg-foreground/40" />
-        <div className="w-px h-8 bg-foreground/40" />
+        <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60">Scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-foreground/30 to-transparent animate-pulse" />
       </div>
-      <div 
-        className={`absolute top-8 right-8 transition-all duration-1000 ${
-          mounted ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ transitionDelay: '1s' }}
-      >
-        <div className="w-8 h-px bg-foreground/40 ml-auto" />
-        <div className="w-px h-8 bg-foreground/40 ml-auto" />
-      </div>
-      <div 
-        className={`absolute bottom-8 left-8 transition-all duration-1000 ${
-          mounted ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ transitionDelay: '1s' }}
-      >
-        <div className="w-px h-8 bg-foreground/40" />
-        <div className="w-8 h-px bg-foreground/40" />
-      </div>
-      <div 
-        className={`absolute bottom-8 right-8 transition-all duration-1000 ${
-          mounted ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ transitionDelay: '1s' }}
-      >
-        <div className="w-px h-8 bg-foreground/40 ml-auto" />
-        <div className="w-8 h-px bg-foreground/40 ml-auto" />
-      </div>
-
-      {/* Add keyframe animation */}
-      <style>{`
-        .letter-stroke {
-          position: relative;
-        }
-        
-        .letter-outline {
-          -webkit-text-stroke: 1.5px hsl(var(--foreground));
-          color: transparent;
-          transition: opacity 0.5s ease;
-        }
-        
-        .letter-fill {
-          position: absolute;
-          left: 0;
-          top: 0;
-          color: hsl(var(--foreground));
-          clip-path: inset(100% 0 0 0);
-          transition: clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        
-        .letter-stroke:hover .letter-fill {
-          clip-path: inset(0 0 0 0);
-        }
-        
-        .letter-stroke:hover .letter-outline {
-          opacity: 0.3;
-        }
-      `}</style>
     </section>
   );
 };
