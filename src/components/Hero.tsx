@@ -276,18 +276,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div 
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 transition-all duration-1000 ${
-          mounted ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ transitionDelay: '1.2s' }}
-      >
-        <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60">Scroll</span>
-        <div className="w-px h-10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 to-transparent animate-[pulse_2s_ease-in-out_infinite]" />
-        </div>
-      </div>
     </section>
   );
 };
