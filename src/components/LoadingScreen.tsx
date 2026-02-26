@@ -6,7 +6,7 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const duration = 3200;
+    const duration = 4160;
     const start = performance.now();
 
     const animate = (now: number) => {
