@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
@@ -23,10 +23,114 @@ const FloatingParticles = () => (
   </div>
 );
 
+// Magnetic letter that follows cursor with spring physics
+const MagneticLetter = ({ 
+  letter, 
+  index, 
+  totalLetters, 
+  mousePos, 
+  scrollY,
+  mounted 
+}: { 
+  letter: string; 
+  index: number; 
+  totalLetters: number;
+  mousePos: { x: number; y: number };
+  scrollY: number;
+  mounted: boolean;
+}) => {
+  const letterRef = useRef<HTMLSpanElement>(null);
+  const posRef = useRef({ x: 0, y: 0, rotation: 0, scale: 1 });
+  const velRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef<number>(0);
+
+  const animate = useCallback(() => {
+    if (!letterRef.current) return;
+    
+    const rect = letterRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const dx = mousePos.x - centerX;
+    const dy = mousePos.y - centerY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    const maxDist = 250;
+    const strength = Math.max(0, 1 - dist / maxDist);
+    
+    // Magnetic pull toward cursor
+    const targetX = dx * strength * 0.15;
+    const targetY = dy * strength * 0.12;
+    const targetRotation = (dx * strength * 0.05);
+    const targetScale = 1 + strength * 0.2;
+    
+    // Scroll-based scatter: each letter goes a different direction
+    const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);
+    const scatterAngle = ((index / totalLetters) * Math.PI * 2) + (index % 2 === 0 ? 0.5 : -0.3);
+    const scatterDist = scrollProgress * 400 * (1 + index * 0.15);
+    const scatterX = Math.cos(scatterAngle) * scatterDist;
+    const scatterY = Math.sin(scatterAngle) * scatterDist - scrollProgress * 200;
+    const scatterRotation = scrollProgress * (index % 2 === 0 ? 45 : -35) * (1 + index * 0.3);
+    const scatterScale = 1 - scrollProgress * 0.6;
+    const scatterOpacity = 1 - scrollProgress * 1.2;
+    
+    // Spring physics
+    const springK = 0.08;
+    const damping = 0.82;
+    
+    const finalTargetX = targetX + scatterX;
+    const finalTargetY = targetY + scatterY;
+    
+    velRef.current.x = (velRef.current.x + (finalTargetX - posRef.current.x) * springK) * damping;
+    velRef.current.y = (velRef.current.y + (finalTargetY - posRef.current.y) * springK) * damping;
+    
+    posRef.current.x += velRef.current.x;
+    posRef.current.y += velRef.current.y;
+    posRef.current.rotation += (targetRotation + scatterRotation - posRef.current.rotation) * 0.1;
+    posRef.current.scale += ((targetScale * scatterScale) - posRef.current.scale) * 0.1;
+    
+    letterRef.current.style.transform = `translate(${posRef.current.x}px, ${posRef.current.y}px) rotate(${posRef.current.rotation}deg) scale(${posRef.current.scale})`;
+    letterRef.current.style.opacity = `${Math.max(0, scatterOpacity)}`;
+    
+    // Glow intensity based on proximity
+    const glowIntensity = strength * 0.6;
+    letterRef.current.style.textShadow = glowIntensity > 0.05 
+      ? `0 0 ${30 * glowIntensity}px hsl(var(--foreground) / ${glowIntensity}), 0 0 ${60 * glowIntensity}px hsl(var(--foreground) / ${glowIntensity * 0.4})`
+      : 'none';
+    
+    rafRef.current = requestAnimationFrame(animate);
+  }, [mousePos, scrollY, index, totalLetters]);
+
+  useEffect(() => {
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [animate]);
+
+  // Cinematic entrance: staggered from different origins
+  const entranceDelay = 0.4 + index * 0.08;
+  const entranceOriginY = index % 2 === 0 ? -120 : 120;
+  const entranceOriginX = (index - totalLetters / 2) * 30;
+
+  return (
+    <span
+      ref={letterRef}
+      className="inline-block cursor-default will-change-transform select-none"
+      style={{
+        color: 'hsl(var(--foreground))',
+        animation: mounted ? `heroLetterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${entranceDelay}s both` : 'none',
+        ['--entrance-x' as string]: `${entranceOriginX}px`,
+        ['--entrance-y' as string]: `${entranceOriginY}px`,
+      }}
+    >
+      {letter}
+    </span>
+  );
+};
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoveredLetter, setHoveredLetter] = useState<number | null>(null);
+  const [rawMouse, setRawMouse] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -36,10 +140,13 @@ const Hero = () => {
         x: (e.clientX / window.innerWidth - 0.5) * 20,
         y: (e.clientY / window.innerHeight - 0.5) * 20,
       });
+      setRawMouse({ x: e.clientX, y: e.clientY });
     };
 
     const handleScroll = () => {
-      const progress = Math.min(window.scrollY / window.innerHeight, 1);
+      const y = window.scrollY;
+      setScrollY(y);
+      const progress = Math.min(y / window.innerHeight, 1);
       setScrollProgress(progress);
     };
 
@@ -50,6 +157,8 @@ const Hero = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const letters = 'DEVANSH'.split('');
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
@@ -63,7 +172,6 @@ const Hero = () => {
 
       {/* Large dramatic ambient glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Main top-right glow */}
         <div 
           className="absolute w-[800px] h-[800px] rounded-full"
           style={{
@@ -74,7 +182,6 @@ const Hero = () => {
             transition: 'transform 1s ease-out',
           }}
         />
-        {/* Bottom-left glow */}
         <div 
           className="absolute w-[600px] h-[600px] rounded-full"
           style={{
@@ -85,7 +192,6 @@ const Hero = () => {
             transition: 'transform 1.2s ease-out',
           }}
         />
-        {/* Center spotlight */}
         <div 
           className="absolute w-[500px] h-[500px] rounded-full"
           style={{
@@ -112,10 +218,8 @@ const Hero = () => {
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.12] backdrop-blur-sm" />
           <div className="absolute -inset-1 rounded-full border border-foreground/[0.04] animate-[spin_20s_linear_infinite]" />
           <div className="absolute -inset-3 rounded-full border border-dashed border-foreground/[0.03] animate-[spin_30s_linear_infinite_reverse]" />
-          {/* Inner glow */}
           <div className="absolute inset-2 rounded-full bg-foreground/[0.03] blur-sm" />
         </div>
-        {/* Glow ring */}
         <div className="absolute -inset-6 rounded-full bg-foreground/[0.03] blur-2xl animate-breathe" />
         <div className="absolute -inset-12 rounded-full bg-foreground/[0.015] blur-3xl animate-breathe" style={{ animationDelay: '1s' }} />
       </div>
@@ -180,10 +284,10 @@ const Hero = () => {
       <div className="relative z-10 text-center px-6 max-w-5xl">
         {/* Top label */}
         <div 
-          className={`flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0 transition-all duration-1000 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ transitionDelay: '0.1s' }}
+          className="flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0"
+          style={{
+            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' : 'none',
+          }}
         >
           <div className="w-10 h-px bg-gradient-to-r from-transparent to-foreground/50" />
           <span className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
@@ -192,7 +296,7 @@ const Hero = () => {
           <div className="w-10 h-px bg-gradient-to-l from-transparent to-foreground/50" />
         </div>
 
-        {/* Main name */}
+        {/* Main name - Magnetic Letters */}
         <div className="relative mb-10">
           {/* Cursor-following spotlight */}
           <div 
@@ -202,37 +306,25 @@ const Hero = () => {
               transition: 'background 0.15s ease-out',
             }}
           />
-          <h1 
-            className={`relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] transition-all duration-1000 whitespace-nowrap ${
-              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-            }`}
-            style={{ transitionDelay: '0.2s' }}
-          >
-            {'DEVANSH'.split('').map((letter, i) => (
-              <span 
-                key={i} 
-                className="inline-block cursor-default relative"
-                onMouseEnter={() => setHoveredLetter(i)}
-                onMouseLeave={() => setHoveredLetter(null)}
-                style={{
-                  color: 'hsl(var(--foreground))',
-                  opacity: hoveredLetter === null ? 1 : hoveredLetter === i ? 1 : 0.3,
-                  transform: hoveredLetter === i ? 'translateY(-4px)' : 'translateY(0)',
-                  transition: 'opacity 0.4s ease, transform 0.4s ease',
-                }}
-              >
-                {letter}
-              </span>
+          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap">
+            {letters.map((letter, i) => (
+              <MagneticLetter 
+                key={i}
+                letter={letter}
+                index={i}
+                totalLetters={letters.length}
+                mousePos={rawMouse}
+                scrollY={scrollY}
+                mounted={mounted}
+              />
             ))}
           </h1>
           
           {/* Animated underline */}
           <div 
-            className={`absolute -bottom-3 left-1/2 h-[2px] transition-all duration-1200 ease-out ${
-              mounted ? 'w-40 -translate-x-1/2' : 'w-0 -translate-x-1/2'
-            }`}
+            className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-[2px]"
             style={{ 
-              transitionDelay: '0.8s',
+              animation: mounted ? 'heroLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both' : 'none',
               background: 'linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.8), transparent)',
               boxShadow: '0 0 20px hsl(0 0% 100% / 0.3), 0 0 40px hsl(0 0% 100% / 0.1)',
             }}
@@ -241,10 +333,10 @@ const Hero = () => {
 
         {/* Subtitle */}
         <p 
-          className={`text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed transition-all duration-1000 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ transitionDelay: '0.6s' }}
+          className="text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed"
+          style={{
+            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
+          }}
         >
           Building at the intersection of{' '}
           <span className="text-foreground font-medium">design</span>,{' '}
@@ -252,12 +344,12 @@ const Hero = () => {
           <span className="text-foreground font-medium">AI</span>.
         </p>
 
-        {/* Stats row - glass cards with glow borders */}
+        {/* Stats row */}
         <div 
-          className={`mt-20 flex items-center justify-center gap-4 md:gap-6 transition-all duration-1000 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '0.8s' }}
+          className="mt-20 flex items-center justify-center gap-4 md:gap-6"
+          style={{
+            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
+          }}
         >
           {[
             { value: '03', label: 'Years' },
