@@ -1,23 +1,4 @@
-import { useTheme } from '@/hooks/useTheme';
-
 const SpaceDivider = ({ variant = 'orbit' }: { variant?: 'orbit' | 'constellation' | 'planet' }) => {
-  const { theme } = useTheme();
-
-  // Brutalist divider for glacier theme
-  if (theme === 'glacier') {
-    return (
-      <div className="relative py-16 flex items-center justify-center overflow-hidden">
-        <div className="flex items-center gap-6 w-full max-w-xl mx-auto px-6">
-          <div className="flex-1 h-[2px] bg-foreground" />
-          <div className="w-3 h-3 bg-accent rotate-45" />
-          <div className="w-2 h-2 bg-foreground" />
-          <div className="w-3 h-3 bg-accent rotate-45" />
-          <div className="flex-1 h-[2px] bg-foreground" />
-        </div>
-      </div>
-    );
-  }
-
   if (variant === 'orbit') {
     return (
       <div className="relative py-24 flex items-center justify-center overflow-hidden">

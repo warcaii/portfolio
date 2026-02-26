@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useTheme } from '@/hooks/useTheme';
 
 export const ParticleField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -11,11 +9,6 @@ export const ParticleField = () => {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    if (theme === 'glacier') {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      return;
-    }
 
     let animationId: number;
     let time = 0;
@@ -28,6 +21,7 @@ export const ParticleField = () => {
     resize();
     window.addEventListener('resize', resize);
 
+    // Minimal floating orbs
     const orbs = [
       { x: 0.7, y: 0.3, radius: 300, speed: 0.0003, phase: 0 },
       { x: 0.3, y: 0.7, radius: 250, speed: 0.0004, phase: Math.PI },
@@ -43,8 +37,10 @@ export const ParticleField = () => {
         const y = canvas.height * orb.y + Math.cos(time * orb.speed * 1.5 + orb.phase) * 80;
         
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, orb.radius);
+        
+        // Electric blue with very low opacity
         const alpha = 0.06 + Math.sin(time * 0.001 + i) * 0.02;
-        const hue = [210, 260, 195][i];
+        const hue = [210, 260, 195][i]; // blue, purple, cyan
         gradient.addColorStop(0, `hsla(${hue}, 80%, 50%, ${alpha})`);
         gradient.addColorStop(0.5, `hsla(${hue}, 80%, 50%, ${alpha * 0.4})`);
         gradient.addColorStop(1, 'transparent');
@@ -53,6 +49,7 @@ export const ParticleField = () => {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       });
 
+      // Add subtle grid dots
       ctx.fillStyle = 'hsla(210, 80%, 60%, 0.12)';
       const dotSpacing = 80;
       const dotSize = 1;
@@ -77,9 +74,7 @@ export const ParticleField = () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
     };
-  }, [theme]);
-
-  if (theme === 'glacier') return null;
+  }, []);
 
   return (
     <canvas

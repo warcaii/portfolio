@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Snowflake } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useTheme } from "@/hooks/useTheme";
 
@@ -63,7 +63,7 @@ const Navigation = () => {
               className="ml-2 p-2 rounded-lg hover:bg-foreground/[0.05] transition-all duration-300 text-muted-foreground hover:text-foreground"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === "dark" ? <Snowflake className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
 
@@ -74,7 +74,7 @@ const Navigation = () => {
               className="p-2 rounded-lg hover:bg-foreground/[0.05] transition-all duration-300 text-muted-foreground hover:text-foreground"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === "dark" ? <Snowflake className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
