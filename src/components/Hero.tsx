@@ -1,27 +1,33 @@
 import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { setScrollProgress } from './HeroScene';
+import { useTheme } from '@/hooks/useTheme';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
-const FloatingParticles = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {Array.from({ length: 20 }).map((_, i) => (
-      <div
-        key={i}
-        className="absolute rounded-full"
-        style={{
-          width: `${Math.random() * 3 + 1}px`,
-          height: `${Math.random() * 3 + 1}px`,
-          left: `${Math.random() * 100}%`,
-          background: `hsl(0 0% 100% / ${Math.random() * 0.3 + 0.1})`,
-          boxShadow: `0 0 ${Math.random() * 10 + 4}px hsl(0 0% 100% / ${Math.random() * 0.2 + 0.05})`,
-          animation: `floatUp ${Math.random() * 15 + 10}s linear infinite`,
-          animationDelay: `${Math.random() * 15}s`,
-        }}
-      />
-    ))}
-  </div>
-);
+const FloatingParticles = () => {
+  const { theme } = useTheme();
+  if (theme === 'glacier') return null;
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: `${Math.random() * 3 + 1}px`,
+            height: `${Math.random() * 3 + 1}px`,
+            left: `${Math.random() * 100}%`,
+            background: `hsl(0 0% 100% / ${Math.random() * 0.3 + 0.1})`,
+            boxShadow: `0 0 ${Math.random() * 10 + 4}px hsl(0 0% 100% / ${Math.random() * 0.2 + 0.05})`,
+            animation: `floatUp ${Math.random() * 15 + 10}s linear infinite`,
+            animationDelay: `${Math.random() * 15}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 // Magnetic letter that follows cursor with spring physics
 const MagneticLetter = ({ 
@@ -127,10 +133,12 @@ const MagneticLetter = ({
   );
 };
 const Hero = () => {
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [rawMouse, setRawMouse] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
+  const isGlacier = theme === 'glacier';
 
   useEffect(() => {
     setMounted(true);
@@ -162,88 +170,95 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
-      {/* 3D Scene */}
-      <Suspense fallback={null}>
-        <HeroScene />
-      </Suspense>
+      {/* 3D Scene - hide in glacier */}
+      {!isGlacier && (
+        <Suspense fallback={null}>
+          <HeroScene />
+        </Suspense>
+      )}
 
       {/* Floating particles */}
       <FloatingParticles />
 
-      {/* Large dramatic ambient glows */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div 
-          className="absolute w-[800px] h-[800px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(0 0% 100% / 0.07), hsl(0 0% 100% / 0.02) 40%, transparent 70%)',
-            top: '-15%',
-            right: '-15%',
-            transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * 0.6}px)`,
-            transition: 'transform 1s ease-out',
-          }}
-        />
-        <div 
-          className="absolute w-[600px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(0 0% 100% / 0.05), transparent 60%)',
-            bottom: '-10%',
-            left: '-10%',
-            transform: `translate(${-mousePosition.x * 0.4}px, ${-mousePosition.y * 0.4}px)`,
-            transition: 'transform 1.2s ease-out',
-          }}
-        />
-        <div 
-          className="absolute w-[500px] h-[500px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(0 0% 100% / 0.04), transparent 50%)',
-            top: '30%',
-            left: '40%',
-            transform: `translate(${mousePosition.x * 1.5}px, ${mousePosition.y * 1.5}px)`,
-            transition: 'transform 0.3s ease-out',
-          }}
-        />
-      </div>
-
-      {/* Floating glass orb - large, top right */}
-      <div 
-        className="absolute pointer-events-none hidden md:block"
-        style={{
-          top: '8%',
-          right: '6%',
-          transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
-          transition: 'transform 0.6s ease-out',
-        }}
-      >
-        <div className="w-28 h-28 rounded-full relative animate-float" style={{ animationDuration: '7s' }}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.12] backdrop-blur-sm" />
-          <div className="absolute -inset-1 rounded-full border border-foreground/[0.04] animate-[spin_20s_linear_infinite]" />
-          <div className="absolute -inset-3 rounded-full border border-dashed border-foreground/[0.03] animate-[spin_30s_linear_infinite_reverse]" />
-          <div className="absolute inset-2 rounded-full bg-foreground/[0.03] blur-sm" />
+      {/* Ambient glows - only in dark mode */}
+      {!isGlacier && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div 
+            className="absolute w-[800px] h-[800px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, hsl(0 0% 100% / 0.07), hsl(0 0% 100% / 0.02) 40%, transparent 70%)',
+              top: '-15%',
+              right: '-15%',
+              transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * 0.6}px)`,
+              transition: 'transform 1s ease-out',
+            }}
+          />
+          <div 
+            className="absolute w-[600px] h-[600px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, hsl(0 0% 100% / 0.05), transparent 60%)',
+              bottom: '-10%',
+              left: '-10%',
+              transform: `translate(${-mousePosition.x * 0.4}px, ${-mousePosition.y * 0.4}px)`,
+              transition: 'transform 1.2s ease-out',
+            }}
+          />
+          <div 
+            className="absolute w-[500px] h-[500px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, hsl(0 0% 100% / 0.04), transparent 50%)',
+              top: '30%',
+              left: '40%',
+              transform: `translate(${mousePosition.x * 1.5}px, ${mousePosition.y * 1.5}px)`,
+              transition: 'transform 0.3s ease-out',
+            }}
+          />
         </div>
-        <div className="absolute -inset-6 rounded-full bg-foreground/[0.03] blur-2xl animate-breathe" />
-        <div className="absolute -inset-12 rounded-full bg-foreground/[0.015] blur-3xl animate-breathe" style={{ animationDelay: '1s' }} />
-      </div>
+      )}
 
-      {/* Floating glass ring - bottom left */}
-      <div 
-        className="absolute pointer-events-none hidden lg:block"
-        style={{
-          bottom: '15%',
-          left: '5%',
-          transform: `translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)`,
-          transition: 'transform 0.7s ease-out',
-        }}
-      >
-        <div className="w-36 h-36 rounded-full border border-foreground/[0.08] animate-[spin_25s_linear_infinite]">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-foreground/50 shadow-[0_0_15px_hsl(0_0%_100%/0.4),0_0_30px_hsl(0_0%_100%/0.15)]" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-foreground/30 shadow-[0_0_10px_hsl(0_0%_100%/0.2)]" />
-        </div>
-        <div className="absolute inset-4 rounded-full border border-dashed border-foreground/[0.04] animate-[spin_20s_linear_infinite_reverse]" />
-        <div className="absolute -inset-8 rounded-full bg-foreground/[0.02] blur-3xl animate-breathe" />
-      </div>
+      {/* Floating glass orbs - only in dark mode */}
+      {!isGlacier && (
+        <>
+          <div 
+            className="absolute pointer-events-none hidden md:block"
+            style={{
+              top: '8%',
+              right: '6%',
+              transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
+              transition: 'transform 0.6s ease-out',
+            }}
+          >
+            <div className="w-28 h-28 rounded-full relative animate-float" style={{ animationDuration: '7s' }}>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/[0.08] to-transparent border border-foreground/[0.12] backdrop-blur-sm" />
+              <div className="absolute -inset-1 rounded-full border border-foreground/[0.04] animate-[spin_20s_linear_infinite]" />
+              <div className="absolute -inset-3 rounded-full border border-dashed border-foreground/[0.03] animate-[spin_30s_linear_infinite_reverse]" />
+              <div className="absolute inset-2 rounded-full bg-foreground/[0.03] blur-sm" />
+            </div>
+            <div className="absolute -inset-6 rounded-full bg-foreground/[0.03] blur-2xl animate-breathe" />
+            <div className="absolute -inset-12 rounded-full bg-foreground/[0.015] blur-3xl animate-breathe" style={{ animationDelay: '1s' }} />
+          </div>
 
-      {/* Scattered glowing stars */}
-      {[
+          <div 
+            className="absolute pointer-events-none hidden lg:block"
+            style={{
+              bottom: '15%',
+              left: '5%',
+              transform: `translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)`,
+              transition: 'transform 0.7s ease-out',
+            }}
+          >
+            <div className="w-36 h-36 rounded-full border border-foreground/[0.08] animate-[spin_25s_linear_infinite]">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-foreground/50 shadow-[0_0_15px_hsl(0_0%_100%/0.4),0_0_30px_hsl(0_0%_100%/0.15)]" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-foreground/30 shadow-[0_0_10px_hsl(0_0%_100%/0.2)]" />
+            </div>
+            <div className="absolute inset-4 rounded-full border border-dashed border-foreground/[0.04] animate-[spin_20s_linear_infinite_reverse]" />
+            <div className="absolute -inset-8 rounded-full bg-foreground/[0.02] blur-3xl animate-breathe" />
+          </div>
+        </>
+      )}
+
+      {/* Scattered glowing stars - only in dark */}
+      {!isGlacier && [
         { top: '15%', left: '12%', size: 3, delay: 0, dur: 3 },
         { top: '30%', right: '18%', size: 2, delay: 0.5, dur: 4 },
         { top: '70%', left: '20%', size: 2.5, delay: 1, dur: 3.5 },
@@ -270,7 +285,7 @@ const Hero = () => {
       ))}
 
       {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.015]">
+      <div className={`absolute inset-0 ${isGlacier ? 'opacity-[0.04]' : 'opacity-[0.015]'}`}>
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),

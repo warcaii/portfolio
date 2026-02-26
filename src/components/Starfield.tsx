@@ -1,16 +1,24 @@
 import { useEffect, useRef } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 
 const STAR_COUNT = 120;
 const SHOOTING_STAR_INTERVAL = 4000;
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // In glacier/brutalist mode, don't render starfield
+    if (theme === 'glacier') {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
 
     let animId: number;
     let width = 0;
@@ -65,7 +73,6 @@ const Starfield = () => {
     const draw = (time: number) => {
       ctx.clearRect(0, 0, width, height);
 
-      // Twinkling stars
       for (const s of stars) {
         const twinkle = Math.sin(time * 0.001 * s.speed + s.phase) * 0.3 + 0.7;
         ctx.beginPath();
@@ -74,7 +81,6 @@ const Starfield = () => {
         ctx.fill();
       }
 
-      // Shooting stars
       for (let i = shootingStars.length - 1; i >= 0; i--) {
         const ss = shootingStars[i];
         ss.x += ss.vx;
@@ -113,7 +119,9 @@ const Starfield = () => {
       clearInterval(shootingInterval);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [theme]);
+
+  if (theme === 'glacier') return null;
 
   return (
     <canvas
