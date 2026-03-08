@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const STAR_COUNT = 120;
-const SHOOTING_STAR_INTERVAL = 4000;
+const STAR_COUNT = 60;
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -25,17 +24,7 @@ const Starfield = () => {
       phase: number;
     }
 
-    interface ShootingStar {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      life: number;
-      maxLife: number;
-    }
-
     let stars: Star[] = [];
-    let shootingStars: ShootingStar[] = [];
 
     const resize = () => {
       width = canvas.width = canvas.offsetWidth;
@@ -44,28 +33,23 @@ const Starfield = () => {
         x: Math.random() * width,
         y: Math.random() * height,
         r: Math.random() * 1.2 + 0.3,
-        alpha: Math.random() * 0.5 + 0.15,
+        alpha: Math.random() * 0.4 + 0.1,
         speed: Math.random() * 0.3 + 0.1,
         phase: Math.random() * Math.PI * 2,
       }));
     };
 
-    const spawnShootingStar = () => {
-      const x = Math.random() * width * 0.8;
-      const y = Math.random() * height * 0.4;
-      shootingStars.push({
-        x, y,
-        vx: 3 + Math.random() * 2,
-        vy: 1 + Math.random() * 1.5,
-        life: 0,
-        maxLife: 40 + Math.random() * 30,
-      });
-    };
-
+    let lastTime = 0;
     const draw = (time: number) => {
+      // Throttle to ~30fps
+      if (time - lastTime < 33) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      lastTime = time;
+
       ctx.clearRect(0, 0, width, height);
 
-      // Twinkling stars
       for (const s of stars) {
         const twinkle = Math.sin(time * 0.001 * s.speed + s.phase) * 0.3 + 0.7;
         ctx.beginPath();
@@ -74,43 +58,16 @@ const Starfield = () => {
         ctx.fill();
       }
 
-      // Shooting stars
-      for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const ss = shootingStars[i];
-        ss.x += ss.vx;
-        ss.y += ss.vy;
-        ss.life++;
-        const progress = ss.life / ss.maxLife;
-        const fade = progress < 0.3 ? progress / 0.3 : 1 - (progress - 0.3) / 0.7;
-        const tailLen = 30;
-
-        ctx.beginPath();
-        ctx.moveTo(ss.x, ss.y);
-        ctx.lineTo(ss.x - ss.vx * tailLen * 0.3, ss.y - ss.vy * tailLen * 0.3);
-        ctx.strokeStyle = `rgba(180, 220, 255, ${fade * 0.4})`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(ss.x, ss.y, 1, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 240, 255, ${fade * 0.7})`;
-        ctx.fill();
-
-        if (ss.life >= ss.maxLife) shootingStars.splice(i, 1);
-      }
-
       animId = requestAnimationFrame(draw);
     };
 
     resize();
     animId = requestAnimationFrame(draw);
 
-    const shootingInterval = setInterval(spawnShootingStar, SHOOTING_STAR_INTERVAL);
     window.addEventListener('resize', resize);
 
     return () => {
       cancelAnimationFrame(animId);
-      clearInterval(shootingInterval);
       window.removeEventListener('resize', resize);
     };
   }, []);
@@ -119,7 +76,7 @@ const Starfield = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.5 }}
     />
   );
 };

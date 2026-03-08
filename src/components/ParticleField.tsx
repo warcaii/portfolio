@@ -21,15 +21,21 @@ export const ParticleField = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    // Minimal floating orbs
     const orbs = [
       { x: 0.7, y: 0.3, radius: 300, speed: 0.0003, phase: 0 },
       { x: 0.3, y: 0.7, radius: 250, speed: 0.0004, phase: Math.PI },
-      { x: 0.5, y: 0.5, radius: 400, speed: 0.0002, phase: Math.PI / 2 },
     ];
 
-    const animate = () => {
+    let lastTime = 0;
+    const animate = (now: number) => {
+      // Throttle to ~20fps — ambient background doesn't need more
+      if (now - lastTime < 50) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = now;
       time += 1;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       orbs.forEach((orb, i) => {
@@ -38,9 +44,8 @@ export const ParticleField = () => {
         
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, orb.radius);
         
-        // Electric blue with very low opacity
-        const alpha = 0.06 + Math.sin(time * 0.001 + i) * 0.02;
-        const hue = [210, 260, 195][i]; // blue, purple, cyan
+        const alpha = 0.05;
+        const hue = [210, 260][i];
         gradient.addColorStop(0, `hsla(${hue}, 80%, 50%, ${alpha})`);
         gradient.addColorStop(0.5, `hsla(${hue}, 80%, 50%, ${alpha * 0.4})`);
         gradient.addColorStop(1, 'transparent');
@@ -49,26 +54,10 @@ export const ParticleField = () => {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       });
 
-      // Add subtle grid dots
-      ctx.fillStyle = 'hsla(210, 80%, 60%, 0.12)';
-      const dotSpacing = 80;
-      const dotSize = 1;
-      
-      for (let x = dotSpacing; x < canvas.width; x += dotSpacing) {
-        for (let y = dotSpacing; y < canvas.height; y += dotSpacing) {
-          const pulse = Math.sin(time * 0.002 + x * 0.01 + y * 0.01) * 0.5 + 0.5;
-          ctx.globalAlpha = 0.1 + pulse * 0.1;
-          ctx.beginPath();
-          ctx.arc(x, y, dotSize, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-
       animationId = requestAnimationFrame(animate);
     };
 
-    animate();
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(animationId);
