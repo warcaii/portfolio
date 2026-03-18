@@ -50,7 +50,7 @@ export default {
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],
-        mono: ['Space Grotesk', 'sans-serif'],
+        mono: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
