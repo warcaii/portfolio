@@ -1,133 +1,70 @@
-import { useEffect, useState, useRef, lazy, Suspense } from 'react';
-import { setScrollProgress } from './HeroScene';
-
-const HeroScene = lazy(() => import('./HeroScene'));
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
-  const mousePosRef = useRef({ x: 0, y: 0 });
-  const scrollYRef = useRef(0);
-  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setMounted(true);
-    
-    const handleScroll = () => {
-      const y = window.scrollY;
-      scrollYRef.current = y;
-      setScrollY(y);
-      const progress = Math.min(y / window.innerHeight, 1);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
   }, []);
 
-  const letters = 'DEVANSH'.split('');
-  const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);
-  const titleOpacity = Math.max(0, 1 - scrollProgress * 1.2);
-
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
-      {/* 3D Scene */}
-      <Suspense fallback={null}>
-        <HeroScene />
-      </Suspense>
-
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.015]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-        }} />
-      </div>
+    <section className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-background px-6 md:px-12 lg:px-24 pt-24 pb-16">
+      {/* Subtle ambient glow */}
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-foreground/[0.02] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-foreground/[0.015] rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl">
-        {/* Top label */}
-        <div 
-          className="flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0"
+      <div className="relative z-10 max-w-5xl">
+        {/* Greeting line */}
+        <div
+          className="mb-6"
           style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' : 'none',
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s',
           }}
         >
-          <div className="w-10 h-px bg-gradient-to-r from-transparent to-foreground/50" />
-          <span className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
-            Creative Director
+          <span className="text-display text-3xl md:text-5xl lg:text-6xl font-bold text-foreground">
+            Hi, I'm Devansh 👋
           </span>
-          <div className="w-10 h-px bg-gradient-to-l from-transparent to-foreground/50" />
         </div>
 
-        {/* Main name — simple CSS animation, no per-frame rAF */}
-        <div className="relative mb-10" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
-          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap">
-            {letters.map((letter, i) => (
-              <span
-                key={i}
-                className="inline-block will-change-transform select-none"
-                style={{
-                  color: 'hsl(var(--foreground))',
-                  animation: mounted ? `heroLetterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.4 + i * 0.08}s both` : 'none',
-                }}
-              >
-                {letter}
-              </span>
-            ))}
-          </h1>
-          
-          {/* Animated underline */}
-          <div 
-            className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-[2px]"
-            style={{ 
-              animation: mounted ? 'heroLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both' : 'none',
-              background: 'linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.8), transparent)',
-            }}
-          />
+        {/* Big descriptive text */}
+        <div
+          style={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s',
+          }}
+        >
+          <p className="text-display text-3xl md:text-5xl lg:text-[4.5rem] font-bold leading-[1.15] tracking-[-0.02em] text-muted-foreground">
+            Creative Director & Entrepreneur{' '}
+            <span className="inline-block">✨</span>{' '}
+            Crafting visual stories through{' '}
+            <span className="text-foreground">design</span>,{' '}
+            <span className="text-foreground">video</span> &{' '}
+            <span className="text-foreground">AI</span>{' '}
+            <span className="inline-block">🎨</span>{' '}
+            Building ventures that make an impact{' '}
+            <span className="inline-block">🚀</span>
+          </p>
         </div>
 
-        {/* Subtitle */}
-        <p 
-          className="text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed"
+        {/* Status pill */}
+        <div
+          className="mt-12"
           style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s',
           }}
         >
-          Building at the intersection of{' '}
-          <span className="text-foreground font-medium">design</span>,{' '}
-          <span className="text-foreground font-medium">technology</span>, and{' '}
-          <span className="text-foreground font-medium">AI</span>.
-        </p>
-
-        {/* Stats row */}
-        <div 
-          className="mt-20 flex items-center justify-center gap-4 md:gap-6"
-          style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
-          }}
-        >
-          {[
-            { value: '03', label: 'Years' },
-            { value: '04', label: 'Ventures' },
-            { value: '∞', label: 'Ideas' },
-          ].map((stat, index) => (
-            <div key={index} className="group glass glass-border-glow rounded-2xl px-7 py-6 md:px-10 md:py-8 cursor-default text-center min-w-[110px] md:min-w-[140px]">
-              <p className="text-display text-3xl md:text-5xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </p>
-              <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/80 transition-colors duration-300">
-                {stat.label}
-              </p>
-            </div>
-          ))}
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 glass rounded-full">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
+            <span className="text-mono text-xs tracking-wide text-muted-foreground">Available for projects</span>
+          </div>
         </div>
       </div>
-
     </section>
   );
 };
