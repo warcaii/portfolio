@@ -65,22 +65,35 @@ const About = () => {
 
         {/* Metrics row */}
         <ScrollReveal delay={0.4}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-12 border-t border-foreground/[0.08]">
-            {[
-              { value: '3+', label: 'Years' },
-              { value: '4', label: 'Ventures' },
-              { value: '50+', label: 'Projects' },
-              { value: '∞', label: 'Ideas' },
-            ].map((stat) => (
-              <div key={stat.label} className="group cursor-default">
-                <p className="text-display text-4xl md:text-5xl font-bold text-foreground group-hover:opacity-60 transition-opacity duration-300">
-                  {stat.value}
-                </p>
-                <p className="text-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/50 mt-2">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+          <div className="mt-24 pt-16 border-t border-foreground/[0.12]">
+            <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-10">
+              The Numbers
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { value: '3+', label: 'Years', subtitle: 'of creative work' },
+                { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
+                { value: '50+', label: 'Projects', subtitle: 'delivered worldwide' },
+                { value: '∞', label: 'Ideas', subtitle: 'always brewing' },
+              ].map((stat, i) => (
+                <ScrollReveal key={stat.label} delay={0.45 + i * 0.08}>
+                  <div className="group relative p-6 md:p-8 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02] hover:bg-foreground/[0.05] hover:border-foreground/[0.15] transition-all duration-500 cursor-default overflow-hidden">
+                    {/* Glow accent */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <p className="text-display text-5xl sm:text-6xl md:text-7xl font-bold text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
+                      {stat.value}
+                    </p>
+                    <p className="text-mono text-[11px] tracking-[0.25em] uppercase text-foreground/70 mt-4 font-medium">
+                      {stat.label}
+                    </p>
+                    <p className="text-mono text-[10px] text-muted-foreground/40 mt-1">
+                      {stat.subtitle}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </ScrollReveal>
       </div>
