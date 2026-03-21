@@ -106,23 +106,29 @@ const Hero = () => {
 
         {/* Stats row */}
         <div 
-          className="mt-20 flex items-center justify-center gap-4 md:gap-6"
+          className="mt-20 flex items-center justify-center gap-8 md:gap-16"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
           }}
         >
           {[
-            { value: '03', label: 'Years' },
+            { value: '3+', label: 'Years' },
             { value: '04', label: 'Ventures' },
+            { value: '50+', label: 'Projects' },
             { value: '∞', label: 'Ideas' },
-          ].map((stat, index) => (
-            <div key={index} className="group glass glass-border-glow rounded-2xl px-7 py-6 md:px-10 md:py-8 cursor-default text-center min-w-[110px] md:min-w-[140px]">
-              <p className="text-display text-3xl md:text-5xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </p>
-              <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/80 transition-colors duration-300">
-                {stat.label}
-              </p>
+          ].map((stat, index, arr) => (
+            <div key={index} className="flex items-center gap-8 md:gap-16">
+              <div className="group cursor-default text-center">
+                <p className="text-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
+                  {stat.value}
+                </p>
+                <p className="text-mono text-[9px] md:text-[11px] tracking-[0.3em] uppercase text-muted-foreground/50 mt-3 group-hover:text-muted-foreground transition-colors duration-500">
+                  {stat.label}
+                </p>
+              </div>
+              {index < arr.length - 1 && (
+                <div className="h-10 md:h-14 w-px bg-foreground/[0.1]" />
+              )}
             </div>
           ))}
         </div>
