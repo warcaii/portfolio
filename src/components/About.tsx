@@ -69,12 +69,11 @@ const About = () => {
             <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-10">
               The Numbers
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
                 { value: '3+', label: 'Years', subtitle: 'of creative work' },
                 { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
                 { value: '50+', label: 'Projects', subtitle: 'delivered worldwide' },
-                { value: '∞', label: 'Ideas', subtitle: 'always brewing' },
               ].map((stat, i) => (
                 <ScrollReveal key={stat.label} delay={0.45 + i * 0.08}>
                   <div className="group relative p-6 md:p-8 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02] hover:bg-foreground/[0.05] hover:border-foreground/[0.15] transition-all duration-500 cursor-default overflow-hidden">
