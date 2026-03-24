@@ -106,7 +106,7 @@ const Hero = () => {
 
         {/* Stats strip */}
         <div 
-          className="mt-16 md:mt-20 flex items-center justify-center gap-8 md:gap-14"
+          className="mt-16 md:mt-20 flex items-center justify-center gap-0"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
           }}
@@ -116,17 +116,20 @@ const Hero = () => {
             { value: '04', label: 'Ventures' },
             { value: '50+', label: 'Projects' },
           ].map((stat, index, arr) => (
-            <div key={index} className="flex items-center gap-8 md:gap-14">
-              <div className="group cursor-default text-center">
-                <p className="text-display text-4xl md:text-6xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+            <div key={index} className="flex items-center">
+              <div className="group cursor-default text-center px-5 sm:px-8 md:px-12 py-5 md:py-7 relative overflow-hidden rounded-xl hover:bg-foreground/[0.04] transition-all duration-500">
+                {/* Top glow line on hover */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <p className="text-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground group-hover:text-primary group-hover:scale-110 transition-all duration-500 ease-out">
                   {stat.value}
                 </p>
-                <p className="text-mono text-[10px] md:text-xs tracking-[0.25em] uppercase text-muted-foreground/60 mt-2">
+                <p className="text-mono text-[9px] sm:text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 group-hover:text-muted-foreground/80 transition-colors duration-500">
                   {stat.label}
                 </p>
               </div>
               {index < arr.length - 1 && (
-                <div className="w-px h-10 bg-foreground/10" />
+                <div className="w-px h-8 md:h-12 bg-gradient-to-b from-transparent via-foreground/15 to-transparent flex-shrink-0" />
               )}
             </div>
           ))}
