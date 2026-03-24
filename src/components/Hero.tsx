@@ -36,7 +36,7 @@ const CountUp = ({ target, pad, started, delay }: { target: number; pad: boolean
   return <span>{display}</span>;
 };
 
-const Hero = () => {
+const Hero = ({ ready }: { ready?: boolean }) => {
   const [mounted, setMounted] = useState(false);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const scrollYRef = useRef(0);
