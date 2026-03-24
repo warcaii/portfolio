@@ -1,7 +1,40 @@
-import { useEffect, useState, useRef, lazy, Suspense } from 'react';
+import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
+
+const CountUp = ({ target, pad, started, delay }: { target: number; pad: boolean; started: boolean; delay: number }) => {
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (!started) return;
+    const timeout = setTimeout(() => setActive(true), delay * 1000);
+    return () => clearTimeout(timeout);
+  }, [started, delay]);
+
+  useEffect(() => {
+    if (!active) return;
+    const duration = 1200;
+    const steps = 30;
+    const increment = target / steps;
+    let current = 0;
+    const interval = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(interval);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(interval);
+  }, [active, target]);
+
+  if (!active) return <span className="opacity-0">{ pad ? String(target).padStart(2, '0') : String(target) }</span>;
+  const display = pad ? String(count).padStart(2, '0') : String(count);
+  return <span>{display}</span>;
+};
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -112,9 +145,9 @@ const Hero = () => {
           }}
         >
           {[
-            { value: '3+', label: 'Years' },
-            { value: '04', label: 'Ventures' },
-            { value: '50+', label: 'Projects' },
+            { value: 3, suffix: '+', label: 'Years', pad: false },
+            { value: 4, suffix: '', label: 'Ventures', pad: true },
+            { value: 50, suffix: '+', label: 'Projects', pad: false },
           ].map((stat, index, arr) => (
             <div key={index} className="flex items-center">
               <div className="group cursor-default text-center px-5 sm:px-8 md:px-12 py-5 md:py-7 relative overflow-hidden rounded-xl hover:bg-foreground/[0.04] transition-all duration-500">
@@ -122,7 +155,7 @@ const Hero = () => {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <p className="text-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground group-hover:text-primary group-hover:scale-110 transition-all duration-500 ease-out">
-                  {stat.value}
+                  <CountUp target={stat.value} pad={stat.pad} started={mounted} delay={1.3 + index * 0.15} />{stat.suffix}
                 </p>
                 <p className="text-mono text-[9px] sm:text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 group-hover:text-muted-foreground/80 transition-colors duration-500">
                   {stat.label}
