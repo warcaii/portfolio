@@ -3,7 +3,38 @@ import { setScrollProgress } from './HeroScene';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
-const Hero = () => {
+const CountUp = ({ target, pad, started, delay }: { target: number; pad: boolean; started: boolean; delay: number }) => {
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (!started) return;
+    const timeout = setTimeout(() => setActive(true), delay * 1000);
+    return () => clearTimeout(timeout);
+  }, [started, delay]);
+
+  useEffect(() => {
+    if (!active) return;
+    const duration = 1200;
+    const steps = 30;
+    const increment = target / steps;
+    let current = 0;
+    const interval = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(interval);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(interval);
+  }, [active, target]);
+
+  if (!active) return <span className="opacity-0">{ pad ? String(target).padStart(2, '0') : String(target) }</span>;
+  const display = pad ? String(count).padStart(2, '0') : String(count);
+  return <span>{display}</span>;
+};
   const [mounted, setMounted] = useState(false);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const scrollYRef = useRef(0);
