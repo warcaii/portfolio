@@ -43,7 +43,7 @@ const Hero = ({ ready }: { ready?: boolean }) => {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    setMounted(true);
+    if (ready !== false) setMounted(true);
     
     const handleScroll = () => {
       const y = window.scrollY;
