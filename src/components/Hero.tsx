@@ -104,9 +104,9 @@ const Hero = () => {
           <span className="text-foreground font-medium">AI</span>.
         </p>
 
-        {/* Stats row */}
+        {/* Stats strip */}
         <div 
-          className="mt-16 md:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-6 max-w-2xl mx-auto"
+          className="mt-16 md:mt-20 flex items-center justify-center gap-8 md:gap-14"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
           }}
@@ -115,19 +115,22 @@ const Hero = () => {
             { value: '3+', label: 'Years' },
             { value: '04', label: 'Ventures' },
             { value: '50+', label: 'Projects' },
-            { value: '∞', label: 'Ideas' },
-          ].map((stat, index) => (
-            <div key={index} className="group glass glass-border-glow rounded-2xl px-5 py-5 md:px-8 md:py-7 cursor-default text-center">
-              <p className="text-display text-3xl md:text-5xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </p>
-              <p className="text-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-2 group-hover:text-foreground/80 transition-colors duration-300">
-                {stat.label}
-              </p>
+          ].map((stat, index, arr) => (
+            <div key={index} className="flex items-center gap-8 md:gap-14">
+              <div className="group cursor-default text-center">
+                <p className="text-display text-4xl md:text-6xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                  {stat.value}
+                </p>
+                <p className="text-mono text-[10px] md:text-xs tracking-[0.25em] uppercase text-muted-foreground/60 mt-2">
+                  {stat.label}
+                </p>
+              </div>
+              {index < arr.length - 1 && (
+                <div className="w-px h-10 bg-foreground/10" />
+              )}
             </div>
           ))}
         </div>
-      </div>
 
     </section>
   );
