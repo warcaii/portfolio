@@ -36,14 +36,14 @@ const CountUp = ({ target, pad, started, delay }: { target: number; pad: boolean
   return <span>{display}</span>;
 };
 
-const Hero = ({ ready }: { ready?: boolean }) => {
+const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const scrollYRef = useRef(0);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    if (ready !== false) setMounted(true);
+    setMounted(true);
     
     const handleScroll = () => {
       const y = window.scrollY;
@@ -57,7 +57,7 @@ const Hero = ({ ready }: { ready?: boolean }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [ready]);
+  }, []);
 
   const letters = 'DEVANSH'.split('');
   const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);

@@ -20,7 +20,7 @@ const Index = () => {
       <Starfield />
       <Navigation />
       <main>
-        <Hero ready={!loading} />
+        <Hero />
         <SpaceDivider variant="constellation" />
         <section id="about">
           <About />
