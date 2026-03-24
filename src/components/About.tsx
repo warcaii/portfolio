@@ -69,7 +69,7 @@ const About = () => {
             <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-10">
               The Numbers
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
                 { value: '3+', label: 'Years', subtitle: 'of creative work' },
                 { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
