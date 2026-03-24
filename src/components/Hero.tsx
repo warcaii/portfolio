@@ -57,7 +57,7 @@ const Hero = ({ ready }: { ready?: boolean }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [ready]);
 
   const letters = 'DEVANSH'.split('');
   const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);
