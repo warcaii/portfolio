@@ -33,7 +33,6 @@ const Index = () => {
         <section id="services">
           <Services />
         </section>
-        <SpaceDivider variant="constellation" />
         <section id="contact">
           <Contact />
         </section>
