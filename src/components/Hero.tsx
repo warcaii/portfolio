@@ -106,17 +106,18 @@ const Hero = () => {
 
         {/* Stats row */}
         <div 
-          className="mt-20 flex items-center justify-center gap-4 md:gap-6"
+          className="mt-16 md:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-6 max-w-2xl mx-auto"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
           }}
         >
           {[
-            { value: '03', label: 'Years' },
+            { value: '3+', label: 'Years' },
             { value: '04', label: 'Ventures' },
+            { value: '50+', label: 'Projects' },
             { value: '∞', label: 'Ideas' },
           ].map((stat, index) => (
-            <div key={index} className="group glass glass-border-glow rounded-2xl px-7 py-6 md:px-10 md:py-8 cursor-default text-center min-w-[110px] md:min-w-[140px]">
+            <div key={index} className="group glass glass-border-glow rounded-2xl px-5 py-5 md:px-8 md:py-7 cursor-default text-center">
               <p className="text-display text-3xl md:text-5xl font-bold text-foreground group-hover:scale-110 transition-transform duration-300">
                 {stat.value}
               </p>
