@@ -1,201 +1,216 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-interface Point {
+interface Stamp {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
-  life: number;
-  maxLife: number;
-  size: number;
-  angle: number;
-  angularVel: number;
+  radiusX: number;
+  radiusY: number;
+  rotation: number;
+  opacity: number;
+  decay: number;
 }
+
+const MAX_STAMPS = 28;
+const FRAME_INTERVAL = 1000 / 30;
 
 const InteractiveCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const pointsRef = useRef<Point[]>([]);
-  const mouseRef = useRef({ x: -1000, y: -1000, active: false });
-  const prevMouseRef = useRef({ x: 0, y: 0 });
-  const rafRef = useRef<number>(0);
-  const trailRef = useRef<{ x: number; y: number; age: number }[]>([]);
+  const stampsRef = useRef<Stamp[]>([]);
+  const rafRef = useRef<number | null>(null);
+  const lastFrameRef = useRef(0);
+  const lastMouseEmitRef = useRef(0);
+  const colorsRef = useRef({
+    foreground: '0 0% 100%',
+    primary: '210 100% 62%',
+  });
 
-  // Organic brush shapes that follow cursor
-  const createPoints = useCallback((x: number, y: number, vx: number, vy: number) => {
-    const speed = Math.sqrt(vx * vx + vy * vy);
-    const count = Math.min(Math.floor(speed * 0.3) + 2, 8);
-    
-    for (let i = 0; i < count; i++) {
-      const spread = 30 + Math.random() * 60;
-      const angle = Math.random() * Math.PI * 2;
-      pointsRef.current.push({
-        x: x + Math.cos(angle) * spread * Math.random(),
-        y: y + Math.sin(angle) * spread * Math.random(),
-        vx: vx * 0.3 + (Math.random() - 0.5) * 2,
-        vy: vy * 0.3 + (Math.random() - 0.5) * 2,
-        life: 1,
-        maxLife: 120 + Math.random() * 180,
-        size: 8 + Math.random() * 40 + speed * 0.5,
-        angle: Math.random() * Math.PI * 2,
-        angularVel: (Math.random() - 0.5) * 0.02,
-      });
-    }
-
-    // Keep max points limited
-    if (pointsRef.current.length > 500) {
-      pointsRef.current = pointsRef.current.slice(-400);
+  const stopAnimation = useCallback(() => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
     }
   }, []);
 
-  const handlePointerMove = useCallback((e: PointerEvent | TouchEvent) => {
+  const updateThemeColors = useCallback(() => {
+    const styles = getComputedStyle(document.documentElement);
+    const foreground = styles.getPropertyValue('--foreground').trim() || '0 0% 100%';
+    const primary = styles.getPropertyValue('--primary').trim() || foreground;
+
+    colorsRef.current = { foreground, primary };
+  }, []);
+
+  const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const rect = canvas.getBoundingClientRect();
-    let clientX: number, clientY: number;
-    
-    if ('touches' in e) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const dpr = isCoarsePointer ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+
+    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }, []);
+
+  const getRelativePoint = useCallback((event: PointerEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
+  }, []);
+
+  const spawnBurst = useCallback((x: number, y: number, intensity = 1) => {
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const count = isCoarsePointer ? 2 : Math.min(4, Math.max(2, Math.round(intensity * 3)));
+
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 10 + Math.random() * 42;
+      const stretch = 0.6 + Math.random() * 0.9;
+      const size = (isCoarsePointer ? 26 : 34) + Math.random() * 52 * intensity;
+
+      stampsRef.current.push({
+        x: x + Math.cos(angle) * distance,
+        y: y + Math.sin(angle) * distance * 0.8,
+        radiusX: size,
+        radiusY: size * stretch,
+        rotation: Math.random() * Math.PI,
+        opacity: isCoarsePointer ? 0.2 : 0.26,
+        decay: isCoarsePointer ? 0.012 : 0.014,
+      });
     }
-    
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
-    
-    const vx = x - prevMouseRef.current.x;
-    const vy = y - prevMouseRef.current.y;
-    
-    mouseRef.current = { x, y, active: true };
-    
-    createPoints(x, y, vx, vy);
-    
-    // Add trail
-    trailRef.current.push({ x, y, age: 0 });
-    if (trailRef.current.length > 80) trailRef.current.shift();
-    
-    prevMouseRef.current = { x, y };
-  }, [createPoints]);
+
+    if (stampsRef.current.length > MAX_STAMPS) {
+      stampsRef.current = stampsRef.current.slice(-MAX_STAMPS);
+    }
+  }, []);
+
+  const drawFrame = useCallback((time: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      stopAnimation();
+      return;
+    }
+
+    if (time - lastFrameRef.current < FRAME_INTERVAL) {
+      rafRef.current = requestAnimationFrame(drawFrame);
+      return;
+    }
+
+    lastFrameRef.current = time;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      stopAnimation();
+      return;
+    }
+
+    const width = canvas.width / (window.matchMedia('(pointer: coarse)').matches ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+    const height = canvas.height / (window.matchMedia('(pointer: coarse)').matches ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+
+    ctx.clearRect(0, 0, width, height);
+
+    const { foreground, primary } = colorsRef.current;
+
+    stampsRef.current = stampsRef.current.filter((stamp) => {
+      stamp.opacity -= stamp.decay;
+      if (stamp.opacity <= 0) return false;
+
+      ctx.save();
+      ctx.translate(stamp.x, stamp.y);
+      ctx.rotate(stamp.rotation);
+
+      ctx.fillStyle = `hsl(${primary} / ${stamp.opacity * 0.24})`;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, stamp.radiusX, stamp.radiusY, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = `hsl(${foreground} / ${stamp.opacity * 0.18})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, stamp.radiusX * 0.72, stamp.radiusY * 0.72, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.restore();
+      return true;
+    });
+
+    if (stampsRef.current.length > 0) {
+      rafRef.current = requestAnimationFrame(drawFrame);
+      return;
+    }
+
+    stopAnimation();
+  }, [stopAnimation]);
+
+  const startAnimation = useCallback(() => {
+    if (rafRef.current !== null) return;
+    lastFrameRef.current = 0;
+    rafRef.current = requestAnimationFrame(drawFrame);
+  }, [drawFrame]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d', { alpha: true })!;
-    
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-    };
-    resize();
-    window.addEventListener('resize', resize);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Event listeners
+    updateThemeColors();
+    resizeCanvas();
+
+    const handleResize = () => {
+      resizeCanvas();
+      updateThemeColors();
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (prefersReducedMotion) return;
+      const point = getRelativePoint(event);
+      if (!point) return;
+      spawnBurst(point.x, point.y, event.pointerType === 'touch' ? 0.9 : 1.2);
+      startAnimation();
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (prefersReducedMotion || event.pointerType !== 'mouse') return;
+
+      const now = performance.now();
+      if (now - lastMouseEmitRef.current < 56) return;
+      lastMouseEmitRef.current = now;
+
+      const point = getRelativePoint(event);
+      if (!point) return;
+      spawnBurst(point.x, point.y, 0.7);
+      startAnimation();
+    };
+
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('pointerdown', handlePointerDown);
     canvas.addEventListener('pointermove', handlePointerMove);
-    canvas.addEventListener('touchmove', handlePointerMove as any, { passive: true });
-    canvas.addEventListener('pointerdown', (e) => {
-      handlePointerMove(e);
-    });
-
-    const drawShape = (ctx: CanvasRenderingContext2D, p: Point, alpha: number) => {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.globalAlpha = alpha;
-      
-      // Draw organic blob shapes
-      ctx.beginPath();
-      const points = 5 + Math.floor(Math.random() * 3);
-      for (let i = 0; i <= points; i++) {
-        const a = (i / points) * Math.PI * 2;
-        const r = p.size * (0.7 + Math.sin(a * 3 + p.angle) * 0.3);
-        const px = Math.cos(a) * r;
-        const py = Math.sin(a) * r;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.quadraticCurveTo(
-          Math.cos(a - 0.3) * r * 1.1,
-          Math.sin(a - 0.3) * r * 1.1,
-          px, py
-        );
-      }
-      ctx.closePath();
-      
-      // Use foreground color (dark on dark theme = subtle contrast)
-      ctx.fillStyle = `hsla(0, 0%, 100%, ${alpha * 0.12})`;
-      ctx.fill();
-      
-      ctx.restore();
-    };
-
-    const animate = () => {
-      // Fade out gradually instead of clearing
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.008)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'source-over';
-
-      // Update & draw points
-      const points = pointsRef.current;
-      for (let i = points.length - 1; i >= 0; i--) {
-        const p = points[i];
-        p.life -= 1 / p.maxLife;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= 0.98;
-        p.vy *= 0.98;
-        p.angle += p.angularVel;
-        p.angularVel *= 0.995;
-
-        if (p.life <= 0) {
-          points.splice(i, 1);
-          continue;
-        }
-
-        const alpha = p.life * p.life; // Ease out
-        drawShape(ctx, p, alpha);
-      }
-
-      // Draw trail connections
-      const trail = trailRef.current;
-      if (trail.length > 2) {
-        ctx.beginPath();
-        ctx.moveTo(trail[0].x, trail[0].y);
-        for (let i = 1; i < trail.length; i++) {
-          const t = trail[i];
-          ctx.lineTo(t.x, t.y);
-          t.age++;
-        }
-        ctx.strokeStyle = 'hsla(0, 0%, 100%, 0.04)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // Remove old trail points
-        trailRef.current = trail.filter(t => t.age < 120);
-      }
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    
-    rafRef.current = requestAnimationFrame(animate);
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('pointerdown', handlePointerDown);
       canvas.removeEventListener('pointermove', handlePointerMove);
-      canvas.removeEventListener('touchmove', handlePointerMove as any);
+      stopAnimation();
     };
-  }, [handlePointerMove]);
+  }, [getRelativePoint, resizeCanvas, spawnBurst, startAnimation, stopAnimation, updateThemeColors]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-[1] touch-none"
-      style={{ cursor: 'crosshair' }}
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full"
+      style={{ touchAction: 'pan-y' }}
     />
   );
 };
