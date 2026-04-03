@@ -1,72 +1,100 @@
-import { useEffect, useState, useRef } from 'react';
-import InteractiveCanvas from './InteractiveCanvas';
+import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
+import { setScrollProgress } from './HeroScene';
+
+const HeroScene = lazy(() => import('./HeroScene'));
+
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
+  const mousePosRef = useRef({ x: 0, y: 0 });
+  const scrollYRef = useRef(0);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setMounted(true);
     
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const y = window.scrollY;
+      scrollYRef.current = y;
+      setScrollY(y);
+      const progress = Math.min(y / window.innerHeight, 1);
+      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
+  const letters = 'DEVANSH'.split('');
   const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);
-  const titleOpacity = Math.max(0, 1 - scrollProgress * 1.5);
+  const titleOpacity = Math.max(0, 1 - scrollProgress * 1.2);
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background">
-      {/* Interactive touch-responsive canvas */}
-      <InteractiveCanvas />
+    <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
+      {/* 3D Scene */}
+      <Suspense fallback={null}>
+        <HeroScene />
+      </Suspense>
 
-      {/* Main content — above canvas */}
-      <div 
-        className="relative z-10 text-center px-6 w-full max-w-6xl pointer-events-none select-none"
-        style={{ opacity: titleOpacity, transition: 'opacity 0.15s linear' }}
-      >
+      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-[0.015]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+        }} />
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 text-center px-6 max-w-5xl">
         {/* Top label */}
         <div 
-          className="flex items-center justify-center gap-4 mb-8"
+          className="flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' : 'none',
           }}
         >
-          <div className="w-10 h-px bg-gradient-to-r from-transparent to-foreground/40" />
-          <span className="text-mono text-[10px] tracking-[0.4em] uppercase text-muted-foreground">
+          <div className="w-10 h-px bg-gradient-to-r from-transparent to-foreground/50" />
+          <span className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
             Creative Director
           </span>
-          <div className="w-10 h-px bg-gradient-to-l from-transparent to-foreground/40" />
+          <div className="w-10 h-px bg-gradient-to-l from-transparent to-foreground/50" />
         </div>
 
-        {/* Hero headline — large editorial type */}
-        <h1 
-          className="text-display leading-[0.9] tracking-[-0.03em] mb-6"
-          style={{
-            animation: mounted ? 'heroLetterIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both' : 'none',
-          }}
-        >
-          <span className="block text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[9rem] font-bold text-foreground">
-            Turning
-          </span>
-          <span className="block text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[9rem] font-bold text-foreground">
-            vision into
-          </span>
-          <span 
-            className="block text-[3.5rem] sm:text-[5.5rem] md:text-[8rem] lg:text-[10rem] italic font-normal text-foreground/90"
-            style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-          >
-            Reality
-          </span>
-        </h1>
+        {/* Main name — simple CSS animation, no per-frame rAF */}
+        <div className="relative mb-10" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
+          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap">
+            {letters.map((letter, i) => (
+              <span
+                key={i}
+                className="inline-block will-change-transform select-none"
+                style={{
+                  color: 'hsl(var(--foreground))',
+                  animation: mounted ? `heroLetterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.4 + i * 0.08}s both` : 'none',
+                }}
+              >
+                {letter}
+              </span>
+            ))}
+          </h1>
+          
+          {/* Animated underline */}
+          <div 
+            className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-[2px]"
+            style={{ 
+              animation: mounted ? 'heroLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both' : 'none',
+              background: 'linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.8), transparent)',
+            }}
+          />
+        </div>
 
         {/* Subtitle */}
         <p 
-          className="text-mono text-sm md:text-base text-muted-foreground max-w-md mx-auto mt-8"
+          className="text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed"
           style={{
             animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
           }}
@@ -76,22 +104,39 @@ const Hero = () => {
           <span className="text-foreground font-medium">technology</span>, and{' '}
           <span className="text-foreground font-medium">AI</span>.
         </p>
+
+        {/* Stats strip */}
+        <div 
+          className="mt-16 md:mt-20 flex items-center justify-center gap-0"
+          style={{
+            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
+          }}
+        >
+          {[
+            { value: 3, suffix: '+', label: 'Years', pad: false },
+            { value: 4, suffix: '', label: 'Ventures', pad: true },
+            { value: 50, suffix: '+', label: 'Projects', pad: false },
+          ].map((stat, index, arr) => (
+            <div key={index} className="flex items-center">
+              <div className="group cursor-default text-center px-5 sm:px-8 md:px-12 py-5 md:py-7 relative overflow-hidden rounded-xl hover:bg-foreground/[0.04] transition-all duration-500">
+                {/* Top glow line on hover */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <p className="text-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground group-hover:text-primary group-hover:scale-110 transition-all duration-500 ease-out">
+                  {stat.pad ? String(stat.value).padStart(2, '0') : stat.value}{stat.suffix}
+                </p>
+                <p className="text-mono text-[9px] sm:text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 group-hover:text-muted-foreground/80 transition-colors duration-500">
+                  {stat.label}
+                </p>
+              </div>
+              {index < arr.length - 1 && (
+                <div className="w-px h-8 md:h-12 bg-gradient-to-b from-transparent via-foreground/15 to-transparent flex-shrink-0" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Bottom bar */}
-      <div 
-        className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-10 pointer-events-none"
-        style={{
-          animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s both' : 'none',
-        }}
-      >
-        <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">
-          Drag to interact
-        </span>
-        <span className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">
-          Scroll to explore
-        </span>
-      </div>
     </section>
   );
 };
