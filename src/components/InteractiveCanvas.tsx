@@ -10,18 +10,21 @@ interface Stamp {
   decay: number;
 }
 
-const MAX_STAMPS = 28;
-const FRAME_INTERVAL = 1000 / 30;
+const MAX_STAMPS = 20;
+const FRAME_INTERVAL = 1000 / 24;
+const MOUSE_EMIT_INTERVAL = 72;
 
 const InteractiveCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const stampsRef = useRef<Stamp[]>([]);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const rafRef = useRef<number | null>(null);
+  const stampsRef = useRef<Stamp[]>([]);
+  const sizeRef = useRef({ width: 0, height: 0, dpr: 1 });
   const lastFrameRef = useRef(0);
   const lastMouseEmitRef = useRef(0);
-  const colorsRef = useRef({
-    foreground: '0 0% 100%',
-    primary: '210 100% 62%',
+  const colorRef = useRef({
+    foreground: ['0', '0%', '100%'],
+    primary: ['210', '100%', '62%'],
   });
 
   const stopAnimation = useCallback(() => {
@@ -31,12 +34,18 @@ const InteractiveCanvas = () => {
     }
   }, []);
 
-  const updateThemeColors = useCallback(() => {
+  const updateColors = useCallback(() => {
     const styles = getComputedStyle(document.documentElement);
-    const foreground = styles.getPropertyValue('--foreground').trim() || '0 0% 100%';
-    const primary = styles.getPropertyValue('--primary').trim() || foreground;
+    const foreground = (styles.getPropertyValue('--foreground').trim() || '0 0% 100%').split(/\s+/);
+    const primary = (styles.getPropertyValue('--primary').trim() || '210 100% 62%').split(/\s+/);
 
-    colorsRef.current = { foreground, primary };
+    if (foreground.length >= 3) {
+      colorRef.current.foreground = [foreground[0], foreground[1], foreground[2]];
+    }
+
+    if (primary.length >= 3) {
+      colorRef.current.primary = [primary[0], primary[1], primary[2]];
+    }
   }, []);
 
   const resizeCanvas = useCallback(() => {
@@ -45,7 +54,7 @@ const InteractiveCanvas = () => {
 
     const rect = canvas.getBoundingClientRect();
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-    const dpr = isCoarsePointer ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = isCoarsePointer ? 1 : Math.min(window.devicePixelRatio || 1, 1.25);
 
     canvas.width = Math.max(1, Math.floor(rect.width * dpr));
     canvas.height = Math.max(1, Math.floor(rect.height * dpr));
@@ -54,7 +63,14 @@ const InteractiveCanvas = () => {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctxRef.current = ctx;
+    sizeRef.current = {
+      width: rect.width,
+      height: rect.height,
+      dpr,
+    };
   }, []);
 
   const getRelativePoint = useCallback((event: PointerEvent) => {
@@ -68,24 +84,23 @@ const InteractiveCanvas = () => {
     };
   }, []);
 
-  const spawnBurst = useCallback((x: number, y: number, intensity = 1) => {
-    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-    const count = isCoarsePointer ? 2 : Math.min(4, Math.max(2, Math.round(intensity * 3)));
+  const spawnStamp = useCallback((x: number, y: number, intensity: number, coarsePointer: boolean) => {
+    const count = coarsePointer ? 2 : Math.min(3, Math.max(1, Math.round(intensity * 2)));
 
-    for (let i = 0; i < count; i += 1) {
+    for (let index = 0; index < count; index += 1) {
       const angle = Math.random() * Math.PI * 2;
-      const distance = 10 + Math.random() * 42;
-      const stretch = 0.6 + Math.random() * 0.9;
-      const size = (isCoarsePointer ? 26 : 34) + Math.random() * 52 * intensity;
+      const distance = 10 + Math.random() * 34;
+      const size = (coarsePointer ? 26 : 30) + Math.random() * 34 * intensity;
+      const stretch = 0.58 + Math.random() * 0.42;
 
       stampsRef.current.push({
         x: x + Math.cos(angle) * distance,
-        y: y + Math.sin(angle) * distance * 0.8,
+        y: y + Math.sin(angle) * distance * 0.82,
         radiusX: size,
         radiusY: size * stretch,
         rotation: Math.random() * Math.PI,
-        opacity: isCoarsePointer ? 0.2 : 0.26,
-        decay: isCoarsePointer ? 0.012 : 0.014,
+        opacity: coarsePointer ? 0.18 : 0.24,
+        decay: coarsePointer ? 0.018 : 0.02,
       });
     }
 
@@ -95,8 +110,8 @@ const InteractiveCanvas = () => {
   }, []);
 
   const drawFrame = useCallback((time: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
+    const ctx = ctxRef.current;
+    if (!ctx) {
       stopAnimation();
       return;
     }
@@ -108,18 +123,11 @@ const InteractiveCanvas = () => {
 
     lastFrameRef.current = time;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      stopAnimation();
-      return;
-    }
-
-    const width = canvas.width / (window.matchMedia('(pointer: coarse)').matches ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
-    const height = canvas.height / (window.matchMedia('(pointer: coarse)').matches ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
-
+    const { width, height } = sizeRef.current;
     ctx.clearRect(0, 0, width, height);
 
-    const { foreground, primary } = colorsRef.current;
+    const [ph, ps, pl] = colorRef.current.primary;
+    const [fh, fs, fl] = colorRef.current.foreground;
 
     stampsRef.current = stampsRef.current.filter((stamp) => {
       stamp.opacity -= stamp.decay;
@@ -129,15 +137,15 @@ const InteractiveCanvas = () => {
       ctx.translate(stamp.x, stamp.y);
       ctx.rotate(stamp.rotation);
 
-      ctx.fillStyle = `hsl(${primary} / ${stamp.opacity * 0.24})`;
+      ctx.fillStyle = `hsla(${ph}, ${ps}, ${pl}, ${stamp.opacity})`;
       ctx.beginPath();
       ctx.ellipse(0, 0, stamp.radiusX, stamp.radiusY, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.strokeStyle = `hsl(${foreground} / ${stamp.opacity * 0.18})`;
+      ctx.strokeStyle = `hsla(${fh}, ${fs}, ${fl}, ${stamp.opacity * 0.45})`;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.ellipse(0, 0, stamp.radiusX * 0.72, stamp.radiusY * 0.72, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, stamp.radiusX * 0.76, stamp.radiusY * 0.76, 0, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.restore();
@@ -164,19 +172,21 @@ const InteractiveCanvas = () => {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    updateThemeColors();
+    updateColors();
     resizeCanvas();
 
     const handleResize = () => {
+      updateColors();
       resizeCanvas();
-      updateThemeColors();
     };
 
     const handlePointerDown = (event: PointerEvent) => {
       if (prefersReducedMotion) return;
       const point = getRelativePoint(event);
       if (!point) return;
-      spawnBurst(point.x, point.y, event.pointerType === 'touch' ? 0.9 : 1.2);
+
+      const coarsePointer = event.pointerType === 'touch' || window.matchMedia('(pointer: coarse)').matches;
+      spawnStamp(point.x, point.y, coarsePointer ? 0.85 : 1.1, coarsePointer);
       startAnimation();
     };
 
@@ -184,12 +194,12 @@ const InteractiveCanvas = () => {
       if (prefersReducedMotion || event.pointerType !== 'mouse') return;
 
       const now = performance.now();
-      if (now - lastMouseEmitRef.current < 56) return;
+      if (now - lastMouseEmitRef.current < MOUSE_EMIT_INTERVAL) return;
       lastMouseEmitRef.current = now;
 
       const point = getRelativePoint(event);
       if (!point) return;
-      spawnBurst(point.x, point.y, 0.7);
+      spawnStamp(point.x, point.y, 0.68, false);
       startAnimation();
     };
 
@@ -203,7 +213,7 @@ const InteractiveCanvas = () => {
       canvas.removeEventListener('pointermove', handlePointerMove);
       stopAnimation();
     };
-  }, [getRelativePoint, resizeCanvas, spawnBurst, startAnimation, stopAnimation, updateThemeColors]);
+  }, [getRelativePoint, resizeCanvas, spawnStamp, startAnimation, stopAnimation, updateColors]);
 
   return (
     <canvas

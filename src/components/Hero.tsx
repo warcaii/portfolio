@@ -7,6 +7,8 @@ const stats = [
   { value: '50+', label: 'Projects' },
 ];
 
+const pillars = ['Brand Systems', 'Product Design', 'AI Workflows'];
+
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
 
@@ -27,7 +29,7 @@ const Hero = () => {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-10rem)] max-w-6xl flex-col justify-center px-6 sm:px-8 lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-center lg:gap-10">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-10rem)] max-w-6xl flex-col justify-center px-6 sm:px-8 lg:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-10">
         <div className="text-center lg:text-left">
           <div
             className="mb-8 flex items-center justify-center gap-4 lg:justify-start"
@@ -69,15 +71,14 @@ const Hero = () => {
               animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both' : 'none',
             }}
           >
-            <span className="rounded-full border border-border/70 bg-card/40 px-4 py-2 text-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground backdrop-blur-sm">
-              Brand Systems
-            </span>
-            <span className="rounded-full border border-border/70 bg-card/40 px-4 py-2 text-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground backdrop-blur-sm">
-              Product Design
-            </span>
-            <span className="rounded-full border border-border/70 bg-card/40 px-4 py-2 text-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground backdrop-blur-sm">
-              AI Workflows
-            </span>
+            {pillars.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-border/70 bg-card/35 px-4 py-2 text-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground"
+              >
+                {item}
+              </span>
+            ))}
           </div>
 
           <div
@@ -103,12 +104,12 @@ const Hero = () => {
             animation: mounted ? 'heroSubtitleIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both' : 'none',
           }}
         >
-          <div className="relative mx-auto h-[320px] w-full max-w-[34rem] overflow-hidden rounded-[2rem] border border-border/60 bg-card/15 shadow-[0_20px_80px_hsl(var(--background)/0.35)] sm:h-[380px] lg:h-[520px]">
+          <div className="relative mx-auto h-[300px] w-full max-w-[34rem] overflow-hidden rounded-[2rem] border border-border/60 bg-card/15 shadow-[0_20px_80px_hsl(var(--background)/0.28)] sm:h-[360px] lg:h-[500px]">
             <div
               className="pointer-events-none absolute inset-0"
               style={{
                 background: `
-                  radial-gradient(circle at 30% 35%, hsl(var(--primary) / 0.22), transparent 22%),
+                  radial-gradient(circle at 30% 35%, hsl(var(--primary) / 0.2), transparent 22%),
                   radial-gradient(circle at 68% 58%, hsl(var(--foreground) / 0.08), transparent 24%),
                   linear-gradient(140deg, hsl(var(--background)), hsl(var(--card) / 0.45))
                 `,
@@ -117,11 +118,11 @@ const Hero = () => {
 
             <InteractiveCanvas />
 
-            <div className="pointer-events-none absolute left-5 top-5 rounded-full border border-border/60 bg-background/55 px-3 py-1.5 text-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-              Touch here
+            <div className="pointer-events-none absolute left-5 top-5 rounded-full border border-border/60 bg-background/75 px-3 py-1.5 text-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
+              Interactive zone
             </div>
-            <div className="pointer-events-none absolute bottom-5 right-5 rounded-full border border-border/60 bg-background/55 px-3 py-1.5 text-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-              Scroll works outside
+            <div className="pointer-events-none absolute bottom-5 right-5 rounded-full border border-border/60 bg-background/75 px-3 py-1.5 text-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
+              Mobile scroll stays free
             </div>
           </div>
         </div>
