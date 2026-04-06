@@ -39,17 +39,12 @@ const Hero = () => {
         loop
         muted
         playsInline
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177vh] min-h-[100vw] rotate-90 object-cover z-0"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177vh] min-h-[100vw] rotate-90 object-cover z-0 blur-sm"
         src="/hero-bg.mp4"
       />
       {/* Dark blue overlay to dim and tint */}
       <div className="absolute inset-0 z-[1] bg-background/40" />
       <div className="absolute inset-0 z-[1] bg-primary/5" />
-
-      {/* 3D Scene */}
-      <Suspense fallback={null}>
-        <HeroScene />
-      </Suspense>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
