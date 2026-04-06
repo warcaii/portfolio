@@ -1,7 +1,4 @@
-import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
-import { setScrollProgress } from './HeroScene';
-
-const HeroScene = lazy(() => import('./HeroScene'));
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 
 const Hero = () => {
