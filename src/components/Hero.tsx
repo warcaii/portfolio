@@ -15,7 +15,6 @@ const Hero = () => {
       scrollYRef.current = y;
       setScrollY(y);
       const progress = Math.min(y / window.innerHeight, 1);
-      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
