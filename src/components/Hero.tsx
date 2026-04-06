@@ -39,7 +39,7 @@ const Hero = () => {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177vh] min-h-[100vw] rotate-90 object-cover z-0"
         src="/hero-bg.mp4"
       />
       {/* Dark blue overlay to dim and tint */}
