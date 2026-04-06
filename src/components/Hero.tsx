@@ -33,21 +33,23 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="/hero-bg.mp4"
+      />
+      {/* Dark blue overlay to dim and tint */}
+      <div className="absolute inset-0 z-[1] bg-background/80" />
+      <div className="absolute inset-0 z-[1] bg-primary/10" />
+
       {/* 3D Scene */}
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
-
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.015]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-        }} />
-      </div>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
