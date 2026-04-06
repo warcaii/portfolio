@@ -43,8 +43,8 @@ const Hero = () => {
         src="/hero-bg.mp4"
       />
       {/* Dark blue overlay to dim and tint */}
-      <div className="absolute inset-0 z-[1] bg-background/80" />
-      <div className="absolute inset-0 z-[1] bg-primary/10" />
+      <div className="absolute inset-0 z-[1] bg-background/40" />
+      <div className="absolute inset-0 z-[1] bg-primary/5" />
 
       {/* 3D Scene */}
       <Suspense fallback={null}>
