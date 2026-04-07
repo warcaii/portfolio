@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-
+import galaxyImg from '@/assets/galaxy.png';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -59,7 +59,26 @@ const Hero = () => {
 
         {/* Main name — simple CSS animation, no per-frame rAF */}
         <div className="relative mb-10" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
-          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap">
+          {/* Galaxy image behind the name */}
+          <div 
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={{
+              width: '140%',
+              height: 'auto',
+              aspectRatio: '1',
+              animation: mounted ? 'heroSubtitleIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both' : 'none',
+            }}
+          >
+            <img 
+              src={galaxyImg} 
+              alt="" 
+              className="w-full h-full object-contain opacity-40"
+              style={{
+                animation: 'spin 120s linear infinite',
+              }}
+            />
+          </div>
+          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap" style={{ zIndex: 2 }}>
             {letters.map((letter, i) => (
               <span
                 key={i}
@@ -67,6 +86,7 @@ const Hero = () => {
                 style={{
                   color: 'hsl(var(--foreground))',
                   animation: mounted ? `heroLetterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.4 + i * 0.08}s both` : 'none',
+                  textShadow: '0 0 40px hsl(var(--background) / 0.8), 0 0 80px hsl(var(--background) / 0.6)',
                 }}
               >
                 {letter}
@@ -78,6 +98,7 @@ const Hero = () => {
           <div 
             className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-[2px]"
             style={{ 
+              zIndex: 2,
               animation: mounted ? 'heroLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both' : 'none',
               background: 'linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.8), transparent)',
             }}
