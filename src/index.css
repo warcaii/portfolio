@@ -362,4 +362,23 @@
       opacity: 1;
     }
   }
+
+  @keyframes thunderTwinkle {
+    0%, 100% {
+      opacity: 0.5;
+      filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.6)) drop-shadow(0 0 60px hsl(var(--primary) / 0.3));
+    }
+    30% {
+      opacity: 0.9;
+      filter: drop-shadow(0 0 35px hsl(var(--primary) / 0.8)) drop-shadow(0 0 80px hsl(var(--primary) / 0.5));
+    }
+    50% {
+      opacity: 0.3;
+      filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.4)) drop-shadow(0 0 40px hsl(var(--primary) / 0.2));
+    }
+    70% {
+      opacity: 0.8;
+      filter: drop-shadow(0 0 30px hsl(var(--primary) / 0.7)) drop-shadow(0 0 70px hsl(var(--primary) / 0.4));
+    }
+  }
 }
