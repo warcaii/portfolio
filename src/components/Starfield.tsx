@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const STAR_COUNT = 60;
+const STAR_COUNT = 120;
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,8 +32,8 @@ const Starfield = () => {
       stars = Array.from({ length: STAR_COUNT }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 1.2 + 0.3,
-        alpha: Math.random() * 0.4 + 0.1,
+        r: Math.random() * 1.8 + 0.5,
+        alpha: Math.random() * 0.6 + 0.3,
         speed: Math.random() * 0.3 + 0.1,
         phase: Math.random() * Math.PI * 2,
       }));
@@ -76,7 +76,7 @@ const Starfield = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.85 }}
     />
   );
 };
