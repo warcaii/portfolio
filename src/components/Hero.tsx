@@ -58,7 +58,7 @@ const Hero = () => {
         </div>
 
         {/* Main name — simple CSS animation, no per-frame rAF */}
-        <div className="relative mb-10" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
+        <div className="relative mb-10 overflow-visible" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
           {/* Galaxy image behind the name */}
           <div 
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
