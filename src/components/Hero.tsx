@@ -78,6 +78,38 @@ const Hero = () => {
               }}
             />
           </div>
+          {/* Twinkling thunder bolt behind name */}
+          <div 
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={{ zIndex: 1 }}
+          >
+            <svg
+              viewBox="0 0 120 200"
+              className="w-[50vw] sm:w-[35vw] md:w-[28vw] lg:w-[22vw] h-auto"
+              style={{
+                filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.6)) drop-shadow(0 0 60px hsl(var(--primary) / 0.3))',
+                animation: mounted ? 'thunderTwinkle 3s ease-in-out infinite, heroSubtitleIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both' : 'none',
+              }}
+            >
+              <polygon
+                points="70,0 25,90 55,90 20,200 95,85 60,85 100,0"
+                fill="hsl(var(--primary) / 0.15)"
+                stroke="hsl(var(--primary) / 0.4)"
+                strokeWidth="1"
+                strokeLinejoin="round"
+              />
+              <polygon
+                points="70,0 25,90 55,90 20,200 95,85 60,85 100,0"
+                fill="none"
+                stroke="hsl(var(--primary) / 0.2)"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                style={{
+                  filter: 'blur(4px)',
+                }}
+              />
+            </svg>
+          </div>
           <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap" style={{ zIndex: 2 }}>
             {letters.map((letter, i) => (
               <span
