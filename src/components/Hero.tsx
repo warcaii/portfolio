@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-
+import galaxyImg from '@/assets/galaxy.png';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
