@@ -1,74 +1,71 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
-  const mousePosRef = useRef({ x: 0, y: 0 });
-  const scrollYRef = useRef(0);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setMounted(true);
-    
-    const handleScroll = () => {
-      const y = window.scrollY;
-      scrollYRef.current = y;
-      setScrollY(y);
-      const progress = Math.min(y / window.innerHeight, 1);
-    };
-
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const letters = 'DEVANSH'.split('');
   const scrollProgress = Math.min(scrollY / (window.innerHeight * 0.6), 1);
   const titleOpacity = Math.max(0, 1 - scrollProgress * 1.2);
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
-      {/* Background video — hidden in light/glacier mode */}
+    <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background">
+      {/* Background video */}
       <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 dark:block [data-theme='glacier']_&:hidden"
+        autoPlay loop muted playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ display: 'var(--hero-video-display, block)' }}
         src="/hero-bg.mp4"
       />
-      {/* Overlay — opaque in light mode to cover video, subtle in dark */}
-      <div className="absolute inset-0 z-[1] bg-background/20" style={{ backgroundColor: 'hsl(var(--background) / var(--hero-overlay-opacity, 0.2))' }} />
-      
+      <div className="absolute inset-0 z-[1]" style={{ backgroundColor: 'hsl(var(--background) / var(--hero-overlay-opacity, 0.2))' }} />
+
+      {/* Brutal diagonal slashes */}
+      <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+        <div 
+          className="absolute top-0 right-[15%] w-[2px] h-full bg-foreground/[0.06]"
+          style={{ transform: 'rotate(12deg)', transformOrigin: 'top center' }}
+        />
+        <div 
+          className="absolute top-0 left-[20%] w-[2px] h-full bg-foreground/[0.04]"
+          style={{ transform: 'rotate(-8deg)', transformOrigin: 'top center' }}
+        />
+        <div 
+          className="absolute top-0 right-[40%] w-[1px] h-full bg-foreground/[0.03]"
+          style={{ transform: 'rotate(5deg)', transformOrigin: 'top center' }}
+        />
+      </div>
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl">
-        {/* Top label */}
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-20" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
+        
+        {/* Top declaration */}
         <div 
-          className="flex items-center justify-center gap-4 mb-14 mt-16 md:mt-0"
-          style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' : 'none',
-          }}
+          className="mb-6 md:mb-8"
+          style={{ animation: mounted ? 'heroSubtitleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both' : 'none' }}
         >
-          <div className="w-10 h-px bg-gradient-to-r from-transparent to-foreground/50" />
-          <span className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
-            Creative Director
-          </span>
-          <div className="w-10 h-px bg-gradient-to-l from-transparent to-foreground/50" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-3 h-3 bg-foreground" />
+            <span className="text-mono text-[10px] tracking-[0.5em] uppercase text-foreground/60 font-medium">
+              Creative Director & Founder
+            </span>
+          </div>
         </div>
 
-        {/* Main name — simple CSS animation, no per-frame rAF */}
-        <div className="relative mb-10 overflow-visible" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
-          <h1 className="relative text-display text-[4rem] sm:text-[7rem] md:text-[10rem] lg:text-[14rem] font-bold leading-[0.85] tracking-[-0.04em] whitespace-nowrap" style={{ zIndex: 2 }}>
-            {letters.map((letter, i) => (
+        {/* MASSIVE name — brutalist left-aligned */}
+        <div className="relative mb-6 md:mb-8">
+          <h1 className="text-display text-[5rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[20rem] font-bold leading-[0.8] tracking-[-0.06em] text-foreground uppercase">
+            {['D','E','V','A','N','S','H'].map((letter, i) => (
               <span
                 key={i}
                 className="inline-block will-change-transform select-none"
                 style={{
-                  color: 'hsl(var(--foreground))',
-                  animation: mounted ? `heroLetterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.4 + i * 0.08}s both` : 'none',
-                  textShadow: '0 0 40px hsl(var(--background) / 0.8), 0 0 80px hsl(var(--background) / 0.6)',
+                  animation: mounted ? `heroLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.06}s both` : 'none',
                 }}
               >
                 {letter}
@@ -76,62 +73,64 @@ const Hero = () => {
             ))}
           </h1>
           
-          {/* Animated underline */}
+          {/* Hard underline — brutalist */}
           <div 
-            className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-[2px]"
+            className="h-[4px] md:h-[6px] bg-foreground mt-2"
             style={{ 
-              zIndex: 2,
-              animation: mounted ? 'heroLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both' : 'none',
-              background: 'linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.8), transparent)',
+              animation: mounted ? 'brutalLineExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
             }}
           />
         </div>
 
-        {/* Subtitle */}
-        <p 
-          className="text-mono text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed"
-          style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
-          }}
-        >
-          Building at the intersection of{' '}
-          <span className="text-foreground font-medium">design</span>,{' '}
-          <span className="text-foreground font-medium">technology</span>, and{' '}
-          <span className="text-foreground font-medium">AI</span>.
-        </p>
-
-        {/* Stats strip */}
+        {/* Power statement */}
         <div 
-          className="mt-16 md:mt-20 flex items-center justify-center gap-0"
-          style={{
-            animation: mounted ? 'heroSubtitleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both' : 'none',
-          }}
+          className="max-w-2xl"
+          style={{ animation: mounted ? 'heroSubtitleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both' : 'none' }}
+        >
+          <p className="text-mono text-lg md:text-2xl lg:text-3xl text-foreground font-medium leading-tight tracking-tight">
+            I don't follow trends.
+            <br />
+            <span className="text-foreground/40">I set them.</span>
+          </p>
+        </div>
+
+        {/* Stats — brutal blocks */}
+        <div 
+          className="mt-12 md:mt-16 flex flex-wrap gap-0"
+          style={{ animation: mounted ? 'heroSubtitleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s both' : 'none' }}
         >
           {[
-            { value: 3, suffix: '+', label: 'Years', pad: false },
-            { value: 4, suffix: '', label: 'Ventures', pad: true },
-            { value: 50, suffix: '+', label: 'Projects', pad: false },
-          ].map((stat, index, arr) => (
-            <div key={index} className="flex items-center">
-              <div className="group cursor-default text-center px-5 sm:px-8 md:px-12 py-5 md:py-7 relative overflow-hidden rounded-xl hover:bg-foreground/[0.04] transition-all duration-500">
-                {/* Top glow line on hover */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <p className="text-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground group-hover:text-primary group-hover:scale-110 transition-all duration-500 ease-out">
-                  {stat.pad ? String(stat.value).padStart(2, '0') : stat.value}{stat.suffix}
+            { value: '3+', label: 'YEARS' },
+            { value: '04', label: 'VENTURES' },
+            { value: '50+', label: 'PROJECTS' },
+          ].map((stat, index) => (
+            <div 
+              key={index} 
+              className="group border border-foreground/20 hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300 cursor-default"
+            >
+              <div className="px-6 sm:px-10 md:px-14 py-6 md:py-8">
+                <p className="text-display text-4xl sm:text-5xl md:text-7xl font-bold group-hover:scale-105 transition-transform duration-300">
+                  {stat.value}
                 </p>
-                <p className="text-mono text-[9px] sm:text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground/50 mt-2 group-hover:text-muted-foreground/80 transition-colors duration-500">
+                <p className="text-mono text-[8px] sm:text-[9px] md:text-[11px] tracking-[0.4em] uppercase mt-2 opacity-50 group-hover:opacity-100 transition-opacity duration-300">
                   {stat.label}
                 </p>
               </div>
-              {index < arr.length - 1 && (
-                <div className="w-px h-8 md:h-12 bg-gradient-to-b from-transparent via-foreground/15 to-transparent flex-shrink-0" />
-              )}
             </div>
           ))}
         </div>
-      </div>
 
+        {/* Bottom manifesto line */}
+        <div 
+          className="mt-12 md:mt-16 flex items-center gap-4"
+          style={{ animation: mounted ? 'heroSubtitleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both' : 'none' }}
+        >
+          <div className="w-12 md:w-20 h-[2px] bg-foreground/30" />
+          <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-foreground/40">
+            Design · Technology · AI
+          </span>
+        </div>
+      </div>
     </section>
   );
 };
