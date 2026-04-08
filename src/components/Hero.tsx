@@ -59,7 +59,7 @@ const Hero = () => {
 
         {/* MASSIVE name — brutalist left-aligned */}
         <div className="relative mb-6 md:mb-8">
-          <h1 className="text-display text-[5rem] sm:text-[8rem] md:text-[10vw] font-bold leading-[0.8] tracking-[-0.06em] text-foreground uppercase whitespace-nowrap">
+          <h1 className="text-display text-[18vw] md:text-[13vw] font-bold leading-[0.85] tracking-[-0.04em] text-foreground uppercase whitespace-nowrap">
             {['D','E','V','A','N','S','H'].map((letter, i) => (
               <span
                 key={i}
