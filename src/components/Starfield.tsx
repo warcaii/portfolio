@@ -75,8 +75,8 @@ const Starfield = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: 0.85 }}
+      className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
+      style={{ opacity: 0.9 }}
     />
   );
 };

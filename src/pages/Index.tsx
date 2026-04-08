@@ -7,7 +7,6 @@ import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
-import Starfield from "@/components/Starfield";
 import SpaceDivider from "@/components/SpaceDivider";
 
 const Index = () => {
@@ -17,7 +16,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {loading && <LoadingScreen onComplete={handleLoadComplete} />}
-      <Starfield />
       <Navigation />
       <main>
         <Hero />
