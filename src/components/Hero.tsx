@@ -28,17 +28,18 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden bg-background pt-20">
-      {/* Background video */}
+      {/* Background video — hidden in light/glacier mode */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 w-full h-full object-cover z-0 dark:block [data-theme='glacier']_&:hidden"
+        style={{ display: 'var(--hero-video-display, block)' }}
         src="/hero-bg.mp4"
       />
-      {/* Subtle overlay for text readability */}
-      <div className="absolute inset-0 z-[1] bg-background/20" />
+      {/* Overlay — opaque in light mode to cover video, subtle in dark */}
+      <div className="absolute inset-0 z-[1] bg-background/20" style={{ backgroundColor: 'hsl(var(--background) / var(--hero-overlay-opacity, 0.2))' }} />
       
 
       {/* Main content */}
