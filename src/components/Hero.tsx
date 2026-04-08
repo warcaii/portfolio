@@ -39,7 +39,7 @@ const Hero = () => {
       />
       {/* Subtle overlay for text readability */}
       <div className="absolute inset-0 z-[1] bg-background/20" />
-      <Starfield />
+      
 
       {/* Main content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
