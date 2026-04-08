@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import Starfield from './Starfield';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
