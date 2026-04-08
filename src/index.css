@@ -65,6 +65,8 @@
   }
 
   [data-theme="glacier"] {
+    --hero-video-display: none;
+    --hero-overlay-opacity: 1;
     --background: 210 30% 96%;
     --foreground: 210 25% 12%;
 
