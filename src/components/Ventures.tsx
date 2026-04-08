@@ -78,7 +78,7 @@ const Ventures = () => {
             <div className="w-full h-full bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
           </div>
 
-          <div className="space-y-16 md:space-y-24">
+          <div className="space-y-12 md:space-y-16">
             {ventures.map((venture, index) => {
               const Icon = venture.icon;
               const isEven = index % 2 === 0;
