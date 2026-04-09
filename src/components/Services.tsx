@@ -22,7 +22,6 @@ const services = [
     description: "Compelling visual narratives through seamless editing, motion graphics, and color grading.",
     details: [
       "Post-Production Editing",
-      "Motion Graphics & VFX",
       "Color Grading & Correction",
       "Sound Design & Mixing",
     ],
