@@ -374,6 +374,26 @@
     }
   }
 
+  @keyframes heroLetterFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes slashDrift {
+    0%, 100% { opacity: 1; transform: rotate(var(--tw-rotate, 12deg)) translateX(0); }
+    50% { opacity: 0.5; transform: rotate(var(--tw-rotate, 12deg)) translateX(15px); }
+  }
+
+  @keyframes ambientPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+
+  @keyframes linePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
   @keyframes thunderTwinkle {
     0%, 100% {
       opacity: 0.5;
