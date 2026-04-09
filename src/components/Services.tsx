@@ -50,13 +50,15 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-24 md:py-40 section-padding relative">
-      <div className="max-w-6xl mx-auto relative">
-        {/* Brutal header */}
+    <section id="services" className="py-32 md:py-48 section-padding relative">
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto relative">
         <ScrollReveal>
-          <div className="flex items-center gap-6 mb-20">
-            <span className="text-display text-6xl md:text-8xl font-black text-foreground leading-none">03</span>
-            <div className="h-[3px] flex-1 bg-foreground" />
+          <div className="flex items-center gap-4 mb-20">
+            <div className="accent-dot animate-pulse" />
+            <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">03 — Services</span>
+            <div className="h-px flex-1 bg-gradient-to-r from-foreground/30 to-transparent" />
           </div>
         </ScrollReveal>
 
@@ -67,54 +69,63 @@ const Services = () => {
 
             return (
               <ScrollReveal key={service.number} delay={0.1 + index * 0.1}>
-                <div className="border-[2px] border-foreground -mt-[2px] first:mt-0">
+                <div
+                  className={cn(
+                    "border-b border-border/40 transition-colors duration-500",
+                    isOpen && "border-border/80"
+                  )}
+                >
                   {/* Accordion trigger */}
                   <button
                     onClick={() => toggle(index)}
-                    className={cn(
-                      "w-full text-left p-6 md:p-8 flex items-center gap-6 md:gap-10 group cursor-pointer transition-all duration-200",
-                      isOpen && "bg-foreground text-background"
-                    )}
+                    className="w-full text-left py-8 md:py-10 flex items-center gap-6 md:gap-10 group cursor-pointer"
                   >
                     {/* Number */}
                     <span className={cn(
-                      "text-display text-3xl md:text-5xl font-black transition-colors",
-                      isOpen ? "text-background/60" : "text-foreground/40"
+                      "text-mono text-sm tracking-widest text-muted-foreground transition-colors duration-500",
+                      isOpen && "text-foreground"
                     )}>
                       {service.number}
                     </span>
 
                     {/* Icon */}
-                    <Icon className={cn(
-                      "w-6 h-6 flex-shrink-0 transition-colors",
-                      isOpen ? "text-background/60" : "text-foreground/40 group-hover:text-foreground/70"
-                    )} />
+                    <div className={cn(
+                      "p-3 rounded-xl glass transition-all duration-500",
+                      isOpen && "shadow-[0_0_20px_hsl(var(--foreground)/0.08)]"
+                    )}>
+                      <Icon className={cn(
+                        "w-5 h-5 text-muted-foreground transition-colors duration-500",
+                        isOpen ? "text-foreground" : "group-hover:text-foreground/70"
+                      )} />
+                    </div>
 
                     {/* Title */}
                     <h3 className={cn(
-                      "text-display text-2xl md:text-4xl lg:text-5xl font-black flex-1 tracking-tight transition-colors",
-                      isOpen ? "text-background" : "text-foreground group-hover:text-foreground"
+                      "text-display text-2xl md:text-4xl lg:text-5xl flex-1 transition-all duration-500",
+                      isOpen
+                        ? "text-foreground drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                        : "text-foreground/50 group-hover:text-foreground/80"
                     )}>
                       {service.title}
                     </h3>
 
                     {/* Chevron */}
                     <ChevronDown className={cn(
-                      "w-6 h-6 flex-shrink-0 transition-all duration-300",
-                      isOpen ? "rotate-180 text-background/60" : "text-foreground/40"
+                      "w-5 h-5 text-muted-foreground transition-all duration-500 flex-shrink-0",
+                      isOpen && "rotate-180 text-foreground"
                     )} />
                   </button>
 
                   {/* Accordion content */}
                   <div
                     className={cn(
-                      "grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                      "grid transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
                       isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                     )}
                   >
                     <div className="overflow-hidden">
-                      <div className="p-6 md:p-8 pt-0 md:pt-0 border-t-[2px] border-foreground/20 space-y-6">
-                        <p className="text-mono text-sm md:text-base text-foreground/60 max-w-2xl leading-relaxed pt-6">
+                      <div className="pb-10 pl-[4.5rem] md:pl-[6.5rem] space-y-6">
+                        <p className="text-mono text-sm md:text-base text-muted-foreground max-w-2xl leading-relaxed">
                           {service.description}
                         </p>
 
@@ -122,7 +133,10 @@ const Services = () => {
                           {service.details.map((detail, i) => (
                             <span
                               key={i}
-                              className="text-mono text-xs tracking-wider uppercase px-5 py-2.5 border-[2px] border-foreground text-foreground/80 hover:bg-foreground hover:text-background transition-all duration-200"
+                              className="text-mono text-xs tracking-wide px-4 py-2 rounded-full border border-border/60 text-foreground/60 bg-foreground/[0.03]"
+                              style={{
+                                animationDelay: `${i * 80}ms`,
+                              }}
                             >
                               {detail}
                             </span>

@@ -2,53 +2,46 @@ import { ScrollReveal } from '@/hooks/useScrollReveal';
 
 const About = () => {
   return (
-    <section id="about" className="py-24 md:py-40 section-padding relative overflow-hidden">
-      <div className="max-w-6xl mx-auto relative">
-        {/* Brutal section label */}
+    <section id="about" className="py-32 md:py-48 section-padding relative overflow-hidden">
+      <div className="max-w-5xl mx-auto relative">
+        {/* Section label */}
         <ScrollReveal>
-          <div className="flex items-center gap-6 mb-16">
-            <span className="text-display text-6xl md:text-8xl font-black text-foreground leading-none">01</span>
-            <div className="h-[3px] flex-1 bg-foreground" />
-          </div>
+          <p className="text-mono text-[11px] tracking-[0.35em] uppercase text-muted-foreground/50 mb-10">
+            About
+          </p>
         </ScrollReveal>
 
-        {/* Big brutal statement */}
+        {/* Big statement */}
         <ScrollReveal delay={0.1}>
-          <h2 className="text-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-foreground mb-6 uppercase">
-            I'M DEVANSH.
-          </h2>
-          <h2 className="text-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[0.95] tracking-tight text-foreground/40 mb-16 uppercase">
-            A CREATIVE DIRECTOR WHO DOESN'T PLAY SAFE.
+          <h2 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-foreground mb-16 max-w-4xl">
+            I'm Devansh — a creative director who crafts at the intersection of
+            <span className="text-muted-foreground"> design, motion, and AI.</span>
           </h2>
         </ScrollReveal>
 
-        {/* Two-column body with hard borders */}
-        <div className="grid md:grid-cols-2 gap-0 mb-20 border-t-[3px] border-foreground">
+        {/* Two-column body */}
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 mb-24">
           <ScrollReveal delay={0.2}>
-            <div className="p-8 md:p-10 border-b-[3px] md:border-b-0 md:border-r-[3px] border-foreground">
-              <p className="text-base md:text-lg leading-[1.8] text-foreground/70 font-mono">
-                For the past three years, I've been building visual identities, editing cinematic content, 
-                and exploring how AI can push creative boundaries. I believe the best work happens when 
-                craft meets curiosity.
-              </p>
-            </div>
+            <p className="text-base md:text-lg leading-[1.8] text-muted-foreground">
+              For the past three years, I've been building visual identities, editing cinematic content, 
+              and exploring how AI can push creative boundaries. I believe the best work happens when 
+              craft meets curiosity.
+            </p>
           </ScrollReveal>
           <ScrollReveal delay={0.3}>
-            <div className="p-8 md:p-10">
-              <p className="text-base md:text-lg leading-[1.8] text-foreground/70 font-mono">
-                From brand systems to generative workflows, I approach every project with intention — 
-                making things that feel human, look refined, and work seamlessly. Currently building 
-                ventures that merge design and technology.
-              </p>
-            </div>
+            <p className="text-base md:text-lg leading-[1.8] text-muted-foreground">
+              From brand systems to generative workflows, I approach every project with intention — 
+              making things that feel human, look refined, and work seamlessly. Currently building 
+              ventures that merge design and technology.
+            </p>
           </ScrollReveal>
         </div>
 
-        {/* Expertise — brutal blocks */}
+        {/* Expertise chips */}
         <ScrollReveal delay={0.35}>
-          <div className="mb-20">
-            <p className="text-display text-xs tracking-[0.5em] uppercase text-foreground mb-8 font-black">
-              WHAT I DO
+          <div className="border-t border-foreground/[0.08] pt-12">
+            <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-6">
+              What I do
             </p>
             <div className="flex flex-wrap gap-3">
               {[
@@ -61,7 +54,7 @@ const About = () => {
               ].map((skill) => (
                 <span
                   key={skill}
-                  className="px-6 py-3 border-[2px] border-foreground text-sm text-foreground font-mono uppercase tracking-wider hover:bg-foreground hover:text-background transition-all duration-200 cursor-default"
+                  className="px-5 py-2.5 rounded-full border border-foreground/[0.08] text-sm text-foreground/70 hover:text-foreground hover:border-foreground/[0.2] hover:bg-foreground/[0.03] transition-all duration-300 cursor-default"
                 >
                   {skill}
                 </span>
@@ -70,27 +63,30 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Metrics — brutal blocks */}
+        {/* Metrics row */}
         <ScrollReveal delay={0.4}>
-          <div className="border-t-[3px] border-foreground pt-12">
-            <p className="text-display text-xs tracking-[0.5em] uppercase text-foreground mb-10 font-black">
-              THE NUMBERS
+          <div className="mt-24 pt-16 border-t border-foreground/[0.12]">
+            <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-10">
+              The Numbers
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-0">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
-                { value: '3+', label: 'YEARS', subtitle: 'OF CREATIVE WORK' },
-                { value: '4', label: 'VENTURES', subtitle: 'FOUNDED & GROWN' },
-                { value: '50+', label: 'PROJECTS', subtitle: 'DELIVERED WORLDWIDE' },
+                { value: '3+', label: 'Years', subtitle: 'of creative work' },
+                { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
+                { value: '50+', label: 'Projects', subtitle: 'delivered worldwide' },
               ].map((stat, i) => (
                 <ScrollReveal key={stat.label} delay={0.45 + i * 0.08}>
-                  <div className="group p-8 md:p-10 border-[2px] border-foreground -mt-[2px] first:mt-0 sm:mt-0 sm:-ml-[2px] sm:first:ml-0 hover:bg-foreground hover:text-background transition-all duration-200 cursor-default">
-                    <p className="text-display text-6xl sm:text-7xl md:text-8xl font-black leading-none group-hover:text-background transition-colors">
+                  <div className="group relative p-6 md:p-8 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02] hover:bg-foreground/[0.05] hover:border-foreground/[0.15] transition-all duration-500 cursor-default overflow-hidden">
+                    {/* Glow accent */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <p className="text-display text-5xl sm:text-6xl md:text-7xl font-bold text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                       {stat.value}
                     </p>
-                    <p className="text-mono text-sm tracking-[0.3em] uppercase text-foreground/80 mt-4 font-bold group-hover:text-background/80 transition-colors">
+                    <p className="text-mono text-[11px] tracking-[0.25em] uppercase text-foreground/70 mt-4 font-medium">
                       {stat.label}
                     </p>
-                    <p className="text-mono text-xs text-foreground/40 mt-1 group-hover:text-background/50 transition-colors">
+                    <p className="text-mono text-[10px] text-muted-foreground/40 mt-1">
                       {stat.subtitle}
                     </p>
                   </div>
