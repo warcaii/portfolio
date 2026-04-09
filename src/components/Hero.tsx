@@ -25,21 +25,30 @@ const Hero = () => {
       />
       <div className="absolute inset-0 z-[1]" style={{ backgroundColor: 'hsl(var(--background) / var(--hero-overlay-opacity, 0.2))' }} />
 
-      {/* Brutal diagonal slashes */}
+      {/* Brutal diagonal slashes — animated */}
       <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
         <div 
           className="absolute top-0 right-[15%] w-[2px] h-full bg-foreground/[0.06]"
-          style={{ transform: 'rotate(12deg)', transformOrigin: 'top center' }}
+          style={{ transform: 'rotate(12deg)', transformOrigin: 'top center', animation: 'slashDrift 8s ease-in-out infinite' }}
         />
         <div 
           className="absolute top-0 left-[20%] w-[2px] h-full bg-foreground/[0.04]"
-          style={{ transform: 'rotate(-8deg)', transformOrigin: 'top center' }}
+          style={{ transform: 'rotate(-8deg)', transformOrigin: 'top center', animation: 'slashDrift 10s ease-in-out 2s infinite reverse' }}
         />
         <div 
           className="absolute top-0 right-[40%] w-[1px] h-full bg-foreground/[0.03]"
-          style={{ transform: 'rotate(5deg)', transformOrigin: 'top center' }}
+          style={{ transform: 'rotate(5deg)', transformOrigin: 'top center', animation: 'slashDrift 12s ease-in-out 4s infinite' }}
         />
       </div>
+
+      {/* Ambient pulsing glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] rounded-full z-[1] pointer-events-none"
+        style={{ 
+          background: 'radial-gradient(circle, hsl(var(--foreground) / 0.04), transparent 70%)',
+          animation: 'ambientPulse 6s ease-in-out infinite'
+        }}
+      />
 
       {/* Main content */}
       <div className="relative z-10 w-full px-6 md:px-12 lg:px-20" style={{ opacity: titleOpacity, transition: 'opacity 0.1s linear' }}>
@@ -65,7 +74,9 @@ const Hero = () => {
                 key={i}
                 className="inline-block will-change-transform select-none"
                 style={{
-                  animation: mounted ? `heroLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.06}s both` : 'none',
+                  animation: mounted
+                    ? `heroLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.06}s both, heroLetterFloat 4s ease-in-out ${2 + i * 0.3}s infinite`
+                    : 'none',
                 }}
               >
                 {letter}
@@ -77,7 +88,7 @@ const Hero = () => {
           <div 
             className="h-[4px] md:h-[6px] bg-foreground mt-2"
             style={{ 
-              animation: mounted ? 'brutalLineExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both' : 'none',
+              animation: mounted ? 'brutalLineExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s both, linePulse 3s ease-in-out 2s infinite' : 'none',
             }}
           />
         </div>
