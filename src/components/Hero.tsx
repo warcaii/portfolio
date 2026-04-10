@@ -72,10 +72,10 @@ const Hero = () => {
             {['D','E','V','A','N','S','H'].map((letter, i) => (
               <span
                 key={i}
-                className="inline-block will-change-transform select-none"
+                className="inline-block select-none"
                 style={{
                   animation: mounted
-                    ? `heroLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.06}s both, heroLetterFloat 4s ease-in-out ${2 + i * 0.3}s infinite`
+                    ? `heroLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.06}s both`
                     : 'none',
                 }}
               >
