@@ -63,38 +63,51 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Metrics row */}
-        <ScrollReveal delay={0.4}>
-          <div className="mt-24 pt-16 border-t border-foreground/[0.12]">
+        {/* Metrics row — brutalist redesign */}
+        <div className="mt-24 pt-16 border-t border-foreground/[0.12]">
+          <ScrollReveal delay={0.4}>
             <p className="text-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 mb-10">
               The Numbers
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {[
-                { value: '3+', label: 'Years', subtitle: 'of creative work' },
-                { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
-                { value: '50+', label: 'Projects', subtitle: 'delivered worldwide' },
-              ].map((stat, i) => (
-                <ScrollReveal key={stat.label} delay={0.45 + i * 0.08}>
-                  <div className="group relative p-6 md:p-8 rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02] hover:bg-foreground/[0.05] hover:border-foreground/[0.15] transition-all duration-500 cursor-default overflow-hidden">
-                    {/* Glow accent */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    <p className="text-display text-5xl sm:text-6xl md:text-7xl font-bold text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
+          </ScrollReveal>
+
+          <div className="space-y-4">
+            {[
+              { value: '3+', label: 'Years', subtitle: 'of creative work' },
+              { value: '4', label: 'Ventures', subtitle: 'founded & grown' },
+              { value: '50+', label: 'Projects', subtitle: 'delivered worldwide' },
+            ].map((stat, i) => (
+              <ScrollReveal key={stat.label} delay={0.45 + i * 0.1}>
+                <div className="group relative flex items-center justify-between p-8 md:p-10 border border-foreground/[0.08] hover:border-foreground/30 bg-foreground/[0.02] hover:bg-foreground transition-all duration-500 cursor-default overflow-hidden">
+                  {/* Large value */}
+                  <div className="flex items-baseline gap-4 md:gap-6">
+                    <span className="text-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-foreground group-hover:text-background transition-colors duration-500 leading-none tracking-tighter">
                       {stat.value}
-                    </p>
-                    <p className="text-mono text-[11px] tracking-[0.25em] uppercase text-foreground/70 mt-4 font-medium">
-                      {stat.label}
-                    </p>
-                    <p className="text-mono text-[10px] text-muted-foreground/40 mt-1">
-                      {stat.subtitle}
-                    </p>
+                    </span>
+                    <div>
+                      <p className="text-mono text-xs sm:text-sm tracking-[0.25em] uppercase text-foreground/80 group-hover:text-background/80 font-semibold transition-colors duration-500">
+                        {stat.label}
+                      </p>
+                      <p className="text-mono text-[10px] sm:text-xs text-muted-foreground/40 group-hover:text-background/40 mt-0.5 transition-colors duration-500">
+                        {stat.subtitle}
+                      </p>
+                    </div>
                   </div>
-                </ScrollReveal>
-              ))}
-            </div>
+
+                  {/* Arrow indicator */}
+                  <div className="text-foreground/10 group-hover:text-background/30 transition-colors duration-500">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                    </svg>
+                  </div>
+
+                  {/* Hover line accent */}
+                  <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-700" />
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );
