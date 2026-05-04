@@ -1,5 +1,4 @@
 import { ScrollReveal } from '@/hooks/useScrollReveal';
-import { Rocket, Users, Palette, Award } from 'lucide-react';
 
 const ventures = [
   {
@@ -8,8 +7,8 @@ const ventures = [
     role: "Designer → Partner",
     company: "Creative Collective",
     description: "Started as a designer for 4 months before becoming a partner for 6 months. Crafted visuals for gaming communities and built a reputation in the design space.",
-    icon: Award,
-    stats: { label: "Months", value: "10" },
+    stat: "10",
+    statLabel: "Months",
   },
   {
     year: "2022",
@@ -17,8 +16,8 @@ const ventures = [
     role: "Co-Founder",
     company: "Design Agency",
     description: "A collective of some of the best designers in the field, focused on creating stunning visuals and brand identities for gaming communities worldwide.",
-    icon: Users,
-    stats: { label: "Designers", value: "12" },
+    stat: "12",
+    statLabel: "Designers",
   },
   {
     year: "2022",
@@ -26,8 +25,8 @@ const ventures = [
     role: "Founder",
     company: "Brand Studio",
     description: "A design venture specializing in brand identity and visual communication. Operated for 5 months crafting memorable experiences through thoughtful design.",
-    icon: Palette,
-    stats: { label: "Brands", value: "10+" },
+    stat: "10+",
+    statLabel: "Brands",
   },
   {
     year: "2023",
@@ -35,145 +34,127 @@ const ventures = [
     role: "Founder",
     company: "AI Startup · Brain.ai",
     description: "My biggest venture in the AI space, built in partnership with Brain.ai. Featured a smart chat agent aggregating multiple AI APIs and an advanced image generation system.",
-    icon: Rocket,
-    stats: { label: "AI APIs", value: "10+" },
+    stat: "10+",
+    statLabel: "AI APIs",
     highlight: true,
   },
 ];
 
 const Ventures = () => {
   return (
-    <section id="ventures" className="py-32 md:py-48 section-padding relative overflow-hidden">
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-foreground/[0.02] rounded-full blur-[120px] pointer-events-none" />
+    <section id="ventures" className="relative py-24 md:py-40 bg-background border-y-2 border-foreground overflow-hidden">
+      {/* Brutalist grid backdrop */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.07] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto relative">
-        {/* Section header */}
+      {/* Section label bar */}
+      <div className="relative section-padding">
         <ScrollReveal>
-          <div className="flex items-center gap-4 mb-12">
-            <div className="accent-dot animate-pulse" />
-            <span className="text-mono text-xs tracking-widest uppercase text-muted-foreground">02 — Ventures</span>
-            <div className="h-px flex-1 bg-gradient-to-r from-foreground/30 to-transparent" />
+          <div className="flex items-center justify-between border-b-2 border-foreground pb-4 mb-12 md:mb-20">
+            <div className="flex items-center gap-3">
+              <span className="block w-3 h-3 bg-foreground" />
+              <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold">
+                02 / Ventures
+              </span>
+            </div>
+            <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground">
+              2021 — 2024
+            </span>
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
-          <div className="text-center mb-24 md:mb-32">
-            <h2 className="text-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] mb-4">
-              My ventures &
-            </h2>
-            <h2 className="text-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-gradient">
-              experience
-            </h2>
-          </div>
+        {/* Massive title */}
+        <ScrollReveal delay={0.05}>
+          <h2 className="text-display font-black uppercase leading-[0.85] tracking-[-0.04em] mb-16 md:mb-24">
+            <span className="block text-[18vw] md:text-[14vw] lg:text-[12vw]">VEN—</span>
+            <span className="block text-[18vw] md:text-[14vw] lg:text-[12vw] -mt-[3vw] pl-[10vw] md:pl-[20vw]">
+              TURES
+              <span className="inline-block w-3 h-3 md:w-5 md:h-5 bg-foreground ml-3 align-baseline" />
+            </span>
+          </h2>
         </ScrollReveal>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Center line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden md:block">
-            <div className="w-full h-full bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-          </div>
-          {/* Mobile left line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px md:hidden">
-            <div className="w-full h-full bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-          </div>
+        {/* Brutalist venture rows */}
+        <div className="border-t-2 border-foreground">
+          {ventures.map((venture, index) => (
+            <ScrollReveal key={venture.name} delay={0.05 + index * 0.05}>
+              <article
+                className={`group relative grid grid-cols-12 gap-3 md:gap-6 items-start border-b-2 border-foreground py-8 md:py-10 transition-colors duration-300 hover:bg-foreground hover:text-background ${
+                  venture.highlight ? 'bg-foreground/[0.03]' : ''
+                }`}
+              >
+                {/* Index */}
+                <div className="col-span-2 md:col-span-1">
+                  <span className="text-mono text-xs md:text-sm tracking-widest font-bold">
+                    0{index + 1}
+                  </span>
+                </div>
 
-          <div className="space-y-12 md:space-y-16">
-            {ventures.map((venture, index) => {
-              const Icon = venture.icon;
-              const isEven = index % 2 === 0;
+                {/* Year */}
+                <div className="col-span-3 md:col-span-2">
+                  <span className="text-display font-black text-2xl md:text-4xl lg:text-5xl leading-none block">
+                    {venture.year}
+                  </span>
+                  <span className="text-mono text-[9px] md:text-[10px] tracking-[0.25em] uppercase text-muted-foreground group-hover:text-background/60 mt-2 block">
+                    {venture.role}
+                  </span>
+                </div>
 
-              return (
-                <ScrollReveal key={venture.name} delay={0.1 + index * 0.1} direction={isEven ? 'left' : 'right'}>
-                  <div className="relative flex items-start gap-6 md:gap-0">
-                    {/* Mobile dot */}
-                    <div className="md:hidden absolute left-6 top-2 -translate-x-1/2 z-10">
-                      <div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary)/0.5)]" />
-                    </div>
+                {/* Name + company */}
+                <div className="col-span-7 md:col-span-4">
+                  <h3 className="text-display font-black uppercase text-2xl md:text-4xl lg:text-5xl leading-[0.95] tracking-tight">
+                    {venture.name}
+                  </h3>
+                  <p className="text-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground group-hover:text-background/60 mt-2">
+                    {venture.company}
+                  </p>
+                  {venture.highlight && (
+                    <span className="inline-block mt-3 px-2 py-0.5 text-mono text-[9px] uppercase tracking-[0.25em] font-bold border-2 border-foreground group-hover:border-background">
+                      ★ Featured
+                    </span>
+                  )}
+                </div>
 
-                    {/* Desktop layout */}
-                    <div className={`hidden md:grid md:grid-cols-[1fr_auto_1fr] w-full items-start gap-8`}>
-                      {/* Left side */}
-                      <div className={`${isEven ? '' : 'order-3'}`}>
-                        {isEven ? (
-                          <div className="text-right pr-4">
-                            <h3 className="text-display text-3xl lg:text-4xl mb-1">{venture.name}</h3>
-                            <p className="text-mono text-xs text-primary/80 mb-3">{venture.company}</p>
-                            <p className="text-mono text-sm text-muted-foreground leading-relaxed max-w-md ml-auto">
-                              {venture.description}
-                            </p>
-                          </div>
-                        ) : (
-                          <div className="text-right pr-4 flex flex-col items-end">
-                            <span className="text-display text-5xl lg:text-6xl text-foreground/90">{venture.year}</span>
-                            <span className="text-mono text-xs text-muted-foreground/50 uppercase tracking-widest mt-1">{venture.role}</span>
-                          </div>
-                        )}
-                      </div>
+                {/* Description */}
+                <div className="col-span-12 md:col-span-3 pt-2 md:pt-1">
+                  <p className="text-mono text-xs md:text-sm leading-relaxed text-muted-foreground group-hover:text-background/80">
+                    {venture.description}
+                  </p>
+                </div>
 
-                      {/* Center dot */}
-                      <div className="relative flex flex-col items-center order-2 pt-1">
-                        <div className={`w-4 h-4 rounded-full border-2 border-primary/60 ${venture.highlight ? 'bg-primary shadow-[0_0_20px_hsl(var(--primary)/0.6)]' : 'bg-background'} transition-all duration-300`} />
-                        {venture.highlight && (
-                          <div className="absolute w-8 h-8 rounded-full bg-primary/20 animate-ping" style={{ animationDuration: '2s' }} />
-                        )}
-                      </div>
-
-                      {/* Right side */}
-                      <div className={`${isEven ? '' : 'order-1'}`}>
-                        {isEven ? (
-                          <div className="pl-4 flex flex-col items-start">
-                            <span className="text-display text-5xl lg:text-6xl text-foreground/90">{venture.year}</span>
-                            <span className="text-mono text-xs text-muted-foreground/50 uppercase tracking-widest mt-1">{venture.role}</span>
-                          </div>
-                        ) : (
-                          <div className="pl-4">
-                            <h3 className="text-display text-3xl lg:text-4xl mb-1">{venture.name}</h3>
-                            <p className="text-mono text-xs text-primary/80 mb-3">{venture.company}</p>
-                            <p className="text-mono text-sm text-muted-foreground leading-relaxed max-w-md">
-                              {venture.description}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Mobile layout */}
-                    <div className="md:hidden pl-10">
-                      <div className="flex items-baseline gap-4 mb-2">
-                        <span className="text-display text-3xl text-foreground/90">{venture.year}</span>
-                        {venture.highlight && (
-                          <span className="px-2 py-0.5 text-mono text-[9px] tracking-widest uppercase bg-primary/20 text-primary rounded-full border border-primary/30">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-display text-2xl mb-0.5">{venture.name}</h3>
-                      <p className="text-mono text-xs text-primary/80 mb-2">{venture.company} · {venture.role}</p>
-                      <p className="text-mono text-xs text-muted-foreground leading-relaxed">
-                        {venture.description}
-                      </p>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-
-          {/* Timeline end glow */}
-          <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-3 h-3 rounded-full bg-primary/40 blur-sm hidden md:block" />
+                {/* Stat */}
+                <div className="col-span-12 md:col-span-2 flex md:flex-col md:items-end items-baseline gap-2 md:gap-1 border-t md:border-t-0 md:border-l-2 border-foreground/30 group-hover:border-background/30 pt-4 md:pt-0 md:pl-6">
+                  <span className="text-display font-black text-3xl md:text-5xl lg:text-6xl leading-none">
+                    {venture.stat}
+                  </span>
+                  <span className="text-mono text-[9px] md:text-[10px] tracking-[0.25em] uppercase text-muted-foreground group-hover:text-background/60">
+                    {venture.statLabel}
+                  </span>
+                </div>
+              </article>
+            </ScrollReveal>
+          ))}
         </div>
 
-        {/* Bottom summary */}
-        <ScrollReveal delay={0.5}>
-          <div className="mt-20 flex items-center justify-between">
-            <p className="text-mono text-xs text-muted-foreground/40 tracking-wider uppercase">
-              4 ventures · 2021–2024
-            </p>
-            <div className="h-px flex-1 mx-8 bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
-            <p className="text-mono text-xs text-muted-foreground/40 tracking-wider uppercase">
-              Scroll to explore
-            </p>
+        {/* Footer marquee bar */}
+        <ScrollReveal delay={0.3}>
+          <div className="mt-12 md:mt-16 flex items-center justify-between border-t-2 border-foreground pt-6">
+            <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold">
+              ◢ 04 Ventures
+            </span>
+            <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground hidden md:inline">
+              Built · Shipped · Scaled
+            </span>
+            <span className="text-mono text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold">
+              END / 02 ◣
+            </span>
           </div>
         </ScrollReveal>
       </div>
