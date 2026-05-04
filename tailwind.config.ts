@@ -49,8 +49,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        mono: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['Inter', 'Inter var', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['Inter', 'Inter var', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -4,8 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+
+const SmoothScroll = () => {
+  useSmoothScroll();
+  return null;
+};
 
 const queryClient = new QueryClient();
 
@@ -16,6 +22,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <SmoothScroll />
           <Routes>
             <Route path="/" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
